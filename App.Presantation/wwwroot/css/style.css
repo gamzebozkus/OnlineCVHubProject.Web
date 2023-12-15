@@ -4380,14 +4380,14 @@ body.light-version {
     font-size: 14px;
 }
 .cv-download{
-    position: fixed;
+    position: absolute;
     z-index: 99;
     top: 0;
     padding: 30px 20px;
     background: #fff;
-    width: 57%;
+    width: 99%;
     box-shadow: 0 3px 15px rgb(0 0 0 / 10%);
-    border-left: 5px solid #007bff;
+    border-left: 33px solid #007bff;
 }
 
 @media (max-width: 767px){

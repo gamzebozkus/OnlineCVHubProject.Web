@@ -1,0 +1,87 @@
+﻿@model VM_Request_CompanyRegister
+
+@{
+	Layout = null;
+}
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Title -->
+	<title>Multipurpose Template</title>
+	<!-- Favicon -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="icon" href=" ~/img/core-img/favicon.ico">
+	<link href="~/css/login.css" rel="stylesheet" />
+	<!-- Core Stylesheet -->
+</head>
+
+<body>
+	<a href="/Register/Index" class="button">Üye Girişi Yapmak İstiyorsanız</a>
+	<div class="container" id="container">
+		<div class="form-container sign-up-container">
+
+			<form asp-controller="Register" asp-action="Index" method="post">
+				<h1>Hesap Oluşturun</h1>
+				<div class="social-container">
+					<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+					<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+					<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+				</div>
+				<span>veya kayıt için e-postanızı kullanın</span>
+				<input type="text" placeholder="Şirket Adı" asp-for="CompanyName" />
+				<input type="email" placeholder="Şirket Maili" asp-for="CompanyMail" />
+				<input type="password" placeholder="Şifre" asp-for="CompanyPassword" />
+				<button type="submit">Kaydol</button>
+			</form>
+		</div>
+		<div class="form-container sign-in-container">
+			<form asp-controller="Register" asp-action="Login" id="formAuthentication" method="post">
+				<div asp-validation-summary="All"></div>
+				<h1>Giriş Yap</h1>
+				<div class="social-container">
+					<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+					<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+					<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+				</div>
+				<span>veya hesabınızı kullanın</span>
+				<input asp-for="CompanyMail" type="email" id="email" name="email" placeholder="Şirket Maili" />
+				<span asp-validation-for="CompanyMail"></span>
+				<input asp-for="CompanyPassword" type="password" id="password" name="password" placeholder="Şifre" />
+				<span asp-validation-for="CompanyPassword"></span>
+				@*<div class="form-check">
+					<input class="form-check-input" asp-for="RememberMe" type="checkbox" id="remember-me" />
+					<label class="form-check-label" for="remember-me">Remember Me</label>
+				</div>*@
+				<a href="#">Şifrenizi mi unuttunuz?</a>
+				<button type="submit">Giriş</button>
+			</form>
+		</div>
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-left">
+					<h1>Tekrar Hoşgeldiniz!</h1>
+					<p>Bizimle bağlantıda kalmak için lütfen kişisel bilgilerinizle giriş yapın</p>
+					<button class="ghost" id="signIn">Giriş Yap</button>
+				</div>
+				<div class="overlay-panel overlay-right">
+					<h1>Merhaba!</h1>
+					<p>Şirket bilgilerinizi girin ve bizimle doğru özgeçmişe ulaşın</p>
+					<button class="ghost" id="signUp">Kaydol</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		<p>
+			Created with <i class="fa fa-heart"></i> by
+			<a href="#" target="_blank">Gamze Bozkuş</a>
+
+		</p>
+	</footer>
+	<script src="~/js/login.js"></script>
+
+</body>

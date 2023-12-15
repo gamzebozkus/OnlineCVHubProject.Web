@@ -56,20 +56,21 @@ $(document).ready(function(){
     // Add education block
     
     $('#add-edu').on('click',function(){
-       $('.all-edus').append('<div class="add-border"><span></span><h2>New education</h2><span></span></div><div class="new-edu"><label>Field of study:</label>                  <input type="text" name="edu[]" class="form-control" placeholder="Ex: Computer Science">          <label>Degree:</label><input type="text" name="edu[]" class="form-control" placeholder="Ex: Bachelor\'s"><label>School:</label><input type="text" name="edu[]" class="form-control" placeholder="Ex: al-albayt university"><div class="form-row"><div class="col">                   <label>From year:</label><input type="month" name="edu[]" class="form-control">              </div><div class="col"><label>To year (optional=present):</label>                                 <input type="month" name="edu[]" class="form-control"></div></div></div>'); 
+        $('.all-edus').append('<div class="add-border"><span></span><h2>Okul Ekle</h2><span></span></div><div class="new-edu" id="okulInput[]"><label>Field of study:</label>                  <input type="text" name="bolum[]" id="bolumInput"  class="form-control" placeholder="Ex: Computer Science">          <label>Degree:</label><input type="text" name="derece[]" id="dereceInput[]" class="form-control" placeholder="Ex: Bachelor\'s"><label>School:</label><input type="text" name="edu[]" class="form-control" placeholder="Ex: al-albayt university"><div class="form-row"><div class="col">                   <label>From year:</label><input type="month" name="edu[]" class="form-control">              </div><div class="col"><label>To year (optional=present):</label>                                 <input type="month" name="edu[]" class="form-control"></div></div></div>'); 
     });
-    
+   
+     
     
     // Add Experience block
     
     $('#add-exp').on('click',function(){
-       $('.all-exps').append('<div class="add-border"><span></span><h2>New Experience</h2><span></span></div><div class="new-exp"><label>Title:</label><input type="text" name="exp[]" class="form-control" placeholder="Ex: Web Developer"><label>Company:</label>                      <input type="text" name="exp[]" class="form-control" placeholder="Ex: ProgressSoft">             <div class="form-row"><div class="col"><label>From year:</label>                                 <input type="month" name="exp[]" class="form-control"></div><div class="col">                     <label>To year (optional=present):</label><input type="month" name="exp[]" class="form-control">  </div></div><label>Description (optional):</label><textarea name="exp[]" class="form-control"></textarea></div>');
+       $('.all-exps').append('<div class="add-border"><span></span><h2>Deneyim Ekle</h2><span></span></div><div class="new-exp"><label>Title:</label><input type="text" name="exp[]" class="form-control" placeholder="Ex: Web Developer"><label>Company:</label>                      <input type="text" name="exp[]" class="form-control" placeholder="Ex: ProgressSoft">             <div class="form-row"><div class="col"><label>From year:</label>                                 <input type="month" name="exp[]" class="form-control"></div><div class="col">                     <label>To year (optional=present):</label><input type="month" name="exp[]" class="form-control">  </div></div><label>Description (optional):</label><textarea name="exp[]" class="form-control"></textarea></div>');
     });
     
     // Add skills block
     
     $('.add-skills').on('click',function(){
-        $('.all-skills').append('<div class="add-border"><span></span><h2>New Skill</h2><span></span></div><div class="new-skills"><label>Skill</label> <input type="text" name="skill" class="form-control">          <label>Proficiency</label><input type="text" name="skills[]" class="form-control"></div>');
+        $('.all-skills').append('<div class="add-border"><span></span><h2>Yetenek Ekle</h2><span></span></div><div class="new-skills"><label>Skill</label> <input type="text" name="skill" class="form-control">          <label>Proficiency</label><input type="text" name="skills[]" class="form-control"></div>');
         
     });
 
@@ -82,10 +83,19 @@ $(document).ready(function(){
 
     // Add socials block
     
-    $('.add-hoppies').on('click',function(){
-        $('.all-hoppies').append('<div class="add-border"><span></span><h2>New Hoppy</h2><span></span></div><div class="new-hoppies"> <label>Hoppy icon image (32px*32px)</label><input type="file" name="hoppies[]" class="form-control" /></div>');
-        
+   $('.add-hoppies').on('click', function () {
+    const newHobbiesInput = $('<input type="text" name="hobbiler[]" class="form-control" />');
+    $('.all-hoppies').append(newHobbiesInput);
+
+    // Yeni eklenen giriþ alanýna yazý girildiðinde iþlemler
+    newHobbiesInput.on('keyup', function (e) {
+        const newText = $(this).val().trim();
+
+        if (e.which === 13 && newText !== '') {
+            hobbies.push(newText);
+            displayHobbies();
+        }
     });
-    
+});
     
 });

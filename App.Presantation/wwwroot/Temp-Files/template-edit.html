@@ -18,7 +18,531 @@
 
     <!-- Responsive Stylesheet -->
     <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        <style >
+        html,
+        body,
+        div,
+        span,
+        object,
+        iframe,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        blockquote,
+        pre,
+        abbr,
+        address,
+        cite,
+        code,
+        del,
+        dfn,
+        em,
+        img,
+        ins,
+        kbd,
+        q,
+        samp,
+        small,
+        strong,
+        sub,
+        sup,
+        var,
+        b,
+        i,
+        dl,
+        dt,
+        dd,
+        ol,
+        ul,
+        li,
+        fieldset,
+        form,
+        label,
+        legend,
+        table,
+        caption,
+        tbody,
+        tfoot,
+        thead,
+        tr,
+        th,
+        td,
+        article,
+        aside,
+        canvas,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section,
+        summary,
+        time,
+        mark,
+        audio,
+        video {
+            border: 0;
+            font: inherit;
+            font-size: 100%;
+            margin: 0;
+            padding: 0;
+            vertical-align: baseline;
+        }
 
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section {
+            display: block;
+        }
+
+        /* We need to minimize the use of code, so we will be using roots...this is in the works */
+        :root {
+            --highlight: #a29400;
+            --header-font: "Gudea", Helvetica, Arial, sans-serif;
+            --content-font: "Lato", Helvetica, Arial, sans-serif;
+        }
+
+        html,
+        body {
+            background: #fff;
+            font-family: "Lato", Helvetica, Arial, sans-serif;
+            font-feature-settings: "calt","liga","hist","onum","pnum";
+            font-size: 1rem;
+            color: #222;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        #menu {
+            position: fixed;
+            right: 0;
+            top: 15%;
+            width: 8em;
+            margin-top: -2.5em;
+        }
+
+        p {
+            font-size: 1em;
+            line-height: 1.4em;
+            margin-bottom: 20px;
+            color: #444;
+            transition: all 1s linear;
+            -o-transition: all 1s linear;
+            -moz-transition: all 1s linear;
+            -webkit-transition: all 1s linear;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .cv {
+            //width: 90%;
+            max-width: 54rem;
+            background: #fff;
+            margin: 30px auto;
+        }
+
+            .cv:hover {
+                cursor: grab;
+                cursor: -moz-grab;
+                cursor: -webkit-grab;
+            }
+
+            .cv:active {
+                cursor: grabbing;
+                cursor: -moz-grabbing;
+                cursor: -webkit-grabbing;
+            }
+
+        .mainDetails {
+            padding: 25px 35px;
+            border-bottom: 2px solid #cf8a05;
+            background: #f3f3f3;
+        }
+
+        #name h1 {
+            font-size: 2.5em;
+            /*//font-weight: 700;*/
+            font-family: "Gudea", Helvetica, arial, sans-serif;
+          /*  //font-feature-settings: "caps", "sups" 1;
+            //margin-bottom: -6px;*/
+        }
+
+        #name h2 {
+            font-size: 2em;
+            // margin-left: 2px;
+            font-family: "Gudea", Helvetica, arial, sans-serif;
+        }
+
+        #mainArea {
+            padding: 0 40px;
+        }
+
+        /* I deeply love breakfast burritos */
+        .wrap {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+            .wrap:hover {
+                box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            }
+
+        #headshot {
+            width: 12.5%;
+            float: left;
+            margin-right: 30px;
+        }
+
+            #headshot img {
+                width: 100%;
+                height: auto;
+                -webkit-border-radius: 50px;
+                border-radius: 50px;
+            }
+
+        #name {
+            float: left;
+        }
+
+        #contactDetails {
+            float: right;
+        }
+
+            #contactDetails ul {
+                list-style-type: none;
+                font-size: 0.9em;
+                margin-top: 2px;
+            }
+
+                #contactDetails ul li {
+                    margin-bottom: 3px;
+                    color: #444;
+                    display: inline;
+                }
+
+                    #contactDetails ul li a,
+                    a[href^="tel"] {
+                        color: #444;
+                        text-decoration: none;
+                        -webkit-transition: all 0.3s ease-in;
+                        -moz-transition: all 0.3s ease-in;
+                        -o-transition: all 0.3s ease-in;
+                        -ms-transition: all 0.3s ease-in;
+                        transition: all 0.3s ease-in;
+                    }
+
+                        #contactDetails ul li a:hover {
+                            color: #cf8a05;
+                        }
+
+        section {
+            border-top: 1px solid #dedede;
+            padding: 20px 0 0;
+        }
+
+            section:first-child {
+                border-top: 0;
+            }
+
+            section:last-child {
+                padding: 20px 0 10px;
+            }
+
+        .sectionTitle {
+            float: left;
+            width: 25%;
+        }
+
+        .sectionContent {
+            float: right;
+            width: 72.5%;
+        }
+
+        .sectionTitle h1 {
+            font-family: "Gudea", helvetica, arial, sans-serif;
+            font-size: 0.89em;
+            color: #cf8a05;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sectionContent h2 {
+            font-family: "Gudea", helvetica, arial, sans-serif;
+            font-size: 1.5em;
+            margin-bottom: -2px;
+        }
+
+        .subDetails {
+            font-size: 80%;
+            //font-style: italic;
+            margin-bottom: 3px;
+        }
+
+        .keySkills {
+            list-style-type: none;
+            -moz-column-count: 3;
+            -webkit-column-count: 3;
+            column-count: 3;
+            margin-bottom: 20px;
+            font-size: 1em;
+            color: #444;
+        }
+
+            .keySkills ul li {
+                margin-bottom: 3px;
+            }
+
+
+
+
+
+
+
+        @media all and (min-width: 602px) and (max-width: 800px) {
+            #headshot {
+                display: none;
+            }
+
+            .keySkills {
+                -moz-column-count: 2;
+                -webkit-column-count: 2;
+                column-count: 2;
+            }
+        }
+
+
+
+
+
+        @media all and (max-width: 54rem) {
+            .cv {
+                width: 95%;
+                margin: 10px auto;
+                min-width: 280px;
+                transition: all 0.25s linear;
+                -o-transition: all 0.25s linear;
+                -moz-transition: all 0.25s linear;
+                -webkit-transition: all 0.25s linear;
+            }
+
+            #headshot {
+                display: none;
+            }
+
+            #name,
+            #contactDetails {
+                float: none;
+                width: 100%;
+                text-align: center;
+            }
+
+            .sectionTitle,
+            .sectionContent {
+                float: none;
+                width: 100%;
+            }
+
+            .sectionTitle {
+                margin-left: -2px;
+                font-size: 1.25em;
+            }
+
+            .keySkills {
+                -moz-column-count: 2;
+                -webkit-column-count: 2;
+                column-count: 2;
+            }
+        }
+
+        @media all and (max-width: 480px) {
+            .mainDetails {
+                padding: 15px 15px;
+            }
+
+            section {
+                padding: 15px 0 0;
+            }
+
+            #mainArea {
+                padding: 0 25px;
+            }
+
+            .keySkills {
+                -moz-column-count: 1;
+                -webkit-column-count: 1;
+                column-count: 1;
+            }
+
+            #name h1 {
+                line-height: 0.8em;
+                margin-bottom: 4px;
+            }
+        }
+
+        @media print {
+            .cv {
+                width: 100%;
+            }
+        }
+
+
+
+
+
+
+
+
+
+        @-webkit-keyframes reset {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @-webkit-keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            40% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @-moz-keyframes reset {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @-moz-keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            40% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes reset {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            40% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .instaFade {
+            -webkit-animation-name: reset, fade-in;
+            -webkit-animation-duration: 1.5s;
+            -webkit-animation-timing-function: ease-in;
+            -moz-animation-name: reset, fade-in;
+            -moz-animation-duration: 1.5s;
+            -moz-animation-timing-function: ease-in;
+            animation-name: reset, fade-in;
+            animation-duration: 1.5s;
+            animation-timing-function: ease-in;
+        }
+
+        .quickFade {
+            -webkit-animation-name: reset, fade-in;
+            -webkit-animation-duration: 2.5s;
+            -webkit-animation-timing-function: ease-in;
+            -moz-animation-name: reset, fade-in;
+            -moz-animation-duration: 2.5s;
+            -moz-animation-timing-function: ease-in;
+            animation-name: reset, fade-in;
+            animation-duration: 2.5s;
+            animation-timing-function: ease-in;
+        }
+
+        .delayOne {
+            -webkit-animation-delay: 0, 0.5s;
+            -moz-animation-delay: 0, 0.5s;
+            animation-delay: 0, 0.5s;
+        }
+
+        .delayTwo {
+            -webkit-animation-delay: 0, 1s;
+            -moz-animation-delay: 0, 1s;
+            animation-delay: 0, 1s;
+        }
+
+        .delayThree {
+            -webkit-animation-delay: 0, 1.5s;
+            -moz-animation-delay: 0, 1.5s;
+            animation-delay: 0, 1.5s;
+        }
+
+        .delayFour {
+            -webkit-animation-delay: 0, 2s;
+            -moz-animation-delay: 0, 2s;
+            animation-delay: 0, 2s;
+        }
+
+        .delayFive {
+            -webkit-animation-delay: 0, 2.5s;
+            -moz-animation-delay: 0, 2.5s;
+            animation-delay: 0, 2.5s;
+        }
+        .scrollable {
+            max-height: 50%;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 
 <body class="ali-bg">
@@ -32,22 +556,184 @@
 
     <!-- ##### Blog Area Start ##### -->
     <section class="blog-area">
-        <div class="container-fluid">
+        <div class="container-fluid" style="display:flex">
 
-            <div class="row">
-                <div class="col-12 col-md-5">
-                    <div class="cv-prev">
-                        <!-- Post Thumbnail -->
-                        <div class="blog_thumbnail">
-                            <img src="img/demos/demo-1.png" class="temp-img" alt="">
+            <div class="row" style="flex:1;">
+                <div id="drag" class="cv instaFade wrap scrollable">
+                    <div class="mainDetails">
+                        <div id="headshot" class="">
+                            <img src="https://avatars2.githubusercontent.com/u/24512843?s=400&v=4" title="Hi, I'm Jenny!" alt="Jennifer Mogan" />
                         </div>
+
+                        <div id="name">
+                            <h1 class="quickFade delayTwo" id="nameCV"></h1>
+                            <h4 class="quickFade delayThree" id="jobTitle"></h4>
+                            <h6 class="quickFade delayThree" id="email"></h6>
+                            <h6 class="quickFade delayThree" id="phone"></h6>
+                            <h6 class="quickFade delayThree" id="webSite"></h6>
+                            <h6 class="quickFade delayThree" id="adress"></h6>
+
+                        </div>
+
+                        <div id="contactDetails" class="quickFade delayFour">
+                            <ul>
+
+                                <!-- <li><a href="//linkedin.com/in/jennifermogan" title="LinkedIn"><i class="fa fa-print" aria-hidden="true"></i></a></li>-->
+                                <li><a href="//linkedin.com/in/jennifermogan" title="LinkedIn"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+
+                            </ul>
+                        </div>
+                        <div class="clear"></div>
                     </div>
+
+                    <div id="mainArea" class="quickFade delayFive">
+
+                        <section>
+                            <article>
+                                <div class="sectionTitle">
+                                    <h1>Personal Profile</h1>
+                                </div>
+
+                                <div class="sectionContent" id="comments">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dolor metus, interdum at scelerisque in, porta at lacus. Maecenas dapibus luctus cursus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat
+                                        luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.
+                                    </p>
+                                </div>
+                            </article>
+                            <div class="clear"></div>
+                        </section>
+
+
+                        <section>
+                            <div class="sectionTitle">
+                                <h1>Work Experience</h1>
+                            </div>
+
+                            <div class="sectionContent">
+                                <article>
+                                    <h3>Registered Nurse | ICU</h3>
+                                    <h3>UP Health System - Marquette</h3>
+                                    <p class="subDetails">Feb. 2017 - Present</p>
+                                    <p>Operating Room | Surgical | Neuro/Ortho |  Medical/Oncology | Substance Abuse | Emergency Department | Family Birthing Unit/NICU |  Psychiatric | Home Health and Hospice | IMCU</p>
+                                </article>
+
+                                <article>
+                                    <h2>Student Nurse</h2>
+                                    <h3>Northern Michigan University (NMU)</h3>
+                                    <p class="subDetails">Jan. 2014 - Jan. 2017</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.</p>
+                                </article>
+
+                                <article>
+                                    <h2>Laboratory Manager</h2>
+                                    <h3>Univerity of Colorado (CU)</h3>
+                                    <p class="subDetails">October 2004 - December 2006</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.</p>
+                                </article>
+
+                                <article>
+                                    <h2>Professional Research Associate</h2>
+                                    <h3>National Jewish Health</h3>
+                                    <p class="subDetails">October 2004 - December 2006</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.</p>
+                                </article>
+
+
+                                <article>
+                                    <h2>Research Associate</h2>
+                                    <h3>MPI Research</h3>
+                                    <p class="subDetails">October 2004 - December 2006</p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.</p>
+                                </article>
+
+                            </div>
+
+
+                            <div class="clear"></div>
+                        </section>
+
+
+                        <section>
+                            <div class="sectionTitle">
+                                <h1>Key Skills</h1>
+                            </div>
+
+                            <div class="sectionContent">
+                                <ul class="keySkills">
+                                    <li>A Key Skill</li>
+                                    <li>A Key Skill</li>
+                                    <li>A Key Skill</li>
+                                    <li>A Key Skill</li>
+                                    <li>A Key Skill</li>
+                                    <li>A Key Skill</li>
+                                    <li>A Key Skill</li>
+                                    <li>A Key Skill</li>
+                                </ul>
+                            </div>
+                            <div class="clear"></div>
+                        </section>
+
+
+                        <section id="Education">
+                            <div class="sectionTitle">
+                                <h1>Education</h1>
+                            </div>
+
+                            <div class="sectionContent">
+                                <article>
+                                    <h2>Bachelor’s of Science, Nursing</h2>
+                                    <p class="subDetails">Northern Michigan University</p>
+                                    <p>
+                                        Cum Laude
+                                        Honors Society of Nursing, Sigma Theta Tau International, Xi Sigma Chapter
+                                        NMU Nursing School Clinical Excellence Awards: OB, Psychiatric Care, Community Health
+                                        Dean’s List for academic achievement (NMU)
+                                    </p>
+                                </article>
+
+                                <article>
+                                    <h2>Western Michigan University</h2>
+                                    <p class="subDetails">Bachelor’s of Science, Behavioural Psychology </p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat luctus hendrerit. Curabitur non consequat enim.</p>
+                                </article>
+                            </div>
+                            <div class="clear"></div>
+                        </section>
+
+
+                        <section>
+                            <article>
+                                <div class="sectionTitle">
+                                    <h1>Publications</h1>
+                                </div>
+
+                                <div class="sectionContent">
+                                    <p> Jin, Lei, Mogan, Jennifer, et al. "STING/MPYS mediates host defense against listeria monocytogenes infection by regulating Ly6Chi monocyte migration." The Journal of Immunology 190.6 (2013): 2835-2843.</p>
+                                </div>
+
+                                <div class="sectionContent">
+                                    <p>Knowles, Heather, Mogan, Jennifer, et al. "Transient Receptor Potential Melastatin 2 (TRPM2) ion channel is required for innate immunity against Listeria monocytogenes." Proceedings of the National Academy of Sciences 108.28 (2011): 11578-11583.</p>
+                                </div>
+
+                                <div class="sectionContent">
+                                    <p>Jin, Lei, Mogan, Jennifer, et al. "MPYS is required for IFN response factor 3 activation and type I IFN production in the response of cultured phagocytes to bacterial second messengers cyclic-di-AMP and cyclic-di-GMP." The Journal of Immunology 187.5 (2011): 2595-2601.</p>
+                                </div>
+
+                            </article>
+                            <div class="clear"></div>
+                        </section>
+
+
+
+                    </div>
+                </div>
 
                 </div>
 
                 
 
-                <div class="col-12 col-md-7">
+                <div class="col-12 col-md-7 " style="flex:1;">
                     <div class="cv-download">
                         <div class="row align-items-center">
                             
@@ -61,7 +747,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="container">
+                    <div class="container  scrollable">
 
                         <form method="post" action="#">
                             <div class="mt-150">
@@ -84,33 +770,33 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <label>Full Name:</label>
-                                                <input type="text" name="full-name" class="form-control" placeholder="enter your name">
+                                                <input type="text" id="nameInput" onkeyup="updateCV('nameCV', this.value)" class="form-control" placeholder="enter your name">
                                             </div>
                                             
                                             <div class="col-lg-6">
-                                                <label>Jop Title:</label>
-                                                <input type="text" name="jop-title" class="form-control" placeholder="Ex: Web Developer">
+                                                <label>Job Title:</label>
+                                                <input type="text" name="job-title" id="jobTitleInput" onkeyup="updateCV('jobTitle', this.value)" class="form-control" placeholder="Ex: Web Developer">
                                             </div>
                                             <div class="col-lg-6">
                                                 <label>Your Address:</label>
-                                                <input type="text" name="address" class="form-control" placeholder="enter your address">
+                                                <input type="text" name="address" id="adressInput" onkeyup="updateCV('adress', this.value)" class="form-control" placeholder="enter your address">
                                             </div>
                                             <div class="col-lg-6">
                                                 <label>Your Email:</label>
-                                                <input type="text" name="email" class="form-control" placeholder="enter your name">
+                                                <input type="text" name="email" id="emailInput" onkeyup="updateCV('email', this.value)" class="form-control" placeholder="enter your name">
                                             </div>
                                             <div class="col-lg-6">
                                                 <label>Website Link:</label>
-                                                <input type="text" name="web-link" class="form-control" placeholder="enter your website link">
+                                                <input type="text" name="web-link" id="webSiteLinkInput" onkeyup="updateCV('webSite', this.value)"class="form-control" placeholder="enter your website link">
                                             </div>
                                             
                                             <div class="col-lg-6">
                                                 <label>Phone No:</label>
-                                                <input type="text" name="phone" class="form-control" placeholder="Ex: Web Developer">
+                                                <input type="text" name="phone" id="phoneInput" onkeyup="updateCV('phone', this.value)" class="form-control" placeholder="Ex: Web Developer">
                                             </div>
                                             <div class="col-lg-12">
                                                 <label>Your Bio Here</label>
-                                                <textarea name="comments" id="comments" rows="4" class="form-control" placeholder="About Me :"></textarea>
+                                                <textarea name="comments" id="comments" rows="4" onkeyup="updateCV('comments', this.value)" class="form-control" placeholder="About Me :"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -265,7 +951,27 @@
     <!-- Active js -->
     <script src="js/form-script.js"></script>
     <script src="js/script.js"></script>
+    <script>
+        const cvElements = {
+            nameCV: 'nameCV',
+            jobTitle: 'jobTitle',
+            webSite: 'webSite',
+            phone: 'phone',
+            comments: 'comments',
+            email: 'email',
+            adress:'adress',
+        };
 
+        function updateCV(elementId, value) {
+            const targetElement = cvElements[elementId];
+            if (targetElement) {
+                document.getElementById(targetElement).innerText = value;
+            }
+            else {
+                console.log('Element ID not recognized');
+            }
+        }
+    </script>
 </body>
 
 </html>

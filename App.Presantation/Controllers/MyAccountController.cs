@@ -24,5 +24,14 @@ namespace App.Presantation.Controllers
             user.LastName = values.LastName;
             return View(user);
         }
+        
+        public async Task<IActionResult> CvEditAsync()
+        {
+            var values = await _userManager.FindByNameAsync(User.Identity.Name);
+            tblUser user = new tblUser();
+            user.FirstName = values.FirstName;
+            user.LastName = values.LastName;
+            return View(user);
+        }
     }
 }
