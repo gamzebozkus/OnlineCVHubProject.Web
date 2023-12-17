@@ -23,7 +23,7 @@
 	<div class="container" id="container">
 		<div class="form-container sign-up-container">
 
-			<form asp-controller="Register" asp-action="Index" method="post">
+			<form asp-controller="CompanyRegister" asp-action="Index" method="post">
 				<h1>Hesap Oluşturun</h1>
 				<div class="social-container">
 					<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -38,7 +38,7 @@
 			</form>
 		</div>
 		<div class="form-container sign-in-container">
-			<form asp-controller="Register" asp-action="Login" id="formAuthentication" method="post">
+			<form asp-controller="CompanyRegister" asp-action="Login" id="formAuthentication" method="post">
 				<div asp-validation-summary="All"></div>
 				<h1>Giriş Yap</h1>
 				<div class="social-container">
@@ -47,14 +47,14 @@
 					<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 				</div>
 				<span>veya hesabınızı kullanın</span>
-				<input asp-for="CompanyMail" type="email" id="email" name="email" placeholder="Şirket Maili" />
+				<input asp-for="CompanyMail" type="email" id="email" name="CompanyMail" placeholder="Şirket Maili" />
 				<span asp-validation-for="CompanyMail"></span>
-				<input asp-for="CompanyPassword" type="password" id="password" name="password" placeholder="Şifre" />
+				<input asp-for="CompanyPassword" type="password" id="password" name="CompanyPassword" placeholder="Şifre" />
 				<span asp-validation-for="CompanyPassword"></span>
-				@*<div class="form-check">
+				<div class="form-check">
 					<input class="form-check-input" asp-for="RememberMe" type="checkbox" id="remember-me" />
 					<label class="form-check-label" for="remember-me">Remember Me</label>
-				</div>*@
+				</div>
 				<a href="#">Şifrenizi mi unuttunuz?</a>
 				<button type="submit">Giriş</button>
 			</form>

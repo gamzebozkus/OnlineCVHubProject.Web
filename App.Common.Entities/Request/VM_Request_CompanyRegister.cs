@@ -10,7 +10,7 @@ namespace App.Common.Entities.Request
 {
 	public class VM_Request_CompanyRegister
 	{
-		[Required(ErrorMessage = "Şİrket adı alanı zorunludur.")]
+		[Required(ErrorMessage = "Şirket adı alanı zorunludur.")]
 		public string CompanyName { get; set; }
 
 		[Required(ErrorMessage = "Email alanı zorunludur.")]
@@ -23,5 +23,7 @@ namespace App.Common.Entities.Request
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
 		public string CompanyPassword { get; set; }
-	}
+
+        public bool RememberMe { get; set; }
+    }
 }

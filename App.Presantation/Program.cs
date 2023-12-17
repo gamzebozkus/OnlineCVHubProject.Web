@@ -23,7 +23,15 @@ builder.Services.AddScoped<SignInManager<tblUser>>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDistributedMemoryCache(); // Bellek tabanlý daðýtýlmýþ önbellek ekleyin
 
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(20); // Oturumun zaman aþýmý süresi
+	options.Cookie.HttpOnly = true; // Sadece HTTP üzerinden eriþilebilir çerezler
+	options.Cookie.IsEssential = true; // Çerezler zorunlu
+									   // Oturum seçeneklerini burada yapýlandýrabilirsiniz
+});
 
 var app = builder.Build();
 
@@ -42,6 +50,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

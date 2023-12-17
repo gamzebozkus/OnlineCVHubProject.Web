@@ -48,6 +48,29 @@ namespace App.Common.DataAccess.Migrations
                     b.ToTable("Companies");
                 });
 
+            modelBuilder.Entity("App.Common.Entities.DataModels.CompanyInfo", b =>
+                {
+                    b.Property<int>("CompanyInfoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompanyInfoId"), 1L, 1);
+
+                    b.Property<string>("CompanyId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CompanyInfoId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CompanyInfos");
+                });
+
             modelBuilder.Entity("App.Common.Entities.DataModels.Course", b =>
                 {
                     b.Property<int>("CourseId")
@@ -265,9 +288,6 @@ namespace App.Common.DataAccess.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -278,18 +298,6 @@ namespace App.Common.DataAccess.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -388,6 +396,37 @@ namespace App.Common.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserCVs");
+                });
+
+            modelBuilder.Entity("App.Common.Entities.DataModels.UserInfo", b =>
+                {
+                    b.Property<int>("UserInfoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserInfoId"), 1L, 1);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserInfoId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserInfos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -523,6 +562,17 @@ namespace App.Common.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("App.Common.Entities.DataModels.CompanyInfo", b =>
+                {
+                    b.HasOne("App.Common.Entities.DataModels.tblUser", "AspNetUser")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AspNetUser");
+                });
+
             modelBuilder.Entity("App.Common.Entities.DataModels.Course", b =>
                 {
                     b.HasOne("App.Common.Entities.DataModels.UserCv", "UserCv")
@@ -609,6 +659,17 @@ namespace App.Common.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("tblUser");
+                });
+
+            modelBuilder.Entity("App.Common.Entities.DataModels.UserInfo", b =>
+                {
+                    b.HasOne("App.Common.Entities.DataModels.tblUser", "AspNetUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AspNetUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

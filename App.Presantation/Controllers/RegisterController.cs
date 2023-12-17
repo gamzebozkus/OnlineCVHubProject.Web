@@ -1,4 +1,5 @@
-﻿using App.Common.Entities.DataModels;
+﻿using App.Common.DataAccess.Context.Concrete;
+using App.Common.Entities.DataModels;
 using App.Common.Entities.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,12 +15,14 @@ namespace App.Presantation.Controllers
 		private readonly UserManager<tblUser> _userManager;
 		private readonly IUserStore<tblUser> _userStore;
 		private readonly IUserEmailStore<tblUser> _emailStore;
-		//private readonly IEmailSender _emailSender;
+        private readonly AppContextDB _context;
+        //private readonly IEmailSender _emailSender;
 
-		public RegisterController(
+        public RegisterController(
 			UserManager<tblUser> userManager,
 			SignInManager<tblUser> signInManager,
-			  IUserStore<tblUser> userStore
+			  IUserStore<tblUser> userStore,
+			  AppContextDB context
 			//IEmailSender emailSender
 			)
 		{
@@ -28,6 +31,7 @@ namespace App.Presantation.Controllers
 			_userStore = userStore;
 			//_emailSender = emailSender;
 			_emailStore = GetEmailStore();
+			_context= context;
 		}
 
 		private tblUser CreateUser()
@@ -66,14 +70,22 @@ namespace App.Presantation.Controllers
 			{
 
 				tblUser user = CreateUser();
-				user.FirstName = requestModel.FirstName;
-				user.LastName = requestModel.LastName;
-				await _userStore.SetUserNameAsync(user, requestModel.Email, CancellationToken.None);
-				await _emailStore.SetEmailAsync(user, requestModel.Email, CancellationToken.None);
-				IdentityResult result = await _userManager.CreateAsync(user, requestModel.Password);
 
+				var userInfo=new UserInfo();
+                await _userStore.SetUserNameAsync(user, requestModel.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, requestModel.Email, CancellationToken.None);
+                IdentityResult result = await _userManager.CreateAsync(user, requestModel.Password);
 
+                userInfo.UserId = user.Id;
+				userInfo.FirstName = requestModel.FirstName;
+				userInfo.LastName = requestModel.LastName;
 
+				_context.UserInfos.Add(userInfo);
+				await _context.SaveChangesAsync();
+
+				//user.FirstName = requestModel.FirstName;
+				//user.LastName = requestModel.LastName;
+				
 
 				//var result = await _userManager.CreateAsync(user, requestModel.Password);
 				if (result.Succeeded)
