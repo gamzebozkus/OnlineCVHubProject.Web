@@ -67,6 +67,45 @@ namespace App.Presantation.Controllers
             return View(info);
         }
 
+        public async Task<IActionResult> Chart()
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+
+            var info = new VM_Request_CompanyRegister
+            {
+                CompanyName = companyInfo.CompanyName,
+                CompanyMail = values.Email
+            };
+
+            return View(info);
+        }
+        public async Task<IActionResult> GeneralNotes()
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+
+            var info = new VM_Request_CompanyRegister
+            {
+                CompanyName = companyInfo.CompanyName,
+                CompanyMail = values.Email
+            };
+
+            return View(info);
+        }
+        public async Task<IActionResult> Calender()
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+
+            var info = new VM_Request_CompanyRegister
+            {
+                CompanyName = companyInfo.CompanyName,
+                CompanyMail = values.Email
+            };
+
+            return View(info);
+        }
 
     }
 }

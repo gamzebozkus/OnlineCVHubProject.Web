@@ -11,7 +11,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
+    <title>CV Hub</title>
 
     <!-- Fontfaces CSS-->
     <link href="~/Admincss/css/font-face.css" rel="stylesheet" media="all">
@@ -20,7 +20,7 @@
     <link href="~/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
     <!-- Vendor CSS-->
     <link href="~/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
@@ -42,8 +42,8 @@
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="index.html">
-                            <img src="~/images/icon/logo.png" alt="CoolAdmin" />
+                        <a class="logo" href="/CompanyAccount/Index">
+                            <img src="~/images/icon/logo.png" alt="@Model.CompanyName" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -58,36 +58,36 @@
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-tachometer-alt"></i>Dashboard
+                                <i class="fas fa-tachometer-alt"></i>CV Ara
                             </a>
 
                         </li>
                         <li>
-                            <a href="chart.html">
-                                <i class="fas fa-chart-bar"></i>Charts
+                            <a href="/CompanyAccount/Chart">
+                                <i class="fas fa-chart-bar"></i>Görüşme Grafikleri
                             </a>
                         </li>
                         <li>
-                            <a href="table.html">
-                                <i class="fas fa-table"></i>Tables
+                            <a href="/CompanyAccount/GeneralNotes">
+                                <i class="fas fa-table"></i>Genel Notlar 
                             </a>
                         </li>
-                        <li>
+                       @* <li>
                             <a href="form.html">
                                 <i class="far fa-check-square"></i>Forms
                             </a>
-                        </li>
+                        </li>*@
                         <li>
-                            <a href="calendar.html">
-                                <i class="fas fa-calendar-alt"></i>Takvim
+                            <a href="/CompanyAccount/Calender">
+                                <i class="fas fa-calendar-alt"></i>Görüşme Takvimi
                             </a>
                         </li>
-                        <li>
+                     @*   <li>
                             <a href="map.html">
                                 <i class="fas fa-map-marker-alt"></i>Maps
                             </a>
-                        </li>
-                        <li class="has-sub">
+                        </li>*@
+                    @*    <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-copy"></i>Pages
                             </a>
@@ -102,8 +102,8 @@
                                     <a href="forget-pass.html">Forget Password</a>
                                 </li>
                             </ul>
-                        </li>
-                        <li class="has-sub">
+                        </li>*@
+                       @* <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-desktop"></i>UI Elements
                             </a>
@@ -142,7 +142,7 @@
                                     <a href="typo.html">Typography</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
                     </ul>
                 </div>
             </nav>
@@ -159,50 +159,36 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-tachometer-alt"></i>Dashboard
-                            </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
-                                    <a href="index.html">Dashboard 1</a>
-                                </li>
-                                <li>
-                                    <a href="index2.html">Dashboard 2</a>
-                                </li>
-                                <li>
-                                    <a href="index3.html">Dashboard 3</a>
-                                </li>
-                                <li>
-                                    <a href="index4.html">Dashboard 4</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="chart.html">
-                                <i class="fas fa-chart-bar"></i>Charts
+                            <a class="js-arrow" href="/CompanyAccount/Index">
+                                <i class="fas fa-tachometer-alt"></i>CV Ara
                             </a>
                         </li>
                         <li>
-                            <a href="table.html">
-                                <i class="fas fa-table"></i>Tables
+                            <a href="/CompanyAccount/Chart">
+                                <i class="fas fa-chart-bar"></i>Görüşme Grafikleri
                             </a>
                         </li>
                         <li>
+                            <a href="/CompanyAccount/GeneralNotes">
+                                <i class="fas fa-table"></i>Genel Notlar
+                            </a>
+                        </li>
+                        @*<li>
                             <a href="form.html">
                                 <i class="far fa-check-square"></i>Forms
                             </a>
-                        </li>
+                        </li>*@
                         <li>
-                            <a href="calendar.html">
-                                <i class="fas fa-calendar-alt"></i>Calendar
+                            <a href="/CompanyAccount/Calender">
+                                <i class="fas fa-calendar-alt"></i>Görüşme Takvimi
                             </a>
                         </li>
-                        <li>
+                       @* <li>
                             <a href="map.html">
                                 <i class="fas fa-map-marker-alt"></i>Maps
                             </a>
-                        </li>
-                        <li class="has-sub">
+                        </li>*@
+                       @* <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-copy"></i>Pages
                             </a>
@@ -257,7 +243,7 @@
                                     <a href="typo.html">Typography</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
                     </ul>
                 </nav>
             </div>
@@ -401,23 +387,23 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="~/images/icon/avatar-01.jpg" alt="" />
+                                                        <img src="~/images/icon/avatar-01.jpg" alt="@Model.CompanyName" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
                                                         <a href="#"></a>
                                                     </h5>
-                                                    <span class="email"></span>
+                                                    <span class="email">@Model.CompanyMail</span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
                                                     <a href="#">
-                                                        <i class="zmdi zmdi-account"></i>Account
+                                                        <i class="zmdi zmdi-account"></i>Hesap
                                                     </a>
                                                 </div>
-                                                <div class="account-dropdown__item">
+                                               @* <div class="account-dropdown__item">
                                                     <a href="#">
                                                         <i class="zmdi zmdi-settings"></i>Setting
                                                     </a>
@@ -426,11 +412,11 @@
                                                     <a href="#">
                                                         <i class="zmdi zmdi-money-box"></i>Billing
                                                     </a>
-                                                </div>
+                                                </div>*@
                                             </div>
                                             <div class="account-dropdown__footer">
                                                 <a href="#">
-                                                    <i class="zmdi zmdi-power"></i>Logout
+                                                    <i class="zmdi zmdi-power"></i>Çıkış
                                                 </a>
                                             </div>
                                         </div>
@@ -441,8 +427,16 @@
                     </div>
                 </div>
             </header>
-    @RenderBody()
-
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+            @RenderBody()
+            </div>
+            </div>
+            </div>
+            </div>
+    </div>
+ 
     <script src="~/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
     <script src="~/vendor/bootstrap-4.1/popper.min.js"></script>
@@ -455,15 +449,14 @@
     <script src="~/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
     <script src="~/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="~/vendor/counter-up/jquery.counterup.min.js">
-    </script>
+    <script src="~/vendor/counter-up/jquery.counterup.min.js"></script>
     <script src="~/vendor/circle-progress/circle-progress.min.js"></script>
     <script src="~/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="~/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="~/vendor/select2/select2.min.js">
-    </script>
+    <script src="~/vendor/select2/select2.min.js"></script>
 
     <!-- Main JS-->
     <script src="~/Adminjs/main.js"></script>
+
 </body>
 </html>
