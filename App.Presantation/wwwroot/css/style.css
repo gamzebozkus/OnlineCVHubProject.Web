@@ -4475,20 +4475,20 @@ label{
     }
     
     /*********/
-    
-    .btn-sub{
-        position: relative;
-        margin: 37px auto;
-        height: 50px;
-        display: block;
-        border-radius:5px;
-        border: none;
-        background-color: #007bff;
-        color:#fff;
-        font-size: 23px;
-        padding: 11px 40px;
-        box-shadow: 0 5px 0 #345880;
-    }
+
+.btn-sub {
+    position: relative;
+    margin: 37px auto;
+    height: 50px;
+    display: block;
+    border-radius: 5px;
+    border: none;
+    background-color: #d32525;
+    color: #fff;
+    font-size: 23px;
+    padding: 11px 40px;
+    box-shadow: 0 5px 0 #6b6b6b;
+}
     .btn-sub:hover{
         top: 2px;
         box-shadow: 0 3px 0 #345880;

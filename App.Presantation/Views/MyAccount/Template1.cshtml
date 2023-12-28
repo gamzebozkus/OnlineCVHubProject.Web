@@ -1,0 +1,113 @@
+﻿@model VM_CvAdd
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Template1</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link href="~/css/Template1.css" rel="stylesheet" />
+</head>
+<body>
+
+
+    <div class="container">
+        <div class="header">
+            <div class="full-name">
+                <span class="first-name">@Model.CvNameSurname</span>
+
+            </div>
+            <div class="contact-info">
+                <span class="email">Email: </span>
+                <span class="email-val">@Model.tblUser.Email</span>
+                <span class="separator"></span>
+                <span class="phone">Phone: </span>
+                <span class="phone-val">@Model.tblUser.PhoneNumber</span>
+                <span class="phone">Adress: </span>
+                <span class="phone-val">@Model.Address</span>
+            </div>
+
+            <div class="about">
+                <span class="position">@Model.Title </span>
+                <span class="desc">
+                    @Model.Summary
+                </span>
+            </div>
+        </div>
+        <div class="details">
+            <div class="section">
+                <div class="section__title">Experience</div>
+                <div class="section__list">
+                    @*@foreach (var exp in Model.Experiences)
+                    {
+                    <div class="section__list-item">
+                    <div class="left">
+                    <div class="name">@exp.Position</div>
+                    <div class="addr">@exp.Company</div>
+                    <div class="addr">@exp.Responsibilities</div>
+                    <div class="duration">@exp.StartDate - @exp.EndDate</div>
+                    </div>
+
+                    </div>
+                    }*@
+
+
+
+                </div>
+            </div>
+            <div class="section">
+                <div class="section__title">Education</div>
+                <div class="section__list">
+                    @*  @foreach(var edu in Model.EducationInfos){
+                    <div class="section__list-item">
+                    <div class="left">
+                    <div class="name">@edu.Major</div>
+                    <div class="addr">@edu.School</div>
+                    <div class="duration">@edu.StartDate - @edu.EndDate</div>
+                    </div>
+
+                    </div>
+                    }*@
+
+                </div>
+
+            </div>
+            <div class="section">
+                <div class="section__title">Hobi</div>
+                <div class="section__list">
+                    @*@foreach(var hobby in Model.Hobbies){
+                    <div class="section__list-item">
+                    <div class="name">@hobby.HobbyName</div>
+                    </div>
+                    }*@
+
+                </div>
+            </div>
+            <div class="section">
+                <div class="section__title">Skills</div>
+                <div class="skills">
+                    @* @foreach(var skill in Model.Skills){
+                    <div class="skills__item">
+                    <div class="left">
+                    <div class="name">
+                    @skill.SkillName
+                    </div>
+                    </div>
+
+                    </div>
+                    }*@
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

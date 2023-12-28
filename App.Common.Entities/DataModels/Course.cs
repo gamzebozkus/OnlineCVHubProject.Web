@@ -12,9 +12,9 @@ namespace App.Common.Entities.DataModels
     {
         [Key]
         public int CourseId { get; set; }
-        public string CourseName { get; set; }
-        public string Institution { get; set; }
-        public DateTime CompletionDate { get; set; }
+        public string? CourseName { get; set; }
+        public string? Institution { get; set; }
+        public DateTime? CompletionDate { get; set; }
 
         public int CVId { get; set; }
         [ForeignKey("CVId")]

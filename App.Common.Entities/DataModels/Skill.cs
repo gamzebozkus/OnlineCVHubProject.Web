@@ -12,8 +12,8 @@ namespace App.Common.Entities.DataModels
     {
         [Key]
         public int SkillId { get; set; }
-        public string SkillName { get; set; }
-        public string Level { get; set; }
+        public string? SkillName { get; set; }
+        public string? Level { get; set; }
 
         public int CVId { get; set; }
         [ForeignKey("CVId")]

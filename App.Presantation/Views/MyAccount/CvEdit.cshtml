@@ -1,361 +1,370 @@
-﻿@using App.Common.Entities.DataModels;
-@model tblUser
+﻿@model VM_CvAdd
+
+
 @{
     ViewData["Title"] = "CvEdit";
     Layout = "~/Views/Shared/_MyAccountLayout.cshtml";
+ 
+    var firstName = ViewData["FirstName"];
+    var lastName = ViewData["LastName"];
+
 }
 
 <!DOCTYPE html>
-<html lang="zxx">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Title -->
-    <title>Multipurpose Template</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="~/img/core-img/favicon.ico">
-
-    <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="~/css/style.css">
-
-    <!-- Responsive Stylesheet -->
-    <link rel="stylesheet" href="~/css/responsive.css">
-    <link rel="stylesheet" href="~/css/CV1.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer">
-        </script>
+    <title>Resume Page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- custom css -->
+    <link rel="stylesheet" href="~/css/main.css">
 </head>
+<body>
 
-<body class="ali-bg">
-    <!-- Preloader -->
-   
-    <!-- ##### Blog Area Start ##### -->
-    <section class="blog-area">
-        <div class="container-fluid" style="display:flex; margin-top:-30px;">
-            <div class="cvPdf">
-            <div class="row" style="flex:1; margin-top:-19px;">
-                <div id="drag" class="cv instaFade wrap scrollable">
-                    <div class="mainDetails">
-                        <div id="headshot" class="">
-                            <img src="https://avatars2.githubusercontent.com/u/24512843?s=400&v=4" title="Hi, I'm Jenny!" alt="Jennifer Mogan" />
+    <section id="about-sc" class="">
+        <div class="container">
+            <div class="about-cnt">
+                <form class="cv-form" method="post" id="cv-form">
+                    <div class="cv-form-blk">
+                        <div class="cv-form-row-title">
+                            <h3>about section</h3>
                         </div>
-
-                        <div id="name">
-                            <h1 class="quickFade delayTwo" id="nameCV">Jennifer Mogan</h1>
-                            <h4 class="quickFade delayThree" id="jobTitle">Nurse</h4>
-                            <h6 class="quickFade delayThree" id="email">jennifermogan@gmail.com</h6>
-                            <h6 class="quickFade delayThree" id="phone">05123456789</h6>
-                            <h6 class="quickFade delayThree" id="webSite"></h6>
-                            <h6 class="quickFade delayThree" id="adress"></h6>
-
-                        </div>
-
-                        <div id="contactDetails" class="quickFade delayFour">
-                            <ul>
-
-                                <!-- <li><a href="//linkedin.com/in/jennifermogan" title="LinkedIn"><i class="fa fa-print" aria-hidden="true"></i></a></li>-->
-                                <li><a href="//linkedin.com/in/jennifermogan" title="LinkedIn"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
-
-                            </ul>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-
-                    <div id="mainArea" class="quickFade delayFive">
-
-                        <section>
-                            <article>
-                                <div class="sectionTitle">
-                                    <h1>Profil</h1>
+                        <div class="cv-form-row cv-form-row-about">
+                            <div class="cols-3">
+                                <div class="form-elem">
+                                    <label for="" class="form-label">First Name</label>
+                                    <input name="CvNameSurname" type="text" class="form-control CvNameSurnam" id="" onkeyup="generateCV()" placeholder="e.g. John" asp-for="CvNameSurname">
+                                    <span class="form-text"></span>
                                 </div>
 
-                                <div class="sectionContent" id="comments">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dolor metus, interdum at scelerisque in, porta at lacus. Maecenas dapibus luctus cursus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultricies massa et erat
-                                        luctus hendrerit. Curabitur non consequat enim. Vestibulum bibendum mattis dignissim. Proin id sapien quis libero interdum porttitor.
-                                    </p>
+                                <div class="form-elem">
+                                    <label for="" class="form-label">Your Image</label>
+                                    <input name="image" type="file" class="form-control image" id="" accept="image/*"  onchange="previewImage()">
                                 </div>
-                            </article>
-                            <div class="clear"></div>
-                        </section>
 
-
-                        <section>
-                            <div class="sectionTitle">
-                                <h1>Deneyimler</h1>
+                                <div class="form-elem">
+                                    <label for="" class="form-label">Address</label>
+                                    <input name="address" type="text" class="form-control address" id="" onkeyup="generateCV()" placeholder="e.g. Lake Street-23" asp-for="Address">
+                                    <span class="form-text"></span>
+                                </div>
                             </div>
 
-                            <div class="sectionContent">
-                               
-                                    <article>
-                                    <h3 id="unvan">Registered Nurse | ICU</h3>
-                                    <h3 id="sirket">UP Health System - Marquette</h3>
-                                    <p class="subDetails" id="isBaslamaYili">Feb. 2017</p><p class="subDetails" id="isBitisYili">Feb. 2017</p>
-                                    <p id="isAciklama">Operating Room | Surgical | Neuro/Ortho |  Medical/Oncology | Substance Abuse | Emergency Department | Family Birthing Unit/NICU |  Psychiatric | Home Health and Hospice | IMCU</p>
-                                </article> 
-                                
-                               
-                             </div>
-                            <div class="clear"></div>
-                        </section>
-
-
-                        <section>
-                            <div class="sectionTitle">
-                                <h1>Yetenekler</h1>
+                            <div class="cols-3">
+                                <div class="form-elem">
+                                    <label for="" class="form-label">Email</label>
+                                    <input name="email" type="text" class="form-control email" id="" onkeyup="generateCV()" placeholder="e.g. johndoe@gmail.com" asp-for="tblUser.Email">
+                                    <span class="form-text"></span>
+                                </div>
+                                <div class="form-elem">
+                                    <label for="" class="form-label">Phone No:</label>
+                                    <input name="PhoneNumber" type="text" class="form-control PhoneNumber" id="" onkeyup="generateCV()" placeholder="e.g. 456-768-798, 567.654.002" asp-for="tblUser.PhoneNumber">
+                                    <span class="form-text"></span>
+                                </div>
+                                <div>
+                                    <label for="" class="form-label">Title</label>
+                                    <input name="Title" type="text" class="form-control Title" id="" onkeyup="generateCV()" placeholder="e.g. Web Developer" asp-for="Title">
+                                    <span class="form-text"></span>
+                                </div>
                             </div>
-
-                            <div class="sectionContent">
-                                <ul class="keySkills">
-                                    <li id="yetenek">A Key Skill</li>
-                                    <span>-</span>
-                                    <li id="yeterlilik">Orta</li>
-                                    
-                                </ul>
+                            <div class="cols-3">
+                                <div class="form-elem">
+                                    <label for="" class="form-label">Summary</label>
+                                    <input name="Summary" type="text" class="form-control Summary" id="" onkeyup="generateCV()" placeholder="e.g. Doe" asp-for="Summary">
+                                    <span class="form-text"></span>
+                                </div>
                             </div>
-                            <div class="clear"></div>
-                        </section>
-
-
-                        <section id="Education">
-                            <div class="sectionTitle">
-                                <h1>Eğitim</h1>
-                            </div>
-
-                            <div class="sectionContent">
-                                <article>
-                                    <h2 id="bolum">Bachelor’s of Science, Nursing</h2>
-                                    <p class="subDetails" id="okul" name="edu[]">Northern Michigan University</p>
-                                    <p class="subDetails" id="derece">Lisans</p>
-                                </article>                               
-                            </div>
-                            <div class="clear"></div>
-                        </section>
-                        <section>
-                            <div class="sectionTitle">
-                                <h1>İlgi Alanları</h1>
-                            </div>
-
-                            <div class="sectionContent">
-                                <ul class="">
-                                    <li id="hobi">Kitap Okuma</li>
-                                   
-
-                                </ul>
-                            </div>
-                            <div class="clear"></div>
-                        </section>
+                        </div>
                     </div>
-                </div>
 
-                </div>
+                    <!-- <div class="cv-form-blk">
+                        <div class = "cv-form-row-title">
+                            <h3>achievements</h3>
+                        </div>
 
+                        <div class = "row-separator repeater">
+                            <div class = "repeater" data-repeater-list = "group-a">
+                                <div data-repeater-item>
+                                    <div class = "cv-form-row cv-form-row-achievement">
+                                        <div class = "cols-2">
+                                            <div class = "form-elem">
+                                                <label for = "" class = "form-label">Title</label>
+                                                <input name = "achieve_title" type = "text" class = "form-control achieve_title" id = "" onkeyup="generateCV()" placeholder="e.g. johndoe@gmail.com">
+                                                <span class="form-text"></span>
+                                            </div>
+                                            <div class = "form-elem">
+                                                <label for = "" class = "form-label">Description</label>
+                                                <input name = "achieve_description" type = "text" class = "form-control achieve_description" id = "" onkeyup="generateCV()" placeholder="e.g. johndoe@gmail.com">
+                                                <span class="form-text"></span>
+                                            </div>
+                                        </div>
+                                        <button data-repeater-delete type = "button" class = "repeater-remove-btn">-</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type = "button" data-repeater-create value = "Add" class = "repeater-add-btn">+</button>
+                        </div>
+                    </div> -->
+
+                    <div class="cv-form-blk">
+                        <div class="cv-form-row-title">
+                            <h3>experience</h3>
+                        </div>
+
+                        <div class="row-separator repeater" id="expInputs">
+                            <div class="repeater" data-repeater-list="ExperienceInfos" id="experienceInputs">
+                               @* @for (int i = 0; i < Model.Experiences.Count; i++)
+                                {
+                                    <div data-repeater-item>
+                                        <div class="cv-form-row cv-form-row-experience">
+                                            <div class="cols-3">
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">Pozisyon</label>
+                                                    <input name="ExperienceInfos[@i].Position" type="text" class="form-control exp_title" id="" value="@Model.Experiences[i].Position" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">Company / Organization</label>
+                                                    <input name="ExperienceInfos[@i].Company" type="text" class="form-control exp_organization" id="" value="@Model.Experiences[i].Company" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="cols-3">
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">Start Date</label>
+                                                    <input name="ExperienceInfos[@i].StartDate" type="date" class="form-control exp_start_date" id="" value="@Model.Experiences[i].StartDate" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">End Date</label>
+                                                    <input name="ExperienceInfos[@i].EndDate" type="date" class="form-control exp_end_date" id="" value="@Model.Experiences[i].EndDate" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">Description</label>
+                                                    <input name="ExperienceInfos[@i].Responsibilities" type="text" class="form-control exp_description" id="" value="@Model.Experiences[i].Responsibilities" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                            </div>
+
+                                            <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                        </div>
+                                    </div>
+                                }*@
+                            </div>
+                            <button type="button" id="addexp" class="repeater-add-btn">+</button>
+                        </div>
+
+                    </div>
+
+                    <div class="cv-form-blk">
+                        <div class="cv-form-row-title">
+                            <h3>education</h3>
+                        </div>
+
+                        <div class="row-separator repeater">
+                            <div class="repeater" data-repeater-list="group-c" id="educationInputs">
+                              @*  @for (int i = 0; i < Model.EducationInfos.Count; i++)
+                                {
+                                    <div data-repeater-item>
+                                        <div class="cv-form-row cv-form-row-experience">
+                                            <div class="cols-3">
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">School</label>
+                                                    <input name="EducationInfos[@i].School" type="text" class="form-control edu_school" id="" value="@Model.EducationInfos[i].School" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">Degree</label>
+                                                    <input name="EducationInfos[@i].Degree" type="text" class="form-control edu_degree" id="" value="@Model.EducationInfos[i].Degree" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">Bölüm</label>
+                                                    <input name="EducationInfos[@i].Major" type="text" class="form-control edu_city" id="" value="@Model.EducationInfos[i].Major" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="cols-3">
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">Start Date</label>
+                                                    <input name="EducationInfos[@i].StartDate" type="date" class="form-control edu_start_date" id="" value="@Model.EducationInfos[i].StartDate" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                                <div class="form-elem">
+                                                    <label for="" class="form-label">End Date</label>
+                                                    <input name="EducationInfos[@i].EndDate" type="date" class="form-control edu_graduation_date" id="" value="@Model.EducationInfos[i].EndDate" onkeyup="generateCV()">
+                                                    <span class="form-text"></span>
+                                                </div>
+                                            </div>
+
+                                            <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                        </div>
+                                    </div>
+                                }*@
+                            </div>
+                            <button type="button" id="addEducation" class="repeater-add-btn">+</button>
+                        </div>
+                    </div>
+
+
+                    <div class="cv-form-blk">
+                        <div class="cv-form-row-title">
+                            <h3>skills</h3>
+                        </div>
+
+                        <div class="row-separator repeater" id="skillsInputs">
+                            <div class="repeater" data-repeater-list="Skills" id="skillInputs">
+                                @*@foreach (var skill in Model.Skills)
+                                {
+                                    <div data-repeater-item>
+                                        <div class="cv-form-row cv-form-row-skills">
+                                            <div class="form-elem">
+                                                <label for="" class="form-label">Skill</label>
+                                                <input name="Skills[@Model.Skills.IndexOf(skill)].SkillName" type="text" class="form-control skill" id="" value="@skill.SkillName" onkeyup="generateCV()">
+                                                <span class="form-text"></span>
+                                            </div>
+
+                                            <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                        </div>
+                                    </div>
+                                }*@
+                            </div>
+                            <button type="button" class="repeater-add-btn" id="addskill">+</button>
+                        </div>
+                    </div>
+                    <div class="cv-form-blk">
+                        <div class="cv-form-row-title">
+                            <h3>Hobi</h3>
+                        </div>
+
+                        <div class="row-separator repeater" id="skillsInputs">
+                            <div class="repeater" data-repeater-list="Skills" id="hobbyInputs">
+                                @*@foreach (var skill in Model.Skills)
+                                {
+                                <div data-repeater-item>
+                                <div class="cv-form-row cv-form-row-skills">
+                                <div class="form-elem">
+                                <label for="" class="form-label">Skill</label>
+                                <input name="Skills[@Model.Skills.IndexOf(skill)].SkillName" type="text" class="form-control skill" id="" value="@skill.SkillName" onkeyup="generateCV()">
+                                <span class="form-text"></span>
+                                </div>
+
+                                <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                </div>
+                                </div>
+                                }*@
+                            </div>
+                            <button type="button" class="repeater-add-btn" id="addhobby">+</button>
+                        </div>
+                    </div>
+                    <button type="submit" name="submit" value="CV Oluştur" class="btn-sub">Kaydet</button>
+                </form>
             </div>
-                <div class="col-12 col-md-7 " style="flex:1;">
-                    <div class="cv-download">
-                        <div class="row align-items-center">
-                            
-                            <div class="col-lg-6 col-md-12">
-                                <p class="topnote">Fill all required fields and click create cv to download CV in both PDF and PNG formats</p>
-                                
+        </div>
+    </section>
+@*
+    <section id="preview-sc" class="print_area">
+        <div class="container">
+            <div class="preview-cnt">
+                <div class="preview-cnt-l bg-green text-white">
+                    <div class="preview-blk">
+                        <div class="preview-image">
+                            <img src="" alt="" id="image_dsp">
+                        </div>
+                        <div class="preview-item preview-item-name">
+                            <span class="preview-item-val fw-6" id="fullname_dsp"></span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-item-val text-uppercase fw-6 ls-1" id="designation_dsp"></span>
+                        </div>
+                    </div>
+
+                    <div class="preview-blk">
+                        <div class="preview-blk-title">
+                            <h3>about</h3>
+                        </div>
+                        <div class="preview-blk-list">
+                            <div class="preview-item">
+                                <span class="preview-item-val" id="PhoneNumber_dsp"></span>
                             </div>
-                            <div class="col-lg-6 col-md-12 mt-s download">
-                                <button class="btn btn-primary">PDF İndir</button>
-                               @* <a href="#" class="btn btn-soft-primary ms-2">Download as PNG</a>*@
+                            <div class="preview-item">
+                                <span class="preview-item-val" id="email_dsp"></span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-item-val" id="address_dsp"></span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-item-val" id="Summary_dsp"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="container  scrollable">
 
-                        <form method="post" action="#">
-                            <div class="mt-150">
-                                <h2>Kişisel Bilgiler</h2>
-                                <div class="block-container">
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-2 col-md-4">
-                                            <img src="~/img/test-img/1.jpg" class="d-block" alt="">
-                                        </div>
-                                        <div class="col-lg-5 col-md-8 mt-s">
-                                            <h6 class="">Fotoğraf Yükle</h6>
-                                            @*<p class="text-muted mb-0">For best results, use image 300px by 300px in either .jpg or .png</p>*@
-                                        </div>
-                                        <div class="col-lg-5 col-md-12 mt-s">
-                                            <a href="#" class="btn btn-primary">Seç</a>
-                                            <a href="#" class="btn btn-soft-primary ms-2">Sil</a>
-                                        </div>
-                                    </div>
-                                    <div class="mt-30">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <label>Ad-Soyad:</label>
-                                                <input type="text" id="nameInput" onkeyup="updateCV('nameCV', this.value)" class="form-control" placeholder="İsim soyisim gir">
-                                            </div>
-                                            
-                                            <div class="col-lg-6">
-                                                <label>İş Unvanı:</label>
-                                                <input type="text" name="job-title" id="jobTitleInput" onkeyup="updateCV('jobTitle', this.value)" class="form-control" placeholder="Örnek: Web Developer">
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label>Adres:</label>
-                                                <input type="text" name="address" id="adressInput" onkeyup="updateCV('adress', this.value)" class="form-control" placeholder="Adresinizi girin">
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label>Email:</label>
-                                                <input type="text" name="email" id="emailInput" onkeyup="updateCV('email', this.value)" class="form-control" placeholder="Mail adresini girin">
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label>Website Link:</label>
-                                                <input type="text" name="web-link" id="webSiteLinkInput" onkeyup="updateCV('webSite', this.value)"class="form-control" placeholder="Web site linkinizi ekleyin">
-                                            </div>
-                                            
-                                            <div class="col-lg-6">
-                                                <label>Telefon:</label>
-                                                <input type="text" name="phone" id="phoneInput" onkeyup="updateCV('phone', this.value)" class="form-control" placeholder="Telefon Numaranızı Girin">
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <label>Hakkınızda</label>
-                                                <textarea name="comments" id="comments" rows="4" onkeyup="updateCV('comments', this.value)" class="form-control" placeholder=""></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="preview-blk">
+                        <div class="preview-blk-title">
+                            <h3>skills</h3>
+                        </div>
+                        <div class="skills-items preview-blk-list" id="skills_dsp">
+                            <!-- skills list here -->
+                        </div>
+                    </div>
+                </div>
 
-                            <div class="form-group add-edu">
-                                <h2>Eğitim</h2>
-                                <div class="all-edus">
-                                    <div class="new-edu">
-                                        <label>Bölüm:</label>
-                                    <input type="text" name="bolumInput[]" id="bolumInput" onkeyup="updateCV('bolum', this.value)" class="form-control" placeholder="Örnek:Bilgisayar Mühendisliği">
-                                        <label>Derece:</label>
-                                    <input type="text" name="dereceInput[]" id="dereceInput" onkeyup="updateCV('derece', this.value)" class="form-control" placeholder="Derece: Lisans">
-                                        <label>Okul:</label>
-                                    <input type="text" name="okulInput[]" id="okulInput" onkeyup="updateCV('okul', this.value)" class="form-control" placeholder="">
-                                        <div class="form-row">
-                                            <div class="col">
-                                                <label>Başlangıç Yılı:</label>
-                                            <input type="month" name="edu[]" id="baslamaYiliInput" onkeyup="updateCV('baslamaYili', this.value)" class="form-control">
-                                            </div>
-                                            <div class="col">
-                                                <label>Bitiş Yılı:</label>
-                                            <input type="month" name="edu[]" id="bitisYiliInput" onkeyup="updateCV('bitisYili', this.value)" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="add-blk btn btn-info" id="add-edu"> 
-                                    <i class="fa fa-plus"></i>
-                                    <span>Eğitim Ekle</span>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="form-group add-exp mt-s">
-                                <h2>Deneyimler</h2>
-                                <div class="all-exps">
-                                    <div class="new-exp">
-                                        <label>Unvan:</label>
-                                    <input type="text" id="unvanInput" name="exp[]" onkeyup=" updateCV('unvan', this.value)" class="form-control" placeholder="Örnek: Web Developer">
-                                        <label>Şirket:</label>
-                                    <input type="text" id="sirketInput" name="exp[]" onkeyup="updateCV('sirket', this.value)" class="form-control" placeholder="örnek: ProgressSoft">
-                                        <div class="form-row">
-                                            <div class="col">
-                                                <label>Başlama Yılı:</label>
-                                            <input type="month" id="isBaslamaYiliInput" onkeyup="updateCV('isBaslamaYili', this.value)" class="form-control">
-                                            </div>
-                                            <div class="col">
-                                                <label>Bitiş Yılı:</label>
-                                            <input type="month" id="isBitisYiliInput" onkeyup="updateCV('isBitisYili', this.value)" class="form-control">
-                                            </div>
-                                        </div>
-                                        <label>Açıklama (İsteğe Bağlı):</label>
-                                        <textarea id="isAciklamaInput" onkeyup="updateCV('isAciklama', this.value)" class="form-control"></textarea>
-                                    </div>
-                                </div>
-                                <div class="add-blk btn btn-info" id="add-exp">
-                                    <i class="fa fa-plus"></i>
-                                    <span>Farklı Deneyim Ekle</span>
-                                </div>
-                            </div>
-                            
-                            <div class="clearfix"></div>
-                            
-                            <div class="form-group add-skill mt-s">
-                                <h2>Beceri/Yetenek Ekle</h2>
-                                <div class="block-container">
-                                    <div class="all-skills">
-                                        <div class="new-skills">
-                                            <label>Yetenek</label>
-                                        <input type="text" id="yetenekInput" onkeyup="updateCV('yetenek', this.value)" class="form-control">
-                                            <label>Yeterlilik</label>
-                                        <input type="text" id="yeterlilikInput" onkeyup="updateCV('yeterlilik', this.value)" class="form-control">
-                                        </div>
-                                    </div>
-                                
+                <div class="preview-cnt-r bg-white">
+                    <div class="preview-blk">
+                        <div class="preview-blk-title">
+                            <h3>Achievements</h3>
+                        </div>
+                        <div class="achievements-items preview-blk-list" id="achievements_dsp"></div>
+                    </div>
 
-                                    <div class="add-blk add-skills btn btn-info mt-50">
-                                        <i class="fa fa-plus"></i>
-                                        <span>Başka Beceri Ekle</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="preview-blk">
+                        <div class="preview-blk-title">
+                            <h3>educations</h3>
+                        </div>
+                        <div class="educations-items preview-blk-list" id="educations_dsp"></div>
+                    </div>
 
-                            <div class="clearfix"></div>
+                    <div class="preview-blk">
+                        <div class="preview-blk-title">
+                            <h3>experiences</h3>
+                        </div>
+                        <div class="experiences-items preview-blk-list" id="experiences_dsp"></div>
+                    </div>
 
-                          @*  <div class="form-group add-social mt-s">
-                                <h2>Add social Links</h2>
-                                <div class="block-container">
-                                    <div class="all-socials">
-                                        <div class="new-skills">
-                                            <label>Sos Name</label>
-                                            <input type="text" name="socials[]" class="form-control">
-                                            <label>Social Link</label>
-                                            <input type="text" name="socials[]" class="form-control">
-                                            <label>Social icon image (16px*16px)</label>
-                                            <input type="file" name="socials[]" class="form-control" />
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                    <div class="add-blk add-socials btn btn-info mt-50">
-                                        <i class="fa fa-plus"></i>
-                                        <span>Add another social</span>
-                                    </div>
-                                </div>
-                            </div>*@
-
-                            <div class="clearfix"></div>
-
-                            <div class="form-group add-social mt-s">
-                                <h2>İlgi Alanları</h2>
-                                <div class="block-container">
-                                    <div class="all-hoppies">
-                                        <div class="new-skills">
-                                        <input type="text" id="hobiInput" name="" onkeyup="updateCV('hobi', this.value)" class="form-control">
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                    <div class="add-blk add-hoppies btn btn-info mt-50">
-                                        <i class="fa fa-plus"></i>
-                                        <span>İlgi Alanı Ekle</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr class="mt-100">
-                            <input type="submit" name="submit" value="CV Oluştur" class="btn-sub">
-                            
-                        </form>
+                    <div class="preview-blk">
+                        <div class="preview-blk-title">
+                            <h3>projects</h3>
+                        </div>
+                        <div class="projects-items preview-blk-list" id="projects_dsp"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ##### Blog Area End ##### -->
+
+    <section class="print-btn-sc">
+        <div class="container">
+            <button type="button" class="print-btn btn btn-primary" onclick="printCV()">Print CV</button>
+        </div>
+    </section>
+
+    *@
+
+
+
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <!-- jquery repeater cdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.repeater/1.2.1/jquery.repeater.js" integrity="sha512-bZAXvpVfp1+9AUHQzekEZaXclsgSlAeEnMJ6LfFAvjqYUVZfcuVXeQoN5LhD7Uw0Jy4NCY9q3kbdEXbwhZUmUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- custom js -->
+    <script src="~/js/Scriptt.js"></script>
+    <!-- app js -->
+    <script src="~/js/app.js"></script>
+
 
 
     <!-- ########## All JS ########## -->
@@ -372,16 +381,392 @@
     <!-- Active js -->
     <script src="~/js/form-script.js"></script>
     <script src="~/js/script.js"></script>
-    <script type="text/javascript">
-        let div = document.querySelector(".cvPdf");
-        let btn = document.querySelector(".download");
-        btn.addEventListener('click', () => {
-            html2pdf().from(div).save()
-        })
+
+    <script>
+    
+        var counter = 0; // Eğitim giriş alanları sayacı
+        var educationContainer = document.getElementById('educationInputs');
+        var addButton = document.getElementById('addEducation');
+
+        addButton.addEventListener('click', function () {
+            var newEducation = document.createElement('div');
+            newEducation.className = 'new-edu';
+
+            newEducation.innerHTML = `
+                       <div data-repeater-item>
+                                                <div class="cv-form-row cv-form-row-experience">
+                                                    <div class="cols-3">
+                                                        <div class="form-elem">
+                                                            <label for="" class="form-label">School</label>
+                                                                    <input name="EducationInfos[${counter}].School" type="text" class="form-control edu_school" id="" onkeyup="generateCV()">
+                                                            <span class="form-text"></span>
+                                                        </div>
+                                                        <div class="form-elem">
+                                                            <label for="" class="form-label">Degree</label>
+                                                                    <input name="EducationInfos[${counter}].Degree" type="text" class="form-control edu_degree" id=""  onkeyup="generateCV()">
+                                                            <span class="form-text"></span>
+                                                        </div>
+                                                        <div class="form-elem">
+                                                            <label for="" class="form-label">Bölüm</label>
+                                                                    <input name="EducationInfos[${counter}].Major" type="text" class="form-control edu_city" id="" onkeyup="generateCV()">
+                                                            <span class="form-text"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="cols-3">
+                                                        <div class="form-elem">
+                                                            <label for="" class="form-label">Start Date</label>
+                                                                    <input name="EducationInfos[${counter}].StartDate" type="date" class="form-control edu_start_date" id="" onkeyup="generateCV()">
+                                                            <span class="form-text"></span>
+                                                        </div>
+                                                        <div class="form-elem">
+                                                            <label for="" class="form-label">End Date</label>
+                                                                    <input name="EducationInfos[${counter}].EndDate" type="date" class="form-control edu_graduation_date" id="" onkeyup="generateCV()">
+                                                            <span class="form-text"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                                </div>
+                                            </div>
+            `;
+            var educationContainer = document.getElementById('educationInputs');
+            var addButton = document.getElementById('addEducation');
+
+            newEducation.querySelector('.cv-form-row-experience').addEventListener('click', function (e) {
+                if (e.target && e.target.classList.contains('repeater-remove-btn')) {
+                    var educationToRemove = e.target.closest('.new-edu');
+                    educationToRemove.remove();
+
+                    // Update indexes after removing an education item
+                    var educationItems = educationContainer.querySelectorAll('.new-edu');
+                    educationItems.forEach(function (education, index) {
+                        var inputs = education.querySelectorAll('input');
+                        inputs.forEach(function (input) {
+                            var name = input.getAttribute('name');
+                            var updatedName = name.replace(/\[\d+\]/, `[${index}]`);
+                            input.setAttribute('name', updatedName);
+                        });
+                    });
+
+                    // Call function to update the model with the new education list
+                    updateEducationModel();
+                }
+            });
+
+            educationContainer.appendChild(newEducation);
+            counter++; // Her tıklamada sayaç artar, yeni inputlar farklı indeks numaraları alır
+        });
+
+        function updateEducationModel() {
+            var educationItems = educationContainer.querySelectorAll('.new-edu');
+            var updatedEducationInfos = [];
+
+            educationItems.forEach(function (education) {
+                var inputs = education.querySelectorAll('input');
+                var educationInfo = {};
+
+                inputs.forEach(function (input) {
+                    var name = input.getAttribute('name');
+                    var value = input.value;
+                    educationInfo[name.split('.')[1]] = value;
+                });
+
+                updatedEducationInfos.push(educationInfo);
+            });
+
+            // Güncellenmiş eğitim bilgileri burada updatedEducationInfos değişkeninde bulunur
+            // Örneğin, bu bilgileri bir API'ye göndermek için:
+            fetch('/api/updateEducationInfos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedEducationInfos)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Updated education information sent successfully.');
+                        // Başarılı durumu işleyin
+                    } else {
+                        console.error('Failed to send updated education information.');
+                        // Başarısız durumu işleyin
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending updated education information:', error);
+                    // Hata durumunu işleyin
+                });
+        }
+       
     </script>
     <script>
-       
-    
+
+        var counter1 = 0; // Eğitim giriş alanları sayacı
+        var expContainer = document.getElementById('expInputs');
+        var addButton = document.getElementById('addexp');
+
+        addButton.addEventListener('click', function () {
+            var newExp = document.createElement('div');
+            newExp.className = 'new-exp';
+
+            newExp.innerHTML = `
+                                                <div data-repeater-item>
+                                                        <div class="cv-form-row cv-form-row-experience">
+                                                            <div class="cols-3">
+                                                                <div class="form-elem">
+                                                                    <label for="" class="form-label">Pozisyon</label>
+                                                                                    <input name="Experiences[${counter1}].Position"  type="text" class="form-control exp_title" id="" onkeyup="generateCV()">
+                                                                    <span class="form-text"></span>
+                                                                </div>
+                                                                <div class="form-elem">
+                                                                    <label for="" class="form-label">Company / Organization</label>
+                                                                                    <input name="Experiences[${counter1}].Company" type="text" class="form-control exp_organization" id=""  onkeyup="generateCV()">
+                                                                    <span class="form-text"></span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="cols-3">
+                                                                <div class="form-elem">
+                                                                    <label for="" class="form-label">Start Date</label>
+                                                                                    <input name="Experiences[${counter1}].StartDate" type="date" class="form-control exp_start_date" id="" onkeyup="generateCV()">
+                                                                    <span class="form-text"></span>
+                                                                </div>
+                                                                <div class="form-elem">
+                                                                    <label for="" class="form-label">End Date</label>
+                                                                                    <input name="Experiences[${counter1}].EndDate" type="date" class="form-control exp_end_date" id=""  onkeyup="generateCV()">
+                                                                    <span class="form-text"></span>
+                                                                </div>
+                                                                <div class="form-elem">
+                                                                    <label for="" class="form-label">Description</label>
+                                                                                    <input name="Experiences[${counter1}].Responsibilities" type="text" class="form-control exp_description" id=""  onkeyup="generateCV()">
+                                                                    <span class="form-text"></span>
+                                                                </div>
+                                                            </div>
+
+                                                            <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                                        </div>
+                                                    </div>
+                            `;
+
+           
+            var expContainer = document.getElementById('expInputs');
+            var addButton = document.getElementById('addexp');
+            newExp.querySelector('.cv-form-row-experience').addEventListener('click', function (e) {
+                if (e.target && e.target.classList.contains('repeater-remove-btn')) {
+                    var expToRemove = e.target.closest('.new-exp');
+                    expToRemove.remove();
+                    //
+                    var expItems = expContainer.querySelectorAll('.new-exp');
+                           expItems.forEach(function (experience, index) {
+                               var inputs = experience.querySelectorAll('input');
+                               inputs.forEach(function (input) {
+                                    var name = input.getAttribute('name');
+                                var updatedName = name.replace(/\[\d+\]/, `[${index}]`);
+                                 input.setAttribute('name', updatedName);
+                             });
+                         });
+                    updateExperienceModel();
+                }
+            });
+            expContainer.appendChild(newExp);
+            counter1++;
+        });
+
+
+
+        function updateExperienceModel() {
+            var expItems = expContainer.querySelectorAll('.new-exp');
+            var updatedExperienceInfos = [];
+
+            expItems.forEach(function (experience) {
+                var inputs = experience.querySelectorAll('input');
+                var experienceInfo = {};
+
+                inputs.forEach(function (input) {
+                    var name = input.getAttribute('name');
+                    var value = input.value;
+                    experienceInfo[name.split('.')[1]] = value;
+                });
+
+                updatedExperienceInfos.push(experienceInfo);
+            });
+
+            fetch('/api/updateExperienceInfos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedExperienceInfos)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Updated experience information sent successfully.');
+                    } else {
+                        console.error('Failed to send updated experience information.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending updated experience information:', error);
+                });
+        }
+    </script>
+
+    <script>
+
+        var counter2 = 0; // Eğitim giriş alanları sayacı
+        var skillContainer = document.getElementById('skillInputs');
+        var addButton = document.getElementById('addskill');
+
+        addButton.addEventListener('click', function () {
+            var newSkill = document.createElement('div');
+            newSkill.className = 'newskill';
+ 
+            newSkill.innerHTML = `
+                                                                                
+                                                        <div data-repeater-item>
+                                                <div class="cv-form-row cv-form-row-skills">
+                                                    <div class="form-elem">
+                                                        <label for="" class="form-label">Skill</label>
+                                                            <input name="Skills[${counter2}].SkillName" type="text" class="form-control skill" onkeyup="generateCV()">
+                                                        <span class="form-text"></span>
+                                                    </div>
+
+                                                    <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                                </div>
+                                            </div>
+                                    `;
+
+            var removeButtons = skillContainer.querySelectorAll('.repeater-remove-btn');
+            removeButtons.forEach(function (button) {
+                button.addEventListener('click', async function () {
+                    var skillToRemove = this.closest('.newskill');
+                    skillToRemove.remove();
+
+                    // Burada indeks numaralarını güncelliyoruz
+                    var skills = skillContainer.querySelectorAll('.newskill');
+                    skills.forEach(function (skill, index) {
+                        var input = skill.querySelector('.skill');
+                        input.setAttribute('name', `Skills[${index}].SkillName`);
+                    });
+
+                    // Güncellenmiş skill listesini alıp modele gönder
+                    var updatedSkills = [];
+                    skills.forEach(function (skill, index) {
+                        var input = skill.querySelector('.skill');
+                        updatedSkills.push({
+                            SkillName: input.value // veya uygun property adını kullanın
+                        });
+                    });
+
+                    // API'ye güncellenmiş skill listesini gönder
+                    try {
+                        const response = await fetch('/api/skills/update', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(updatedSkills)
+                        });
+
+                        if (response.ok) {
+                            console.log('Skills updated successfully');
+                        } else {
+                            console.error('Failed to update skills');
+                        }
+                    } catch (error) {
+                        console.error('Error updating skills', error);
+                    }
+                });
+            });
+
+            skillContainer.appendChild(newSkill);
+            counter2++; // Her tıklamada sayaç artar, yeni inputlar farklı indeks numaraları alır
+          
+
+
+        });
+
+    </script>
+    <script>
+
+        var counter3 = 0; // Eğitim giriş alanları sayacı
+        var hobbyContainer = document.getElementById('hobbyInputs');
+        var addButton = document.getElementById('addhobby');
+
+        addButton.addEventListener('click', function () {
+            var newHobby = document.createElement('div');
+            newHobby.className = 'newhobby';
+
+            newHobby.innerHTML = `
+                                                                                <div data-repeater-item>
+                                                        <div class="cv-form-row cv-form-row-skills">
+                                                            <div class="form-elem">
+                                                                <label for="" class="form-label">Yeni Hobi</label>
+                                                                    <input name="Hobbies[${counter3}].HobbyName" type="text" class="form-control hobby" onkeyup="generateCV()">
+                                                                <span class="form-text"></span>
+                                                            </div>
+
+                                                            <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                                        </div>
+                                                    </div>
+
+                                            `;
+            var removeButtons = hobbyContainer.querySelectorAll('.repeater-remove-btn');
+            removeButtons.forEach(function (button) {
+                button.addEventListener('click', async function () {
+                    var hobiToRemove = this.closest('.newhobby');
+                    hobiToRemove.remove();
+
+                    // Burada indeks numaralarını güncelliyoruz
+                    var hobbies = hobbyContainer.querySelectorAll('.newhobby');
+                    hobbies.forEach(function (hobby, index) {
+                        var input = hobby.querySelector('.hobby');
+                        input.setAttribute('name', `Hobbies[${index}].HobbyName`);
+                    });
+
+                    // Güncellenmiş skill listesini alıp modele gönder
+                    var updatedHobbies = [];
+                    hobbies.forEach(function (hobby, index) {
+                        var input = hobby.querySelector('.hobby');
+                        updatedHobbies.push({
+                            HobbyName: input.value // veya uygun property adını kullanın
+                        });
+                    });
+
+                    // API'ye güncellenmiş skill listesini gönder
+                    try {
+                        const response = await fetch('/api/hobbies/update', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(updatedHobbies)
+                        });
+
+                        if (response.ok) {
+                            console.log('Hobbies updated successfully');
+                        } else {
+                            console.error('Failed to update hobbies');
+                        }
+                    } catch (error) {
+                        console.error('Error updating hobbies', error);
+                    }
+                });
+            });
+
+            hobbyContainer.appendChild(newHobby);
+            counter3++; // Her tıklamada sayaç artar, yeni inputlar farklı indeks numaraları alır
+
+
+      
+
+
+
+        });
+
+    </script>
+  @*  <script>
         const cvElements = {
             nameCV: 'nameCV',
             jobTitle: 'jobTitle',
@@ -412,26 +797,27 @@
                 console.log('Element ID not recognized');
             }
         }
-        let hobbies = [];
+        //let hobbies = [];
 
-        // Ekranda ilgi alanlarını gösteren işlev
-        function displayHobbies() {
-            const hobiElement = document.getElementById(cvElements.hobi);
-            hobiElement.innerHTML = hobbies.map(hobi => `<li>${hobi}</li>`).join('');
-        }
+        //// Ekranda ilgi alanlarını gösteren işlev
+        //function displayHobbies() {
+        //    const hobiElement = document.getElementById(cvElements.hobi);
+        //    hobiElement.innerHTML = hobbies.map(hobi => `<li>${hobi}</li>`).join('');
+        //}
 
-        // Her ilgi alanı girişi yapıldığında bu olay tetiklenecek
-        $('.add-hoppies').on('click', function () {
-            const newHobby = $('.form-control').last().val();
-            if (newHobby.trim() !== '') {
-                hobbies.push(newHobby); // Yeni ilgi alanını diziye ekle
-                displayHobbies(); // Güncel ilgi alanlarını ekrana yazdır
+        //// Her ilgi alanı girişi yapıldığında bu olay tetiklenecek
+        //$('.add-hoppies').on('click', function () {
+        //    const newHobby = $('.form-control').last().val();
+        //    if (newHobby.trim() !== '') {
+        //        hobbies.push(newHobby); // Yeni ilgi alanını diziye ekle
+        //        displayHobbies(); // Güncel ilgi alanlarını ekrana yazdır
               
-            }
-        });
-       
+        //    }
+        //});
+  
+
         
-    </script>
+    </script>*@
 </body>
 
 </html>

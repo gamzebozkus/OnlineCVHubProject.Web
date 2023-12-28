@@ -1,26 +1,32 @@
-﻿using System;
+﻿using App.Common.Entities.DataModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Common.Entities.DataModels
+namespace App.Common.Entities.Request
 {
-    public class UserCv
+    public class VM_CvAdd 
     {
-
-        [Key]
-        public int CVId { get; set; }
+        public VM_CvAdd()
+        {
+            
+            EducationInfos = new List<EducationInfo> { new EducationInfo() };
+            Experiences=new List<Experience> { new Experience() };
+            Skills=new List<Skill> { new Skill() };
+            Hobbies=new List<Hobby> { new Hobby() };
+        }
         public string? CvNameSurname { get; set; }
         public string? Title { get; set; }
         public string? Summary { get; set; }
         public DateTime? CreationDate { get; set; }
         public string? Address { get; set; }
-        
+        public string City { get; set; }
+        public string Country { get; set; }
         public string? State { get; set; }
-        public string? Image { get; set; }
+        public string Image { get; set; }
         public bool? IsConfirmed { get; set; }
         public string UserId { get; set; }
 
