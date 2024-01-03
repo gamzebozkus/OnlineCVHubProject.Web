@@ -1,0 +1,30 @@
+﻿@model VM_Request_CompanyRegister
+@{
+    ViewData["Title"] = "DepartmenAdd";
+    Layout = "~/Views/Shared/_CompanyLayout.cshtml";
+}
+
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">Example Form</div>
+            <div class="card-body card-block">
+                <form action="DepartmentAdd" method="post" class="">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                            <i class="fa fa-paperclip"></i>
+                            </div>
+                        <input type="text" id="departmentName" name="departmentName" placeholder="Yeni Departman Adı" class="form-control" asp-for="DepartmentName">
+                        </div>
+                    </div>
+                  
+                    <div class="form-actions form-group">
+                        <button type="submit" class="btn btn-success btn-sm">Ekle</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+

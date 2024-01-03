@@ -26,7 +26,7 @@
     <section id="about-sc" class="">
         <div class="container">
             <div class="about-cnt">
-                <form class="cv-form" method="post" id="cv-form">
+                <form class="cv-form" method="post" id="cv-form" enctype="multipart/form-data">
                     <div class="cv-form-blk">
                         <div class="cv-form-row-title">
                             <h3>about section</h3>
@@ -41,7 +41,7 @@
 
                                 <div class="form-elem">
                                     <label for="" class="form-label">Your Image</label>
-                                    <input name="image" type="file" class="form-control image" id="" accept="image/*"  onchange="previewImage()">
+                                    <input type="file" name="formFile" class="form-control-file" onkeyup="generateCV()" asp-for="Image" id="exampleFormControlFile1">
                                 </div>
 
                                 <div class="form-elem">
@@ -210,10 +210,35 @@
                         </div>
                     </div>
 
+                    <div class="cv-form-blk">
+                        <div class="cv-form-row-title">
+                            <h3>Dil Ekle</h3>
+                        </div>
+
+                        <div class="row-separator repeater" id="languagesInputs">
+                            <div class="repeater" data-repeater-list="Skills" id="languageInputs">
+                                @*@foreach (var skill in Model.Skills)
+                                {
+                                <div data-repeater-item>
+                                <div class="cv-form-row cv-form-row-skills">
+                                <div class="form-elem">
+                                <label for="" class="form-label">Skill</label>
+                                <input name="Skills[@Model.Skills.IndexOf(skill)].SkillName" type="text" class="form-control skill" id="" value="@skill.SkillName" onkeyup="generateCV()">
+                                <span class="form-text"></span>
+                                </div>
+
+                                <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                </div>
+                                </div>
+                                }*@
+                            </div>
+                            <button type="button" class="repeater-add-btn" id="addLanguage">+</button>
+                        </div>
+                    </div>
 
                     <div class="cv-form-blk">
                         <div class="cv-form-row-title">
-                            <h3>skills</h3>
+                            <h3>Yetenek Ekle</h3>
                         </div>
 
                         <div class="row-separator repeater" id="skillsInputs">
@@ -238,7 +263,7 @@
                     </div>
                     <div class="cv-form-blk">
                         <div class="cv-form-row-title">
-                            <h3>Hobi</h3>
+                            <h3>Hobi Ekle</h3>
                         </div>
 
                         <div class="row-separator repeater" id="skillsInputs">
@@ -261,7 +286,8 @@
                             <button type="button" class="repeater-add-btn" id="addhobby">+</button>
                         </div>
                     </div>
-                    <button type="submit" name="submit" value="CV Oluştur" class="btn-sub">Kaydet</button>
+                    <input type="hidden" id="stateInput" name="state" value="" />
+                    <button type="submit" id="submitBtn" name="submit" value="CV Oluştur" class="btn-sub">Kaydet</button>
                 </form>
             </div>
         </div>
@@ -381,7 +407,21 @@
     <!-- Active js -->
     <script src="~/js/form-script.js"></script>
     <script src="~/js/script.js"></script>
+    <script>
+    document.getElementById('submitBtn').addEventListener('click', function() {
+    var confirmation = confirm('CV\'nizi şirketlerle paylaşmak istiyor musunuz?');
 
+    if (confirmation) {
+    // Kullanıcı evet derse, state true yap ve kaydet
+    document.getElementById('stateInput').value = true; // State input alanını true olarak ayarla
+                document.getElementById('cv-form').submit(); // Formu gönder (formun ID'si "myForm" olarak varsayıldı)
+    } else {
+    // Kullanıcı hayır derse, state false yap ve kaydet
+    document.getElementById('stateInput').value = false; // State input alanını false olarak ayarla
+                document.getElementById('cv-form').submit(); // Formu gönder (formun ID'si "myForm" olarak varsayıldı)
+    }
+    });
+    </script>
     <script>
     
         var counter = 0; // Eğitim giriş alanları sayacı
@@ -760,6 +800,90 @@
 
 
       
+
+
+
+        });
+
+    </script>
+    <script>
+        var counter4 = 0; // dil giriş alanları sayacı
+        var languageContainer = document.getElementById('languageInputs');
+        var addButton = document.getElementById('addLanguage');
+
+        addButton.addEventListener('click', function () {
+            var newLanguage = document.createElement('div');
+            newLanguage.className = 'newLanguage';
+
+            newLanguage.innerHTML = `
+
+                                                                <div data-repeater-item>
+                                                        <div class="cv-form-row cv-form-row-skills">
+                                                            <div class="form-elem">
+                                                                <label for="" class="form-label">Yeni Dil Ekle</label>
+                                                                    <input name="Languages[${counter4}].LanguageName" type="text" class="form-control language" onkeyup="generateCV()">
+                                                                <span class="form-text"></span>
+                                                            </div>
+                                                                    <div class="form-elem">
+                                <label for="" class="form-label">Dil Seviyesi</label>
+                <select name="Languages[${counter4}].LanguageLevel" class="form-control language-level" style=" height: 4rem;">
+                                    <option value="TEMEL SEVİYE">TEMEL SEVİYE</option>
+                                    <option value="ORTA SEVİYE">ORTA SEVİYE</option>
+                                    <option value="İLERİ SEVİYE">İLERİ SEVİYE</option>
+                                  
+                                    <!-- Diğer seviyeleri buraya ekleyebilirsiniz -->
+                                </select>
+                            </div>
+                                                            <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                                                        </div>
+                                                    </div>
+                                            `;
+
+            var removeButtons = languageContainer.querySelectorAll('.repeater-remove-btn');
+            removeButtons.forEach(function (button) {
+                button.addEventListener('click', async function () {
+                    var languageToRemove = this.closest('.newLanguage');
+                    languageToRemove.remove();
+
+                    // Burada indeks numaralarını güncelliyoruz
+                    var languages = languageContainer.querySelectorAll('.newLanguage');
+                    languages.forEach(function (language, index) {
+                        var input = language.querySelector('.language');
+                        input.setAttribute('name', `Languages[${index}].LanguageName`);
+                    });
+
+                    // Güncellenmiş skill listesini alıp modele gönder
+                    var updatedLanguages = [];
+                    languages.forEach(function (language, index) {
+                        var input = language.querySelector('.language');
+                        updatedLanguages.push({
+                            LanguageName: input.value // veya uygun property adını kullanın
+                        });
+                    });
+
+                    // API'ye güncellenmiş skill listesini gönder
+                    try {
+                        const response = await fetch('/api/languages/update', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(updatedLanguages)
+                        });
+
+                        if (response.ok) {
+                            console.log('Languages updated successfully');
+                        } else {
+                            console.error('Failed to update languages');
+                        }
+                    } catch (error) {
+                        console.error('Error updating languages', error);
+                    }
+                });
+            });
+
+            languageContainer.appendChild(newLanguage);
+            counter4++; // Her tıklamada sayaç artar, yeni inputlar farklı indeks numaraları alır
 
 
 

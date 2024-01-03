@@ -25,5 +25,8 @@ namespace App.Common.Entities.Request
 		public string CompanyPassword { get; set; }
 
         public bool RememberMe { get; set; }
+
+        public string? DepartmentName { get; set; }
+
     }
 }

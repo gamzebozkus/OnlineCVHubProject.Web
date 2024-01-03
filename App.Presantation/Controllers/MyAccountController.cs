@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 using System.Globalization;
+
 
 namespace App.Presantation.Controllers
 {
@@ -100,13 +102,24 @@ namespace App.Presantation.Controllers
        
 
         [HttpPost]
-        public async Task<IActionResult> CvEdit(VM_CvAdd cvAdd)
+        public async Task<IActionResult> CvEdit(VM_CvAdd cvAdd,bool state, IFormFile formFile)
         {
           
             
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var userInfo = _context.UserInfos.FirstOrDefault(i => i.UserId == values.Id);
-            
+            string randomName = string.Empty;
+            if (formFile != null)
+            {
+                var extent = Path.GetExtension(formFile.FileName);
+                randomName = ($"{Guid.NewGuid()}{extent}");
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await formFile.CopyToAsync(stream);
+                }
+            }
             var userCv = new UserCv
             {
                 CvNameSurname=cvAdd.CvNameSurname,
@@ -115,7 +128,9 @@ namespace App.Presantation.Controllers
                 CreationDate = cvAdd.CreationDate,
                 Address = cvAdd.Address,
                 tblUser = cvAdd.tblUser,
-                UserId=values.Id,
+                Image = formFile != null ? "/img/" + randomName : null, // Dosya varsa yolu ata, yoksa null olarak bırak
+                UserId =values.Id,
+               
                //EducationInfos=cvAdd.EducationInfos,              
             };
 
@@ -183,11 +198,36 @@ namespace App.Presantation.Controllers
                 _context.Hobbies.Add(hobby);
                 await _context.SaveChangesAsync();
             }
+            foreach (var languages in cvAdd.Languages)
+            {
+
+                var language= new Language
+                {
+                    CVId = userCv.CVId,
+                    LanguageName = languages.LanguageName,
+                    LanguageLevel=languages.LanguageLevel,
+
+                };
+
+                _context.Languages.Add(language);
+                await _context.SaveChangesAsync();
+            }
 
             int newCvId = userCv.CVId;
+            if (state)
+            {
+                // Eğer state true ise, CvPool tablosuna ekleyelim
+                var cvPool = new CvPool
+                {
+                    CVId = userCv.CVId // CV'nin ID'si CvPool tablosuna ekleniyor
+                };
+
+                _context.CvPools.Add(cvPool);
+                await _context.SaveChangesAsync();
+            }
 
             // Template1 eylemine yönlendirme
-            return RedirectToAction("Template1", "MyAccount", new { cvId = newCvId });
+            return RedirectToAction("CVTemplates", "MyAccount", new { cvId = newCvId });
         }
 
         public async Task<IActionResult> Cvs()
@@ -201,6 +241,25 @@ namespace App.Presantation.Controllers
             return View();
         }
 
+
+        //CV şablonlarını seçmesini sağlayan controller
+        [HttpGet]
+        public async Task<IActionResult> CVTemplates(int cvId)
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+
+            var userInfo = _context.UserInfos.FirstOrDefault(i => i.UserId == values.Id);
+          
+             var userCv = new UserCv();
+            //int newCvId = userCv.CVId;
+            //ViewBag.cvId = newCvId;
+
+            ViewBag.cvId = cvId;
+            return View();
+
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> Template1(int cvId)
         {
@@ -208,6 +267,11 @@ namespace App.Presantation.Controllers
 
             var userInfo = _context.UserInfos.FirstOrDefault(i => i.UserId == values.Id);
             var cv = await _context.UserCVs.FirstOrDefaultAsync(c => c.CVId == cvId);
+            var experiences = await _context.Experiences.Where(e => e.CVId == cvId).ToListAsync();
+            var educations = await _context.EducationInfos.Where(e => e.CVId == cvId).ToListAsync();
+            var skill = await _context.Skills.Where(e => e.CVId == cvId).ToListAsync();
+            var hobi = await _context.Hobbies.Where(e => e.CVId == cvId).ToListAsync();
+            
             var info = new VM_CvAdd
             {
                 CvNameSurname = cv.CvNameSurname,
@@ -216,10 +280,87 @@ namespace App.Presantation.Controllers
                 CreationDate = cv.CreationDate,
                 Address = cv.Address,
                 tblUser = cv.tblUser,
-
+                Experiences=experiences,
+                EducationInfos=educations,
+                Skills=skill,
+                Hobbies=hobi,
 
             };
+
+
+           
             return View(info);
         }
+        [HttpGet]
+        public async Task<IActionResult> Template2(int cvId)
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+
+            var userInfo = _context.UserInfos.FirstOrDefault(i => i.UserId == values.Id);
+            var cv = await _context.UserCVs.FirstOrDefaultAsync(c => c.CVId == cvId);
+            var experiences = await _context.Experiences.Where(e => e.CVId == cvId).ToListAsync();
+            var educations = await _context.EducationInfos.Where(e => e.CVId == cvId).ToListAsync();
+            var skill = await _context.Skills.Where(e => e.CVId == cvId).ToListAsync();
+            var language = await _context.Languages.Where(e => e.CVId == cvId).ToListAsync();
+            var hobi = await _context.Hobbies.Where(e => e.CVId == cvId).ToListAsync();
+
+            var info = new VM_CvAdd
+            {
+                CvNameSurname = cv.CvNameSurname,
+                Title = cv.Title,
+                Summary = cv.Summary,
+                Image=cv.Image,
+                CreationDate = cv.CreationDate,
+                Address = cv.Address,
+                tblUser = cv.tblUser,
+                Experiences = experiences,
+                EducationInfos = educations,
+                Languages=language,
+                Skills = skill,
+                Hobbies = hobi,
+
+            };
+
+
+
+            return View(info);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Template3(int cvId)
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+
+            var userInfo = _context.UserInfos.FirstOrDefault(i => i.UserId == values.Id);
+            var cv = await _context.UserCVs.FirstOrDefaultAsync(c => c.CVId == cvId);
+            var experiences = await _context.Experiences.Where(e => e.CVId == cvId).ToListAsync();
+            var educations = await _context.EducationInfos.Where(e => e.CVId == cvId).ToListAsync();
+            var language = await _context.Languages.Where(e => e.CVId == cvId).ToListAsync();
+            var skill = await _context.Skills.Where(e => e.CVId == cvId).ToListAsync();
+            var hobi = await _context.Hobbies.Where(e => e.CVId == cvId).ToListAsync();
+
+            var info = new VM_CvAdd
+            {
+                CvNameSurname = cv.CvNameSurname,
+                Title = cv.Title,
+                Summary = cv.Summary,
+                Image = cv.Image,
+                CreationDate = cv.CreationDate,
+                Address = cv.Address,
+                tblUser = cv.tblUser,
+                Experiences = experiences,
+                EducationInfos = educations,
+                Languages = language,
+                Skills = skill,
+                Hobbies = hobi,
+
+            };
+
+
+
+            return View(info);
+        }
+
+
     }
 }

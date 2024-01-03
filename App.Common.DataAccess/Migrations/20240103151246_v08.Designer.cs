@@ -4,6 +4,7 @@ using App.Common.DataAccess.Context.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Common.DataAccess.Migrations
 {
     [DbContext(typeof(AppContextDB))]
-    partial class AppContextDBModelSnapshot : ModelSnapshot
+    [Migration("20240103151246_v08")]
+    partial class v08
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,9 +58,8 @@ namespace App.Common.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CompanyId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("DepartmentName")
                         .HasColumnType("nvarchar(max)");
@@ -596,13 +597,13 @@ namespace App.Common.DataAccess.Migrations
 
             modelBuilder.Entity("App.Common.Entities.DataModels.CompanyDepartment", b =>
                 {
-                    b.HasOne("App.Common.Entities.DataModels.tblUser", "tblUser")
+                    b.HasOne("App.Common.Entities.DataModels.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("tblUser");
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("App.Common.Entities.DataModels.CompanyInfo", b =>

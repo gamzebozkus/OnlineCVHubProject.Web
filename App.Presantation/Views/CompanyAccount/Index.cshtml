@@ -8,14 +8,15 @@
       
             <!-- HEADER DESKTOP-->
             <!-- MAIN CONTENT-->
-        
+<!-- Modal -->
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="overview-wrap">
                                     <h2 class="title-1">Genel Bakış</h2>
-                                    <button class="au-btn au-btn-icon au-btn--blue">
+                                    <a href="/CompanyAccount/DepartmenAdd" class="au-btn au-btn-icon au-btn--blue">
                                         <i class="zmdi zmdi-plus"></i>Departman Ekle
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -527,7 +528,43 @@
                                 </div>
                             </div>
                         </div>
-                 
+<script>
+    // Modalı açma işlemi
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("addDepartmentModalBtn").addEventListener("click", function () {
+            $('#addDepartmentModal').modal('show');
+        });
+
+        // Kaydet butonuna tıklandığında departman ekleyen fonksiyon
+        document.getElementById("saveDepartmentBtn").addEventListener("click", function () {
+            var departmentName = document.getElementById("departmentName").value;
+
+            // Burada departman eklemek için gerekli işlemleri yapabilirsiniz,
+            // örneğin bir AJAX isteği gönderebilir veya form submit işlemi yapabilirsiniz.
+            // Örnek olarak:
+            $.ajax({
+                url: '/CompanyAccount/AddDepartment', // Controller adınızı ekleyin
+                method: 'POST',
+                data: { departmentName: departmentName },
+                success: function (response) {
+                    // Departman başarıyla eklendiğinde yapılacak işlemler
+                    // Örneğin, sayfayı yenileyebilirsiniz:
+                    window.location.reload();
+                },
+                error: function (error) {
+                    // Hata durumunda yapılacak işlemler
+                }
+            });
+
+            // Örnek olarak konsola departman adını yazdırabiliriz:
+            console.log("Eklenen Departman Adı:", departmentName);
+
+            // Modalı kapatma
+            $('#addDepartmentModal').modal('hide');
+        });
+    });
+</script>
+
              
     
 

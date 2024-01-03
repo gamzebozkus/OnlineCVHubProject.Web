@@ -33,10 +33,12 @@ namespace App.Common.DataAccess.Context.Concrete
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Reference> References { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<CompanyDepartment> CompanyDepartments { get; set; }
 
         public virtual DbSet<UserInfo> UserInfos { get; set; }
         public virtual DbSet<CompanyInfo> CompanyInfos { get; set; }
         public virtual DbSet<CvTemplates> CvTemplatess { get; set; }
+        public virtual DbSet<CvPool> CvPools { get; set; }
 
     }
 }

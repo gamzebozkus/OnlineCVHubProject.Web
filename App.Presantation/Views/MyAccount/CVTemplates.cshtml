@@ -1,0 +1,93 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Şablon Seç</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Online CV HUB</title>
+
+    <!-- Favicon -->
+    <!-- Core Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet" />
+    <!-- Responsive Stylesheet -->
+    <link href="~/css/responsive.css" rel="stylesheet" />
+</head>
+<body>
+    <form>
+    <section class="demo section-padding-100 ring-bg">
+    <div class="container">
+    <div class="section-heading text-center">
+    <div class="dream-dots justify-content-center">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <h2 class="bold">Yaratıcı Şablonlarımız</h2>
+    <p>Bir şablon seçin ve potansiyel işverenleri etkilemek ve kalabalığın arasından sıyrılmak için belgenizi hızla özelleştirin.</p>
+    </div>
+                <div class="row" >
+    <div class="col-lg-4 col-md-6 col-sm-12" >
+                        <div class="demo-item" style="height: 91.5vh;">
+
+                            <div style="border: 13px solid mediumvioletred;">
+                                <img src="~/img/template1img.png" />
+                            </div>
+                            <div class="preview-btn-wrapper text-center">
+  @*  <a href="template-preview.html" class="preview-demo">Şablonu İncele</a>*@
+                                <a href="@Url.Action("Template1", "MyAccount", new { cvId = ViewBag.cvId })">Şablonu Kullan </a>
+    </div>
+    </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="demo-item" >
+                            <div style ="height: 80vh;">
+                                <img style="height: 80vh;" src="~/img/cv2.png" />
+                            </div>
+    <div class="preview-btn-wrapper text-center">
+   @* <a href="template-preview.html" class="preview-demo">Şablonu İncele </a>*@
+                                <a href="@Url.Action("Template2", "MyAccount", new { cvId = ViewBag.cvId })">Şablonu Kullan </a>
+    </div>
+    </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="demo-item">
+                            <div style="height: 80vh;">
+                                <img style="height: 80vh;" src="~/img/CV3.png" />
+                            </div>
+    <div class="preview-btn-wrapper text-center">
+ @*   <a href="template-preview.html" class="preview-demo">Şablonu İncele </a>*@
+                                <a href="@Url.Action("Template3", "MyAccount", new { cvId = ViewBag.cvId })">Şablonu Kullan </a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+        </section>
+    </form>
+    <script src="~/js/jquery.min.js"></script>
+    <!-- Popper js -->
+    <script src="~/js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="~/js/plugins.js"></script>
+    <script src="~/js/particles.js"></script>
+    <script src="~/js/app.js"></script>
+    <!-- Parallax js -->
+    <script src="~/js/dzsparallaxer.js"></script>
+
+    <script src="~/js/jquery.syotimer.min.js"></script>
+
+    <!-- script js -->
+    <script src="~/js/script.js"></script>
+</body>
+</html>

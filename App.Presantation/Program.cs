@@ -3,6 +3,7 @@ using App.Common.DataAccess.Context.Concrete;
 using App.Common.Entities.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,9 @@ builder.Services.AddIdentity<tblUser,IdentityRole>(options =>
 builder.Services.AddScoped<UserManager<tblUser>>();
 builder.Services.AddScoped<SignInManager<tblUser>>();
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddDistributedMemoryCache(); // Bellek tabanlý daðýtýlmýþ önbellek ekleyin
 
 builder.Services.AddSession(options =>

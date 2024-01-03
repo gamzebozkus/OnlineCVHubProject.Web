@@ -1,6 +1,7 @@
 ﻿using App.Common.DataAccess.Context.Concrete;
 using App.Common.Entities.DataModels;
 using App.Common.Entities.Request;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -105,6 +106,45 @@ namespace App.Presantation.Controllers
             };
 
             return View(info);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DepartmenAdd()
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+
+            var info = new VM_Request_CompanyRegister
+            {
+                CompanyName = companyInfo.CompanyName,
+                CompanyMail = values.Email
+            };
+
+            return View(info);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DepartmentAdd(VM_Request_CompanyRegister cDepartment)
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+
+
+                var companyDep = new CompanyDepartment
+                {
+                    DepartmentName = cDepartment.DepartmentName,
+                    CompanyId = values.Id,
+                };
+               
+                _context.CompanyDepartments.Add(companyDep);
+                await _context.SaveChangesAsync();
+            
+            
+          
+        
+
+
+            return RedirectToAction("Index","CompanyAccount");
         }
 
     }
