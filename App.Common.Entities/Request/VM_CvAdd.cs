@@ -17,6 +17,7 @@ namespace App.Common.Entities.Request
             Experiences=new List<Experience> { new Experience() };
             Skills=new List<Skill> { new Skill() };
             Hobbies=new List<Hobby> { new Hobby() };
+            Languages=new List<Language> { new Language() };
         }
         public string? CvNameSurname { get; set; }
         public string? Title { get; set; }
@@ -27,6 +28,7 @@ namespace App.Common.Entities.Request
         public string Country { get; set; }
         public string? State { get; set; }
         public string Image { get; set; }
+        public string? Tags { get; set; }
         public bool? IsConfirmed { get; set; }
         public string UserId { get; set; }
 

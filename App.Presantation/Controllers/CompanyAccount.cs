@@ -58,11 +58,15 @@ namespace App.Presantation.Controllers
 
             var values =  await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
-
+            var departmentNames = _context.CompanyDepartments
+                            .Where(d => d.CompanyId == values.Id)
+                            .Select(d => d.DepartmentName)
+                            .ToList();
             var info = new VM_Request_CompanyRegister
             {
                 CompanyName = companyInfo.CompanyName,
-                CompanyMail=values.Email           
+                CompanyMail=values.Email,
+                DepartmentName = departmentNames,
             };
 
             return View(info);
@@ -129,23 +133,49 @@ namespace App.Presantation.Controllers
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
 
-
-                var companyDep = new CompanyDepartment
+            if (cDepartment.DepartmentName != null && cDepartment.DepartmentName.Any())
+            {
+                foreach (var departmentName in cDepartment.DepartmentName)
                 {
-                    DepartmentName = cDepartment.DepartmentName,
-                    CompanyId = values.Id,
-                };
-               
-                _context.CompanyDepartments.Add(companyDep);
+                    var companyDep = new CompanyDepartment
+                    {
+                        DepartmentName = departmentName,
+                        CompanyId = values.Id,
+                    };
+
+                    _context.CompanyDepartments.Add(companyDep);
+                }
+
                 await _context.SaveChangesAsync();
-            
-            
-          
-        
+            }
 
-
-            return RedirectToAction("Index","CompanyAccount");
+            return RedirectToAction("Index", "CompanyAccount");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CvAra()
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+            
+
+            var info = new VM_Request_CompanyRegister
+            {
+                CompanyName = companyInfo.CompanyName,
+                CompanyMail = values.Email,
+             
+            };
+           
+            return View(info);
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> CvAra()
+        //{
+        //    var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+        //    var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+
+        //    return View();
+        //}
     }
 }

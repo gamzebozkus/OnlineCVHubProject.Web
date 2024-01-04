@@ -26,7 +26,7 @@ namespace App.Common.Entities.Request
 
         public bool RememberMe { get; set; }
 
-        public string? DepartmentName { get; set; }
-
+        public List<string> DepartmentName { get; set; }
+       
     }
 }

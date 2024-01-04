@@ -22,6 +22,9 @@ namespace App.Common.Entities.DataModels
         public string? State { get; set; }
         public string? Image { get; set; }
         public bool? IsConfirmed { get; set; }
+
+        public string? Tags { get; set; }
+
         public string UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]

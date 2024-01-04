@@ -71,7 +71,7 @@
                             <div class="cols-3">
                                 <div class="form-elem">
                                     <label for="" class="form-label">Summary</label>
-                                    <input name="Summary" type="text" class="form-control Summary" id="" onkeyup="generateCV()" placeholder="e.g. Doe" asp-for="Summary">
+                                    <textarea name="Summary" type="text" class="form-control Summary" id="" onkeyup="generateCV()" placeholder="e.g. Doe" asp-for="Summary"></textarea>
                                     <span class="form-text"></span>
                                 </div>
                             </div>
@@ -654,78 +654,54 @@
 
     <script>
 
-        var counter2 = 0; // Eğitim giriş alanları sayacı
+        var counter2 = 0; // Beceri giriş alanları sayacı
         var skillContainer = document.getElementById('skillInputs');
         var addButton = document.getElementById('addskill');
 
         addButton.addEventListener('click', function () {
             var newSkill = document.createElement('div');
             newSkill.className = 'newskill';
- 
+
             newSkill.innerHTML = `
-                                                                                
-                                                        <div data-repeater-item>
-                                                <div class="cv-form-row cv-form-row-skills">
-                                                    <div class="form-elem">
-                                                        <label for="" class="form-label">Skill</label>
-                                                            <input name="Skills[${counter2}].SkillName" type="text" class="form-control skill" onkeyup="generateCV()">
-                                                        <span class="form-text"></span>
-                                                    </div>
-
-                                                    <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
-                                                </div>
-                                            </div>
-                                    `;
-
-            var removeButtons = skillContainer.querySelectorAll('.repeater-remove-btn');
-            removeButtons.forEach(function (button) {
-                button.addEventListener('click', async function () {
-                    var skillToRemove = this.closest('.newskill');
-                    skillToRemove.remove();
-
-                    // Burada indeks numaralarını güncelliyoruz
-                    var skills = skillContainer.querySelectorAll('.newskill');
-                    skills.forEach(function (skill, index) {
-                        var input = skill.querySelector('.skill');
-                        input.setAttribute('name', `Skills[${index}].SkillName`);
-                    });
-
-                    // Güncellenmiş skill listesini alıp modele gönder
-                    var updatedSkills = [];
-                    skills.forEach(function (skill, index) {
-                        var input = skill.querySelector('.skill');
-                        updatedSkills.push({
-                            SkillName: input.value // veya uygun property adını kullanın
-                        });
-                    });
-
-                    // API'ye güncellenmiş skill listesini gönder
-                    try {
-                        const response = await fetch('/api/skills/update', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(updatedSkills)
-                        });
-
-                        if (response.ok) {
-                            console.log('Skills updated successfully');
-                        } else {
-                            console.error('Failed to update skills');
-                        }
-                    } catch (error) {
-                        console.error('Error updating skills', error);
-                    }
-                });
-            });
+                <div data-repeater-item>
+                    <div class="cv-form-row cv-form-row-skills">
+                        <div class="form-elem">
+                            <label for="" class="form-label">Yetenek Ekle</label>
+                            <input name="Skills[${counter2}].SkillName" type="text" class="form-control skill" onkeyup="generateCV()">
+                            <span class="form-text"></span>
+                        </div>
+                        <div class="form-elem">
+                            <label for="" class="form-label">Seviye Seçiniz</label>
+                            <select name="Skills[${counter2}].Level" class="form-control skill-level">
+                                        <option value="TEMEL SEVİYE">TEMEL SEVİYE</option>
+                                        <option value="ORTA SEVİYE">ORTA SEVİYE</option>
+                                        <option value="İLERİ SEVİYE">İLERİ SEVİYE</option>
+                                <!-- Diğer seviyeleri buraya ekleyebilirsiniz -->
+                            </select>
+                        </div>
+                        <button data-repeater-delete type="button" class="repeater-remove-btn">-</button>
+                    </div>
+                </div>`;
 
             skillContainer.appendChild(newSkill);
             counter2++; // Her tıklamada sayaç artar, yeni inputlar farklı indeks numaraları alır
-          
 
-
+            // Remove button event listeners
+            newSkill.querySelector('.repeater-remove-btn').addEventListener('click', function () {
+                newSkill.remove();
+                // Burada indeks numaralarını güncelliyoruz
+                updateSkillIndexes();
+            });
         });
+
+        function updateSkillIndexes() {
+            var skills = skillContainer.querySelectorAll('.newskill');
+            skills.forEach(function (skill, index) {
+                skill.querySelector('.skill').setAttribute('name', `Skills[${index}].SkillName`);
+                skill.querySelector('.skill-level').setAttribute('name', `Skills[${index}].Level`);
+            });
+        }
+
 
     </script>
     <script>

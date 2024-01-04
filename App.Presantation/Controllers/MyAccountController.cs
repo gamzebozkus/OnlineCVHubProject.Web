@@ -87,6 +87,7 @@ namespace App.Presantation.Controllers
                 Experiences = new List<Experience>(), // Boş bir eğitim listesi ekleyin veya varsayılan değerler atayın
                 Skills = new List<Skill>(), // Boş bir eğitim listesi ekleyin veya varsayılan değerler atayın
                 Hobbies = new List<Hobby>(), // Boş bir eğitim listesi ekleyin veya varsayılan değerler atayın
+                Languages = new List<Language>(), // Boş bir eğitim listesi ekleyin veya varsayılan değerler atayın
                                              // Diğer alanları da varsayılan değerlerle doldurabilirsiniz
             };
             ViewData["FirstName"] = userInfo.FirstName;
@@ -120,6 +121,8 @@ namespace App.Presantation.Controllers
                     await formFile.CopyToAsync(stream);
                 }
             }
+
+
             var userCv = new UserCv
             {
                 CvNameSurname=cvAdd.CvNameSurname,
@@ -129,6 +132,13 @@ namespace App.Presantation.Controllers
                 Address = cvAdd.Address,
                 tblUser = cvAdd.tblUser,
                 Image = formFile != null ? "/img/" + randomName : null, // Dosya varsa yolu ata, yoksa null olarak bırak
+                Tags = String.Join(", ", new List<string>
+                {
+                cvAdd.Title,
+                String.Join(", ", cvAdd.Skills.Select(s => s.SkillName)),
+                String.Join(", ", cvAdd.Languages.Select(s => s.LanguageName)),
+                String.Join(", ", cvAdd.EducationInfos.SelectMany(e => new string[] { e.Major, e.School })),
+                }),
                 UserId =values.Id,
                
                //EducationInfos=cvAdd.EducationInfos,              
