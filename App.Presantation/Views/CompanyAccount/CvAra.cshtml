@@ -3,7 +3,39 @@
     ViewData["Title"] = "CvAra";
     Layout = "~/Views/Shared/_CompanyLayout.cshtml";
 }
+<head>
+    <style>
+        .sonuc-kartlari {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Kartlar arasındaki boşluk */
+        }
 
+        .sonuc-karti {
+            cursor: pointer;
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-width: 150px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+            .sonuc-karti:hover {
+                transform: scale(1.1); /* Kartı büyütme efekti */
+            }
+
+        .cv-detay-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
 <h1>CvAra</h1>
 <div class="col-lg-6">
     <div class="card">
@@ -11,54 +43,90 @@
             <strong>Basic Form</strong> Elements
         </div>
         <div class="card-body card-block">
-            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+            <form action="@Url.Action("CvAra", "CompanyAccount")" method="post" enctype="multipart/form-data" class="form-horizontal">
+
                 <div class="row form-group">
                     <div class="col col-md-3">
-                        <label class=" form-control-label">Static</label>
+                        <label class=" form-control-label">Unvan</label>
                     </div>
                     <div class="col-12 col-md-9">
-                        <p class="form-control-static">@Model.DepartmentName</p>
+                        @if (Model.DepartmentName != null)
+                        {
+                            <p class="form-control-static" name="departmanName">@Model.DepartmentName.FirstOrDefault()</p>
+                            <input type="hidden" name="departmentName" value="@Model.DepartmentName.FirstOrDefault()" />
+                        }
+                        else
+                        {
+                            <p class="form-control-static">Department name not available</p>
+                        }
                     </div>
                 </div>
+
                 <div class="row form-group">
                     <div class="col col-md-3">
-                        <label for="text-input" class=" form-control-label">Text Input</label>
+                        <label for="text-input" class=" form-control-label">Aradığınız Yetenekleri Yazın</label>
                     </div>
                     <div class="col-12 col-md-9">
-                        <input type="text" id="text-input" name="text-input" placeholder="Text" class="form-control">
-                        <small class="form-text text-muted">This is a help text</small>
+                        <div id="skills-container">
+                            <input type="text" id="skills" name="skills[]" placeholder="MS Excel vs. gibi" class="form-control">
+                        </div>
+                        <button type="button" id="add-skill" class="btn btn-primary">Yetenek Ekle</button>
+
                     </div>
                 </div>
               
+            
                 <div class="row form-group">
                     <div class="col col-md-3">
-                        <label for="disabled-input" class=" form-control-label">Disabled Input</label>
+                        <label for="text-input" class=" form-control-label">Sahip olunmasını istediğiniz dil varsa ekleyin</label>
                     </div>
                     <div class="col-12 col-md-9">
-                        <input type="text" id="disabled-input" name="disabled-input" placeholder="Disabled" disabled="" class="form-control">
+                        <div id="languages-container">
+                            <input type="text" id="languages" name="languages[]" placeholder="İngilizce vs. gibi" class="form-control">
+                        </div>
+                        <button type="button" id="add-language" class="btn btn-primary">Dil Ekle</button>
+
                     </div>
                 </div>
-               
+
                 <div class="row form-group">
                     <div class="col col-md-3">
-                        <label for="select" class=" form-control-label">Select</label>
+                        <label for="select" class=" form-control-label">Deneyim</label>
                     </div>
                     <div class="col-12 col-md-9">
-                        <select name="select" id="select" class="form-control">
-                            <option value="0">Please select</option>
-                            <option value="1">Option #1</option>
-                            <option value="2">Option #2</option>
-                            <option value="3">Option #3</option>
+                        <select name="experienceLevel" id="select" class="form-control">
+                         @*   <option value="0">Birden Fazla Seçebilirsiniz</option>*@
+                            <option name="experienceLevel" value="Yeni Mezun veya Tecrübesiz">Yeni Mezun veya Tecrübesiz</option>
+                            <option name="experienceLevel" value="0-1 yıl Deneyimli">0-1 yıl Deneyimli</option>
+                            <option name="experienceLevel" value="1-2 yıl Deneyimli">1-2 yıl Deneyimli</option>
+                            <option name="experienceLevel" value="2-3 yıl Deneyimli">2-3 yıl Deneyimli</option>
+                            <option name="experienceLevel" value="4+ yıl Deneyimli">4+ yıl Deneyimli</option>
                         </select>
                     </div>
                 </div>
-               
+                <div class="row form-group">
+                    <div class="col col-md-3">
+                        <label for="select" class=" form-control-label">Kişilik Özelliği Seç</label>
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <select name="ozellik" id="select" class="form-control">
+                            
+                            <option name="ozellik" value="Özgüvenli">Özgüvenli</option>
+                            <option name="ozellik" value="Yaratıcı">Yaratıcı</option>
+                            <option name="ozellik" value="Esnekliğe Uyumlu">Esnekliğe Uyumlu</option>
+                            <option name="ozellik" value="Meraklı">Meraklı</option>
+                            <option name="ozellik" value="Sorumluluk Sahibi">Sorumluluk Sahibi</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa fa-dot-circle-o"></i> Submit
+                    </button>
+                </div>
+
             </form>
-        </div>
-        <div class="card-footer">
-            <button type="submit" class="btn btn-primary btn-sm">
-                <i class="fa fa-dot-circle-o"></i> Submit
-            </button>
+       
             <button type="reset" class="btn btn-danger btn-sm">
                 <i class="fa fa-ban"></i> Reset
             </button>
@@ -66,3 +134,107 @@
     </div>
   
 </div>
+<div class="sonuc-bolumu">
+    @if (Model.Sonuclar != null && Model.Sonuclar.Any())
+    {
+        <h2>Sonuçlar</h2>
+        <div class="sonuc-kartlari">
+            @foreach (var sonuc in Model.Sonuclar)
+            {
+                <a href="@Url.Action("GetCvDetails", "CompanyAccount", new { cvId = sonuc.CvId })">
+                    <div class="sonuc-karti">
+                        <p>@sonuc.CvId</p>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>
+<div class="cv-detay-popup">
+    <div class="cv-detay-icerik">
+        <h3>CV Detayları</h3>
+        <p><strong>Adı Soyadı:</strong> @Model.CvNameSurname</p>
+        <p><strong>E-posta:</strong> @Model.Email</p>
+        <p><strong>Telefon Numarası:</strong> @Model.PhoneNum</p>
+        <!-- Diğer CV detaylarını burada görüntüleyin -->
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.getElementById('add-skill').addEventListener('click', function () {
+        var skillsContainer = document.getElementById('skills-container');
+        var newInput = document.createElement('div'); // Yeni bir div oluşturun
+        newInput.classList.add('input-group', 'mb-3'); // Bootstrap için gerekli sınıfları ekleyin
+
+        var inputElement = document.createElement('input');
+        inputElement.type = 'text';
+        inputElement.name = 'skills[]';
+        inputElement.placeholder = 'Yetenek ekleyin';
+        inputElement.className = 'form-control';
+
+        var removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'btn btn-danger';
+        removeButton.textContent = 'Sil';
+
+        removeButton.addEventListener('click', function () {
+            skillsContainer.removeChild(newInput); // Yetenek girişini sil
+        });
+
+        newInput.appendChild(inputElement);
+        newInput.appendChild(removeButton);
+
+        skillsContainer.appendChild(newInput);
+    });
+</script>
+<script>
+    document.getElementById('add-language').addEventListener('click', function () {
+        var languagesContainer = document.getElementById('languages-container');
+        var newInput = document.createElement('div'); // Yeni bir div oluşturun
+        newInput.classList.add('input-group', 'mb-3'); // Bootstrap için gerekli sınıfları ekleyin
+
+        var inputElement = document.createElement('input');
+        inputElement.type = 'text';
+        inputElement.name = 'languages[]';
+        inputElement.placeholder = 'Başka bir dil ekleyin';
+        inputElement.className = 'form-control';
+
+        var removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'btn btn-danger';
+        removeButton.textContent = 'Sil';
+
+        removeButton.addEventListener('click', function () {
+            languagesContainer.removeChild(newInput); // Dil girişini sil
+        });
+
+        newInput.appendChild(inputElement);
+        newInput.appendChild(removeButton);
+
+        languagesContainer.appendChild(newInput);
+    });
+</script>
+
+<script>
+    // Pop-up penceresini açma işlemi
+    function openCvDetailsPopup(cvId) {
+        $.ajax({
+            url: '/CompanyAccount/GetCvDetails', // CV detaylarını alacak bir controller eylemi belirtin
+            type: 'GET',
+            data: { cvId: cvId },
+            success: function (data) {
+                $('.cv-detay-popup').html(data); // CV detayları için kısmi görünümü pop-up penceresine yerleştirin
+                $('.cv-detay-popup').show(); // Pop-up penceresini göster
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // Pop-up penceresini kapatma işlemi
+    function closeCvDetailsPopup() {
+        $('.cv-detay-popup').hide(); // Pop-up penceresini gizle
+    }
+
+</script>

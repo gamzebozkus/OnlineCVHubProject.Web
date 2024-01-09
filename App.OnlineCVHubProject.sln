@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Presantation", "App.Pre
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Common.Service", "App.Common.Services\App.Common.Service.csproj", "{74CF8A6C-861D-41F9-94EB-64FADF5EF5BD}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PythonCVOneri", "PythonCVOneri\PythonCVOneri.pyproj", "{39455E56-B4E9-4CBB-818A-E8C72B20682A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,8 @@ Global
 		{74CF8A6C-861D-41F9-94EB-64FADF5EF5BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74CF8A6C-861D-41F9-94EB-64FADF5EF5BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74CF8A6C-861D-41F9-94EB-64FADF5EF5BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39455E56-B4E9-4CBB-818A-E8C72B20682A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39455E56-B4E9-4CBB-818A-E8C72B20682A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +50,7 @@ Global
 		{4694E8E8-91E2-487D-B3E4-EB0F700514F0} = {BF1D8110-441C-45B8-B618-03FEECD74E99}
 		{950144F7-A32C-4557-925F-D822954C43FD} = {CAF7F959-432A-480D-8E95-E6DB877CAAE6}
 		{74CF8A6C-861D-41F9-94EB-64FADF5EF5BD} = {BF1D8110-441C-45B8-B618-03FEECD74E99}
+		{39455E56-B4E9-4CBB-818A-E8C72B20682A} = {BF1D8110-441C-45B8-B618-03FEECD74E99}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6072527-D796-44D7-9942-10BE1F879BD0}

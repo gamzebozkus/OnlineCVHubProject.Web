@@ -1,6 +1,8 @@
-﻿using System;
+﻿using App.Common.Entities.DataModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +27,21 @@ namespace App.Common.Entities.Request
 		public string CompanyPassword { get; set; }
 
         public bool RememberMe { get; set; }
-
+		public List<Recommendation> Sonuclar { get; set; }
+        public List<UserCv> UserCvs { get; set; }
+        public string? CvNameSurname { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNum { get; set; }
         public List<string> DepartmentName { get; set; }
-       
+		//public List<string> Sonuclar { get; set; } = new List<string>();
+        public string? PersonalityTraits { get; set; }
+        public virtual List<Skill> Skills { get; set; }
+        public double Similarity { get; set; }
+        public virtual List<Language> Languages { get; set; }
+        public string CvId { get; set; }
+
+        [ForeignKey(nameof(CvId))]
+        public virtual CvPool CvPool { get; set; }
+
     }
 }

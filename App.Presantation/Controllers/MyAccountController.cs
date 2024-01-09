@@ -103,7 +103,7 @@ namespace App.Presantation.Controllers
        
 
         [HttpPost]
-        public async Task<IActionResult> CvEdit(VM_CvAdd cvAdd,bool state, IFormFile formFile)
+        public async Task<IActionResult> CvEdit(VM_CvAdd cvAdd,bool state, IFormFile formFile, string personalityTraits)
         {
           
             
@@ -121,16 +121,36 @@ namespace App.Presantation.Controllers
                     await formFile.CopyToAsync(stream);
                 }
             }
+            //deneyim zamanı hesaplama
+            int totalExperienceMonths = cvAdd.Experiences
+     .Where(e => e.StartDate.HasValue && e.EndDate.HasValue) // Null kontrolü
+     .Sum(e =>
+     {
+         var startDate = e.StartDate.Value;
+         var endDate = e.EndDate.Value;
+         return ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month;
+     });
 
-
+            // Toplam süreye göre etiket oluştur
+            string experienceLevel = totalExperienceMonths switch
+            {
+                < 12 => "0-1 yıl deneyimli",
+                < 24 => "1-2 yıl deneyimli",
+                < 36 => "2-3 yıl deneyimli",
+                _ => "4+ yıl deneyimli"
+            };
             var userCv = new UserCv
             {
                 CvNameSurname=cvAdd.CvNameSurname,
+                Email=cvAdd.Email,
+                PhoneNum=cvAdd.PhoneNum,
                 Title = cvAdd.Title,
                 Summary = cvAdd.Summary,
                 CreationDate = cvAdd.CreationDate,
                 Address = cvAdd.Address,
-                tblUser = cvAdd.tblUser,
+                PersonalityTraits = personalityTraits,
+                
+               
                 Image = formFile != null ? "/img/" + randomName : null, // Dosya varsa yolu ata, yoksa null olarak bırak
                 Tags = String.Join(", ", new List<string>
                 {
@@ -138,7 +158,10 @@ namespace App.Presantation.Controllers
                 String.Join(", ", cvAdd.Skills.Select(s => s.SkillName)),
                 String.Join(", ", cvAdd.Languages.Select(s => s.LanguageName)),
                 String.Join(", ", cvAdd.EducationInfos.SelectMany(e => new string[] { e.Major, e.School })),
+                personalityTraits,
+                experienceLevel,
                 }),
+                
                 UserId =values.Id,
                
                //EducationInfos=cvAdd.EducationInfos,              
@@ -146,7 +169,7 @@ namespace App.Presantation.Controllers
 
             _context.UserCVs.Add(userCv);
             await _context.SaveChangesAsync();
-
+            
             foreach (var educationInfo in cvAdd.EducationInfos)
             {
                 var edu = new EducationInfo
@@ -223,7 +246,7 @@ namespace App.Presantation.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            int newCvId = userCv.CVId;
+           int newCvId = userCv.CVId;
             if (state)
             {
                 // Eğer state true ise, CvPool tablosuna ekleyelim
@@ -235,7 +258,7 @@ namespace App.Presantation.Controllers
                 _context.CvPools.Add(cvPool);
                 await _context.SaveChangesAsync();
             }
-
+ 
             // Template1 eylemine yönlendirme
             return RedirectToAction("CVTemplates", "MyAccount", new { cvId = newCvId });
         }
@@ -289,6 +312,8 @@ namespace App.Presantation.Controllers
                 Summary = cv.Summary,
                 CreationDate = cv.CreationDate,
                 Address = cv.Address,
+                Email=cv.Email,
+                PhoneNum=cv.PhoneNum,
                 tblUser = cv.tblUser,
                 Experiences=experiences,
                 EducationInfos=educations,
@@ -322,6 +347,8 @@ namespace App.Presantation.Controllers
                 Image=cv.Image,
                 CreationDate = cv.CreationDate,
                 Address = cv.Address,
+                Email = cv.Email,
+                PhoneNum = cv.PhoneNum,
                 tblUser = cv.tblUser,
                 Experiences = experiences,
                 EducationInfos = educations,
@@ -357,6 +384,8 @@ namespace App.Presantation.Controllers
                 Image = cv.Image,
                 CreationDate = cv.CreationDate,
                 Address = cv.Address,
+                Email = cv.Email,
+                PhoneNum = cv.PhoneNum,
                 tblUser = cv.tblUser,
                 Experiences = experiences,
                 EducationInfos = educations,

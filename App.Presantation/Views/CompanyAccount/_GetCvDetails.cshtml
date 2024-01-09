@@ -1,7 +1,5 @@
-﻿@model VM_CvAdd
-@{
-    Layout = null;
-}
+﻿@model App.Common.Entities.DataModels.UserCv
+
 
 <!DOCTYPE html>
 
@@ -13,26 +11,26 @@
     <link href="~/css/Template1.css" rel="stylesheet" />
 </head>
 <body>
- 
+
 
     <div class="container">
         <div class="header">
             <div class="full-name">
-                <span class="first-name">@Model.CvNameSurname</span>
-
+                @* <span class="first-name">@Model.CvNameSurname</span>*@
+                
             </div>
             <div class="contact-info">
                 <span class="email">Email: </span>
-                <span class="email-val">@Model.Email - @Model.PhoneNum</span>
+                @*  <span class="email-val">@Model.tblUser.Email</span>*@
                 <span class="separator"></span>
-                <span class="phone">Adres: </span>
-                <span class="phone-val">@Model.Address</span>
+             @*   <span class="phone">Adres: </span>*@
+                @*   <span class="phone-val">@Model.Address</span>*@
             </div>
 
             <div class="about">
-                <span class="position">@Model.Title </span>
+                @* <span class="position">@Model.Title </span>*@
                 <span class="desc">
-                    @Model.Summary
+                    @*   @Model.Summary*@
                 </span>
             </div>
         </div>
@@ -40,23 +38,23 @@
             <div class="section">
                 <div class="section__title">Deneyim</div>
                 <div class="section__list">
-                    @foreach (var exp in Model.Experiences)
+                    @*  @foreach (var exp in Model.Experiences)
                     {
                     <div class="section__list-item">
                     <div class="left">
                     <div class="name">@exp.Position</div>
                     <div class="addr">@exp.Company</div>
                     <div class="addr">@exp.Responsibilities</div>
-                                <div class="duration">
-                                    @(exp.StartDate.HasValue ? exp.StartDate.Value.Date.ToString("MM/yyyy") : "")
-                                    -
-                                    @(exp.EndDate.HasValue ? exp.EndDate.Value.Date.ToString("MM/yyyy") : "")
-                                </div>
+                    <div class="duration">
+                    @(exp.StartDate.HasValue ? exp.StartDate.Value.Date.ToString("MM/yyyy") : "")
+                    -
+                    @(exp.EndDate.HasValue ? exp.EndDate.Value.Date.ToString("MM/yyyy") : "")
+                    </div>
                     </div>
 
                     </div>
                     }
-
+                    *@
 
 
                 </div>
@@ -64,31 +62,33 @@
             <div class="section">
                 <div class="section__title">Eğitim Bilgisi</div>
                 <div class="section__list">
-                      @foreach(var edu in Model.EducationInfos){
+                    @* @foreach (var edu in Model.EducationInfos)
+                    {
                     <div class="section__list-item">
                     <div class="left">
                     <div class="name">@edu.Major</div>
-                       <div class="addr">
-                        @edu.School - @edu.Degree 
-                       <br>
-                       @(edu.StartDate.HasValue ? edu.StartDate.Value.Date.ToString("MM/yyyy") : "")
-                       -
-                       @(edu.EndDate.HasValue ? edu.EndDate.Value.Date.ToString("MM/yyyy") : "")
-                    </div>
-                               
+                    <div class="addr">
+                    @edu.School - @edu.Degree
+                    <br>
+                    @(edu.StartDate.HasValue ? edu.StartDate.Value.Date.ToString("MM/yyyy") : "")
+                    -
+                    @(edu.EndDate.HasValue ? edu.EndDate.Value.Date.ToString("MM/yyyy") : "")
                     </div>
 
                     </div>
-                    }
+
+                    </div>
+                    }*@
 
                 </div>
 
             </div>
-          
+
             <div class="section">
                 <div class="section__title">Beceri/Yetenek</div>
                 <div class="skills">
-                     @foreach(var skill in Model.Skills){
+                    @* @foreach (var skill in Model.Skills)
+                    {
                     <div class="skills__item">
                     <div class="left">
                     <div class="name">
@@ -97,7 +97,7 @@
                     </div>
 
                     </div>
-                    }
+                    }*@
 
                 </div>
 
@@ -106,28 +106,20 @@
             <div class="section">
                 <div class="section__title">Hobi</div>
                 <div class="section__list">
-                    @foreach(var hobby in Model.Hobbies){
+                    @*@foreach (var hobby in Model.Hobbies)
+                    {
                     <div class="section__list-item">
                     <div class="name">@hobby.HobbyName</div>
                     </div>
                     }
-
+                    *@
                 </div>
             </div>
 
         </div>
     </div>
-       
 
-    <input type="button" id="print_button" value="Print Page">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#print_button').on('click', function () {
-                window.print();
-            });
-        });
-    </script>
 </body>
 </html>
+

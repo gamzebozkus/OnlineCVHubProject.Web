@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace App.Presantation.Controllers
 {
@@ -153,7 +154,7 @@ namespace App.Presantation.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CvAra()
+        public async Task<IActionResult> CvAra(string departmentName)
         {
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
@@ -163,19 +164,69 @@ namespace App.Presantation.Controllers
             {
                 CompanyName = companyInfo.CompanyName,
                 CompanyMail = values.Email,
-             
+                DepartmentName = new List<string> { departmentName },
             };
            
             return View(info);
         }
+        [HttpPost]
+        public async Task<IActionResult> CvAra(VM_Request_CompanyRegister model, string[] skills, string[] languages, string departmentName, string experienceLevel,string ozellik)
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
 
-        //[HttpPost]
-        //public async Task<IActionResult> CvAra()
-        //{
-        //    var values = await _userManager.FindByEmailAsync(User.Identity.Name);
-        //    var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+            model.CompanyName = companyInfo.CompanyName;
+            model.CompanyMail = values.Email;
+            model.DepartmentName = new List<string> { departmentName };
 
-        //    return View();
-        //}
+            // skills ve languages değerlerini birleştir
+            string aranacakSkills = string.Join(",", skills);
+            string aranacakLanguages = string.Join(",", languages);
+            string aranacakTags = $"{aranacakSkills},{aranacakLanguages},{experienceLevel},{ozellik}";
+
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync($"http://localhost:5000/tavsiye?aranacakTag={aranacakTags}&title={departmentName}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var sonuclar = JsonConvert.DeserializeObject<List<Recommendation>>(content);
+                model.Sonuclar = sonuclar;
+               
+            }
+
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult GetCvDetails(int cvId)
+        {
+            // cvId'ye göre ilgili CV detaylarını veritabanından alın
+            var cvDetails = _context.UserCVs.FirstOrDefault(cv => cv.CVId == cvId);
+
+            if (cvDetails == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("_GetCvDetails", cvDetails); // CV detaylarını bir kısmi görünüm olarak döndürün
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> CvAraSonuc()
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+
+
+            var info = new VM_Request_CompanyRegister
+            {
+                CompanyName = companyInfo.CompanyName,
+                CompanyMail = values.Email,
+  
+            };
+
+            return View(info);
+        }
     }
 }

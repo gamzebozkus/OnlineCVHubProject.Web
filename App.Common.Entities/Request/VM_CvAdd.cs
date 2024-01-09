@@ -20,6 +20,8 @@ namespace App.Common.Entities.Request
             Languages=new List<Language> { new Language() };
         }
         public string? CvNameSurname { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNum { get; set; }
         public string? Title { get; set; }
         public string? Summary { get; set; }
         public DateTime? CreationDate { get; set; }
@@ -29,6 +31,7 @@ namespace App.Common.Entities.Request
         public string? State { get; set; }
         public string Image { get; set; }
         public string? Tags { get; set; }
+        public string? PersonalityTraits { get; set; }
         public bool? IsConfirmed { get; set; }
         public string UserId { get; set; }
 

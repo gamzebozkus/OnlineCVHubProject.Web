@@ -20,6 +20,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- custom css -->
     <link rel="stylesheet" href="~/css/main.css">
+    <style>
+        .modal-custom {
+            display: none; /* Başlangıçta gizli */
+            position: fixed; /* Sabit konum */
+            z-index: 1050; /* Diğer öğelerin üzerinde */
+            left: 0;
+            top: 0;
+            width: 100%; /* Tam genişlik */
+            height: 100%; /* Tam yükseklik */
+            overflow: auto; /* İçerik uzunsa kaydırma çubuğu */
+            background-color: rgba(0, 0, 0, 0.5); /* Yarı saydam arka plan */
+        }
+
+        .modal-content-custom {
+            background-color: #fff;
+            margin: 10% auto; /* Üstte boşluk ve otomatik yan boşluklar */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Genişlik */
+            border-radius: 5px; /* Kenar yuvarlaklığı */
+        }
+
+        .modal-header-custom {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .modal-footer-custom {
+            padding-top: 10px;
+            border-top: 1px solid #e5e5e5;
+            text-align: right;
+        }
+
+        .close-custom {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #000;
+            text-shadow: 0 1px 0 #fff;
+            opacity: .5;
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -54,12 +99,12 @@
                             <div class="cols-3">
                                 <div class="form-elem">
                                     <label for="" class="form-label">Email</label>
-                                    <input name="email" type="text" class="form-control email" id="" onkeyup="generateCV()" placeholder="e.g. johndoe@gmail.com" asp-for="tblUser.Email">
+                                    <input name="Email" type="text" class="form-control email" id="" onkeyup="generateCV()" placeholder="e.g. johndoe@gmail.com" asp-for="Email">
                                     <span class="form-text"></span>
                                 </div>
                                 <div class="form-elem">
                                     <label for="" class="form-label">Phone No:</label>
-                                    <input name="PhoneNumber" type="text" class="form-control PhoneNumber" id="" onkeyup="generateCV()" placeholder="e.g. 456-768-798, 567.654.002" asp-for="tblUser.PhoneNumber">
+                                    <input name="PhoneNum" type="text" class="form-control PhoneNumber" id="" onkeyup="generateCV()" placeholder="e.g. 456-768-798, 567.654.002" asp-for="PhoneNum">
                                     <span class="form-text"></span>
                                 </div>
                                 <div>
@@ -286,100 +331,32 @@
                             <button type="button" class="repeater-add-btn" id="addhobby">+</button>
                         </div>
                     </div>
+                    <div id="personalityModal" class="modal-custom">
+                        <div class="modal-content-custom">
+                            <div class="modal-header-custom">
+                                <span class="close-custom" onclick="closeModal()">&times;</span>
+                                <h2>Sizi Anlatan Kişilik Özelliklerini Seçiniz</h2>
+                            </div>
+                            <div class="modal-body">
+                                <label><input type="checkbox" name="personality" value="Özgüvenli"> Özgüvenli</label><br>
+                                <label><input type="checkbox" name="personality" value="Yaratıcı"> Yaratıcı</label><br>
+                                <label><input type="checkbox" name="personality" value="Esnekliğe Uyumlu"> Esnekliğe Uyumlu</label><br>
+                                <label><input type="checkbox" name="personality" value="Meraklı"> Meraklı</label><br>
+                                <label><input type="checkbox" name="personality" value="Sorumluluk Sahibi"> Sorumluluk Sahibi</label><br>
+                                <!-- Diğer kişilik özellikleri... -->
+                            </div>
+                            <div class="modal-footer-custom">
+                                <button id="savePersonality" class="btn btn-primary">Seçimleri Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="personalityInput" name="personalityTraits">
                     <input type="hidden" id="stateInput" name="state" value="" />
                     <button type="submit" id="submitBtn" name="submit" value="CV Oluştur" class="btn-sub">Kaydet</button>
                 </form>
             </div>
         </div>
     </section>
-@*
-    <section id="preview-sc" class="print_area">
-        <div class="container">
-            <div class="preview-cnt">
-                <div class="preview-cnt-l bg-green text-white">
-                    <div class="preview-blk">
-                        <div class="preview-image">
-                            <img src="" alt="" id="image_dsp">
-                        </div>
-                        <div class="preview-item preview-item-name">
-                            <span class="preview-item-val fw-6" id="fullname_dsp"></span>
-                        </div>
-                        <div class="preview-item">
-                            <span class="preview-item-val text-uppercase fw-6 ls-1" id="designation_dsp"></span>
-                        </div>
-                    </div>
-
-                    <div class="preview-blk">
-                        <div class="preview-blk-title">
-                            <h3>about</h3>
-                        </div>
-                        <div class="preview-blk-list">
-                            <div class="preview-item">
-                                <span class="preview-item-val" id="PhoneNumber_dsp"></span>
-                            </div>
-                            <div class="preview-item">
-                                <span class="preview-item-val" id="email_dsp"></span>
-                            </div>
-                            <div class="preview-item">
-                                <span class="preview-item-val" id="address_dsp"></span>
-                            </div>
-                            <div class="preview-item">
-                                <span class="preview-item-val" id="Summary_dsp"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="preview-blk">
-                        <div class="preview-blk-title">
-                            <h3>skills</h3>
-                        </div>
-                        <div class="skills-items preview-blk-list" id="skills_dsp">
-                            <!-- skills list here -->
-                        </div>
-                    </div>
-                </div>
-
-                <div class="preview-cnt-r bg-white">
-                    <div class="preview-blk">
-                        <div class="preview-blk-title">
-                            <h3>Achievements</h3>
-                        </div>
-                        <div class="achievements-items preview-blk-list" id="achievements_dsp"></div>
-                    </div>
-
-                    <div class="preview-blk">
-                        <div class="preview-blk-title">
-                            <h3>educations</h3>
-                        </div>
-                        <div class="educations-items preview-blk-list" id="educations_dsp"></div>
-                    </div>
-
-                    <div class="preview-blk">
-                        <div class="preview-blk-title">
-                            <h3>experiences</h3>
-                        </div>
-                        <div class="experiences-items preview-blk-list" id="experiences_dsp"></div>
-                    </div>
-
-                    <div class="preview-blk">
-                        <div class="preview-blk-title">
-                            <h3>projects</h3>
-                        </div>
-                        <div class="projects-items preview-blk-list" id="projects_dsp"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="print-btn-sc">
-        <div class="container">
-            <button type="button" class="print-btn btn btn-primary" onclick="printCV()">Print CV</button>
-        </div>
-    </section>
-
-    *@
-
 
 
     <!-- jquery cdn -->
@@ -407,20 +384,39 @@
     <!-- Active js -->
     <script src="~/js/form-script.js"></script>
     <script src="~/js/script.js"></script>
-    <script>
-    document.getElementById('submitBtn').addEventListener('click', function() {
-    var confirmation = confirm('CV\'nizi şirketlerle paylaşmak istiyor musunuz?');
 
-    if (confirmation) {
-    // Kullanıcı evet derse, state true yap ve kaydet
-    document.getElementById('stateInput').value = true; // State input alanını true olarak ayarla
-                document.getElementById('cv-form').submit(); // Formu gönder (formun ID'si "myForm" olarak varsayıldı)
-    } else {
-    // Kullanıcı hayır derse, state false yap ve kaydet
-    document.getElementById('stateInput').value = false; // State input alanını false olarak ayarla
-                document.getElementById('cv-form').submit(); // Formu gönder (formun ID'si "myForm" olarak varsayıldı)
-    }
-    });
+    <script>
+        function closeModal() {
+            document.getElementById('personalityModal').style.display = 'none';
+        }
+        document.getElementById('submitBtn').addEventListener('click', function (event) {
+            var confirmation = confirm('CV\'nizi şirketlerle paylaşmak istiyor musunuz?');
+
+            // State input alanının değerini ayarla
+            document.getElementById('stateInput').value = confirmation;
+
+            if (confirmation) {
+                // Kullanıcı 'Evet' dediğinde, form gönderimini engelle ve modalı göster
+                event.preventDefault();
+                document.getElementById('personalityModal').style.display = 'block';
+            } else {
+                // Kullanıcı 'Hayır' dediğinde, form gönderimini engellemeye gerek yok, formu hemen gönder
+                document.getElementById('cv-form').submit();
+            }
+        });
+
+        document.getElementById('savePersonality').addEventListener('click', function () {
+            var selectedPersonalities = [];
+            document.querySelectorAll('input[name="personality"]:checked').forEach(function (checkbox) {
+                selectedPersonalities.push(checkbox.value);
+            });
+
+            document.getElementById('personalityInput').value = selectedPersonalities.join(', ');
+
+            // Kişilik özellikleri seçildikten sonra formu gönder
+            document.getElementById('cv-form').submit();
+        });
+
     </script>
     <script>
     

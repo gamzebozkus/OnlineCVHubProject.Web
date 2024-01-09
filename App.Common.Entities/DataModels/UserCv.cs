@@ -14,6 +14,8 @@ namespace App.Common.Entities.DataModels
         [Key]
         public int CVId { get; set; }
         public string? CvNameSurname { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNum { get; set; }
         public string? Title { get; set; }
         public string? Summary { get; set; }
         public DateTime? CreationDate { get; set; }
@@ -22,6 +24,7 @@ namespace App.Common.Entities.DataModels
         public string? State { get; set; }
         public string? Image { get; set; }
         public bool? IsConfirmed { get; set; }
+        public string? PersonalityTraits { get; set; }
 
         public string? Tags { get; set; }
 
