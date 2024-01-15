@@ -32,6 +32,10 @@ namespace App.Common.Entities.Request
         public string? CvNameSurname { get; set; }
         public string? Email { get; set; }
         public string? PhoneNum { get; set; }
+        public string CompanyId { get; set; }
+        public int CvPoolId { get; set; }
+        public List<string> UniqueDepartments { get; set; }
+        public int DepartmentId { get; set; }
         public List<string> DepartmentName { get; set; }
 		//public List<string> Sonuclar { get; set; } = new List<string>();
         public string? PersonalityTraits { get; set; }

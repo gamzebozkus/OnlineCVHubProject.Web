@@ -28,8 +28,17 @@ namespace App.Common.Entities.Request
 
         public bool RememberMe { get; set; }
         public List<Recommendation> Sonuclar { get; set; }
-
+        public string? CvNameSurname { get; set; }
+     
+        public string? Email { get; set; }
+        public string? Title { get; set; }
+        public string Image { get; set; }
+        public string? Tags { get; set; }
         public List<string> DepartmentName { get; set; }
+        public string CompanyId { get; set; }
+       
+        public int DepartmentId { get; set; }
+        public string? PhoneNum { get; set; }
         //public List<string> Sonuclar { get; set; } = new List<string>();
         public string? PersonalityTraits { get; set; }
         public virtual List<Skill> Skills { get; set; }

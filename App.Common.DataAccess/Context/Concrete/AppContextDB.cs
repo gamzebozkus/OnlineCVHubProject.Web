@@ -39,6 +39,6 @@ namespace App.Common.DataAccess.Context.Concrete
         public virtual DbSet<CompanyInfo> CompanyInfos { get; set; }
         public virtual DbSet<CvTemplates> CvTemplatess { get; set; }
         public virtual DbSet<CvPool> CvPools { get; set; }
-
+        public virtual DbSet<CompanySavedCv> CompanySavedCvs { get; set; }
     }
 }

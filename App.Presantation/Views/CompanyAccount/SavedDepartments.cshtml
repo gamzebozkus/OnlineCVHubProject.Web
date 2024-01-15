@@ -1,0 +1,34 @@
+﻿@model VM_Request_CompanyRegister
+@{
+    ViewData["Title"] = "SavedDepartments";
+    Layout = "~/Views/Shared/_CompanyLayout.cshtml";
+}
+
+<h2>Kaydedilen Cv'lere buradan ulaşabilirsiniz</h2>
+
+
+    <div class="row m-t-25">
+        @foreach (var departmentName in Model.UniqueDepartments)
+        {
+            <div class="col-sm-6 col-lg-3">
+                <div>
+                    <div style="height:230px; width:260px; margin:50px; float:left; background-image:-webkit-linear-gradient(90deg, #ef05ff 0%, #ff2222 100%);" class="overview-item overview-item--c1">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div style="display:flex;" class="icon">
+                                    <i class="zmdi zmdi-account-o"></i>
+                                </div>
+                                <div class="text">
+                                <h2>  <a style="color:#ffff" href="@Url.Action("KaydedilenCvs", "CompanyAccount", new { departmentName = departmentName })">@departmentName</a></h2>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+

@@ -4,6 +4,7 @@ using App.Common.DataAccess.Context.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Common.DataAccess.Migrations
 {
     [DbContext(typeof(AppContextDB))]
-    partial class AppContextDBModelSnapshot : ModelSnapshot
+    [Migration("20240113124159_v15")]
+    partial class v15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,9 +103,8 @@ namespace App.Common.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CompanyId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CvId")
                         .HasColumnType("int");
@@ -111,10 +112,9 @@ namespace App.Common.DataAccess.Migrations
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Gorusme")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("CvId");
 
@@ -660,6 +660,12 @@ namespace App.Common.DataAccess.Migrations
 
             modelBuilder.Entity("App.Common.Entities.DataModels.CompanySavedCv", b =>
                 {
+                    b.HasOne("App.Common.Entities.DataModels.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("App.Common.Entities.DataModels.UserCv", "UserCv")
                         .WithMany()
                         .HasForeignKey("CvId")
@@ -669,6 +675,8 @@ namespace App.Common.DataAccess.Migrations
                     b.HasOne("App.Common.Entities.DataModels.CompanyDepartment", "CompanyDepartment")
                         .WithMany()
                         .HasForeignKey("DepartmentId");
+
+                    b.Navigation("Company");
 
                     b.Navigation("CompanyDepartment");
 

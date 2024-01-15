@@ -32,15 +32,21 @@
             transform: translate(-50%, -50%);
             background-color: white;
             padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            box-shadow: -21px 24px 71px 10px rgb(6 5 5);
         }
     </style>
+    <link href="~/admincss/cvcard.css" rel="stylesheet" />
 </head>
-<h1>CvAra</h1>
+
+
 <div class="col-lg-6">
-    <div class="card">
-        <div class="card-header">
-            <strong>Basic Form</strong> Elements
+    <div class="card" style="width: 125vh;
+        background: linear-gradient(to right, #1a1a1a, #665f61);
+         border-width: 7px;
+         border-radius: 30px;
+box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
+        <div class="card-header" style="border-radius:33px;">
+            <strong>CV ARAMA FORMU</strong>
         </div>
         <div class="card-body card-block">
             <form action="@Url.Action("CvAra", "CompanyAccount")" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -52,7 +58,7 @@
                     <div class="col-12 col-md-9">
                         @if (Model.DepartmentName != null)
                         {
-                            <p class="form-control-static" name="departmanName">@Model.DepartmentName.FirstOrDefault()</p>
+                            <p style="color:navajowhite; font-weight:100;" class="form-control-static" name="departmanName">@Model.DepartmentName.FirstOrDefault()</p>
                             <input type="hidden" name="departmentName" value="@Model.DepartmentName.FirstOrDefault()" />
                         }
                         else
@@ -70,7 +76,8 @@
                         <div id="skills-container">
                             <input type="text" id="skills" name="skills[]" placeholder="MS Excel vs. gibi" class="form-control">
                         </div>
-                        <button type="button" id="add-skill" class="btn btn-primary">Yetenek Ekle</button>
+                        <br />
+                        <button type="button" style="background-color:#440bb2" id="add-skill" class="btn btn-primary">Yetenek Ekle</button>
 
                     </div>
                 </div>
@@ -82,9 +89,11 @@
                     </div>
                     <div class="col-12 col-md-9">
                         <div id="languages-container">
-                            <input type="text" id="languages" name="languages[]" placeholder="İngilizce vs. gibi" class="form-control">
+                            <input type="text" id="languages" name="languages[]" placeholder="İngilizce vs. gibi" class="form-control"> 
+
                         </div>
-                        <button type="button" id="add-language" class="btn btn-primary">Dil Ekle</button>
+                        <br/>
+                        <button type="button" style="background-color:#440bb2" id="add-language" class="btn btn-primary">Dil Ekle</button>
 
                     </div>
                 </div>
@@ -119,17 +128,16 @@
                         </select>
                     </div>
                 </div>
+                <br />
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-sm">
-                        <i class="fa fa-dot-circle-o"></i> Submit
+
+                    <button type="submit" class="btn btn-primary btn-sm" style="background-color:#440bb2">
+                        <i class="fa fa-dot-circle-o"></i> Ara
                     </button>
                 </div>
 
             </form>
-       
-            <button type="reset" class="btn btn-danger btn-sm">
-                <i class="fa fa-ban"></i> Reset
-            </button>
+      
         </div>
     </div>
   
@@ -138,27 +146,40 @@
     @if (Model.Sonuclar != null && Model.Sonuclar.Any())
     {
         <h2>Sonuçlar</h2>
-        <div class="sonuc-kartlari">
+  <div class="kart">
             @foreach (var sonuc in Model.Sonuclar)
             {
-                <a href="@Url.Action("GetCvDetails", "CompanyAccount", new { cvId = sonuc.CvId })">
-                    <div class="sonuc-karti">
-                        <p>@sonuc.CvId</p>
-                    </div>
-                </a>
+               
+                    
+                        <div class="business-card clearfix">
+                            <div class="business-card-profile">
+                                <img class="business-card-pic" src="@sonuc.Image" alt="profile picture" />
+                                <br>
+                        <p class="business-card-name">@sonuc.CvNameSurname</p>
+                                <br>
+                                <p class="business-card-title">@sonuc.Title</p>
+                            </div>
+                            <div class="business-card-arrow"></div>
+                            <div class="business-card-details">
+                                <p><i class="fa fa-desktop"></i><a class="business-card-link" href=" @Url.Action("GetCvDetails", "CompanyAccount", new { cvId = sonuc.CvId })">Cv'ye Ulaşmak için tıklayınız</a></p>
+                              
+                                <p><i class="fa fa-phone"></i>@sonuc.PhoneNum</p>
+                                <p><i class="fa fa-phone"></i>@sonuc.Email</p>
+                          
+                                <p><i class="fa fa-hashtag"></i>@sonuc.Tags</p>
+                              
+                            </div>
+                        </div>
+                        
+
+                 <br />
+          
             }
-        </div>
+ </div>
     }
 </div>
-<div class="cv-detay-popup">
-    <div class="cv-detay-icerik">
-        <h3>CV Detayları</h3>
-        <p><strong>Adı Soyadı:</strong> @Model.CvNameSurname</p>
-        <p><strong>E-posta:</strong> @Model.Email</p>
-        <p><strong>Telefon Numarası:</strong> @Model.PhoneNum</p>
-        <!-- Diğer CV detaylarını burada görüntüleyin -->
-    </div>
-</div>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.getElementById('add-skill').addEventListener('click', function () {

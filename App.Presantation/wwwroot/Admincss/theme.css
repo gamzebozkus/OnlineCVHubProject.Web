@@ -1399,6 +1399,7 @@ section {
 
 .account-wrap {
     position: relative;
+    margin-left:600px;
 }
 
 .account-item {
@@ -3152,24 +3153,27 @@ section {
 }
 
 .overview-item--c1 {
-    background-image: -moz-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
-    background-image: -webkit-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
-    background-image: -ms-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);
+    height: 260px;
+    background-image:-webkit-linear-gradient(90deg, #3f5efb 0%, #000000 100%)
+   
 }
 
 .overview-item--c2 {
+    height: 260px;
     background-image: -moz-linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
     background-image: -webkit-linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
     background-image: -ms-linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
 }
 
 .overview-item--c3 {
+    height: 260px;
     background-image: -moz-linear-gradient(90deg, #ee0979 0%, #ff6a00 100%);
     background-image: -webkit-linear-gradient(90deg, #ee0979 0%, #ff6a00 100%);
     background-image: -ms-linear-gradient(90deg, #ee0979 0%, #ff6a00 100%);
 }
 
 .overview-item--c4 {
+    height: 260px;
     background-image: -moz-linear-gradient(90deg, #45b649 0%, #dce35b 100%);
     background-image: -webkit-linear-gradient(90deg, #45b649 0%, #dce35b 100%);
     background-image: -ms-linear-gradient(90deg, #45b649 0%, #dce35b 100%);

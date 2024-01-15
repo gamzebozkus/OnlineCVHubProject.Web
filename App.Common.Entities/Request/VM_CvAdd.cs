@@ -37,6 +37,17 @@ namespace App.Common.Entities.Request
 
         [ForeignKey(nameof(UserId))]
         public virtual tblUser tblUser { get; set; }
+        public int CompanyId { get; set; }
+        [ForeignKey(nameof(CompanyId))]
+        public virtual Company Company { get; set; }
+        public int CvPoolId { get; set; }
+        public string CvId { get; set; }
+        [ForeignKey(nameof(CvId))]
+        public virtual UserCv UserCv { get; set; }
+
+        [ForeignKey(nameof(CvId))]
+        public virtual CvPool CvPool { get; set; }
+        public int DepartmentId { get; set; }
 
         public virtual List<EducationInfo> EducationInfos { get; set; }
         public virtual List<Experience> Experiences { get; set; }

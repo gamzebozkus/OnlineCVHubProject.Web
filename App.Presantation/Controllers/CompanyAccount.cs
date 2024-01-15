@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.ComponentModel.Design;
+using System.Globalization;
 
 namespace App.Presantation.Controllers
 {
-	public class CompanyAccount : Controller
-	{
+    public class CompanyAccount : Controller
+    {
         private readonly SignInManager<tblUser> _signInManager;
         private readonly UserManager<tblUser> _userManager;
         private readonly IUserStore<tblUser> _userStore;
@@ -57,7 +60,7 @@ namespace App.Presantation.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var values =  await _userManager.FindByEmailAsync(User.Identity.Name);
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
             var departmentNames = _context.CompanyDepartments
                             .Where(d => d.CompanyId == values.Id)
@@ -66,7 +69,7 @@ namespace App.Presantation.Controllers
             var info = new VM_Request_CompanyRegister
             {
                 CompanyName = companyInfo.CompanyName,
-                CompanyMail=values.Email,
+                CompanyMail = values.Email,
                 DepartmentName = departmentNames,
             };
 
@@ -158,7 +161,7 @@ namespace App.Presantation.Controllers
         {
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
-            
+
 
             var info = new VM_Request_CompanyRegister
             {
@@ -166,11 +169,11 @@ namespace App.Presantation.Controllers
                 CompanyMail = values.Email,
                 DepartmentName = new List<string> { departmentName },
             };
-           
+
             return View(info);
         }
         [HttpPost]
-        public async Task<IActionResult> CvAra(VM_Request_CompanyRegister model, string[] skills, string[] languages, string departmentName, string experienceLevel,string ozellik)
+        public async Task<IActionResult> CvAra(VM_Request_CompanyRegister model, string[] skills, string[] languages, string departmentName, string experienceLevel, string ozellik, string phoneNum)
         {
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
@@ -178,6 +181,9 @@ namespace App.Presantation.Controllers
             model.CompanyName = companyInfo.CompanyName;
             model.CompanyMail = values.Email;
             model.DepartmentName = new List<string> { departmentName };
+
+            var companyDepartment = await _context.CompanyDepartments.FirstOrDefaultAsync(d => d.DepartmentName == departmentName);
+            int departmentId = companyDepartment?.Id ?? 0;
 
             // skills ve languages değerlerini birleştir
             string aranacakSkills = string.Join(",", skills);
@@ -192,23 +198,48 @@ namespace App.Presantation.Controllers
                 var content = await response.Content.ReadAsStringAsync();
                 var sonuclar = JsonConvert.DeserializeObject<List<Recommendation>>(content);
                 model.Sonuclar = sonuclar;
-               
-            }
 
+            }
+            TempData["DepartmanId"] = departmentId;
             return View(model);
         }
         [HttpGet]
-        public IActionResult GetCvDetails(int cvId)
+        public async Task<IActionResult> GetCvDetails(int cvId)
         {
             // cvId'ye göre ilgili CV detaylarını veritabanından alın
-            var cvDetails = _context.UserCVs.FirstOrDefault(cv => cv.CVId == cvId);
-
-            if (cvDetails == null)
+            var cv = await _context.UserCVs.FirstOrDefaultAsync(c => c.CVId == cvId);
+            var experiences = await _context.Experiences.Where(e => e.CVId == cvId).ToListAsync();
+            var educations = await _context.EducationInfos.Where(e => e.CVId == cvId).ToListAsync();
+            var skill = await _context.Skills.Where(e => e.CVId == cvId).ToListAsync();
+            var hobi = await _context.Hobbies.Where(e => e.CVId == cvId).ToListAsync();
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+            var info = new VM_CvAdd
             {
-                return NotFound();
-            }
+                CvNameSurname = cv.CvNameSurname,
+                Title = cv.Title,
+                Summary = cv.Summary,
+                CreationDate = cv.CreationDate,
+                Address = cv.Address,
+                Email = cv.Email,
+                PhoneNum = cv.PhoneNum,
+                tblUser = cv.tblUser,
+                Experiences = experiences,
+                EducationInfos = educations,
+                Skills = skill,
+                Hobbies = hobi,
 
-            return PartialView("_GetCvDetails", cvDetails); // CV detaylarını bir kısmi görünüm olarak döndürün
+
+            };
+            TempData["CvId"] = cvId;
+            TempData["CompanyId"] = companyInfo.CompanyId;
+
+            //if (cvDetails == null)
+            //{
+            //    return NotFound();
+            //}
+
+            return PartialView("_GetCvDetails", info); // CV detaylarını bir kısmi görünüm olarak döndürün
         }
 
 
@@ -223,10 +254,150 @@ namespace App.Presantation.Controllers
             {
                 CompanyName = companyInfo.CompanyName,
                 CompanyMail = values.Email,
-  
+
             };
 
             return View(info);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteDepartment(string departmentName)
+        {
+            var department = _context.CompanyDepartments.FirstOrDefault(d => d.DepartmentName == departmentName);
+            if (department != null)
+            {
+                _context.CompanyDepartments.Remove(department);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "CompanyAccount");
+        }
+
+        [HttpPost]
+        public IActionResult Kaydet(int CvId, string CompanyId, int DepartmentId)
+        {
+            var existingCv = _context.CompanySavedCvs.FirstOrDefault(c => c.CvId == CvId);
+            if (existingCv == null)
+            {
+                var companySavedCv = new CompanySavedCv
+                {
+                    CvId = CvId,
+                    CompanyId = CompanyId,
+                    DepartmentId = DepartmentId,
+                };
+
+                _context.CompanySavedCvs.Add(companySavedCv);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "CV basariyla kaydedildi.";
+            }
+            else
+            {
+                TempData["WarningMessage"] = "Bu CV mevcut.Tekrardan kaydedilemez.";
+            }
+
+            // Aynı sayfayı tekrar yükle
+            return RedirectToAction("GetCvDetails", new { cvId = CvId }); // 'model' sayfanın modelidir.
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> KaydedilenCvs(string departmentName)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var companyInfo = await _context.CompanyInfos.FirstOrDefaultAsync(i => i.CompanyId == user.Id);
+
+            var department = await _context.CompanyDepartments.FirstOrDefaultAsync(d => d.DepartmentName == departmentName);
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            var savedCvs = await _context.CompanySavedCvs
+                                 .Where(c => c.CompanyId == companyInfo.CompanyId && c.DepartmentId == department.Id)
+                                 .OrderByDescending(c => c.Id) // En son kaydedilen CV'leri en başta getir
+                                 .ToListAsync();
+
+            var sonuclar = new List<Recommendation>();
+            foreach (var savedCv in savedCvs)
+            {
+                var cv = await _context.UserCVs.FirstOrDefaultAsync(c => c.CVId == savedCv.CvId);
+                if (cv != null)
+                {
+                    sonuclar.Add(new Recommendation
+                    {
+                        CvId = cv.CVId.ToString(),
+                        CvNameSurname = cv.CvNameSurname,
+                        Title = cv.Title,
+                        Image=cv.Image,
+                        PhoneNum=cv.PhoneNum,
+                        Email=cv.Email,
+                        DepartmentId=department.Id,
+                        
+                    });
+                }
+            }
+
+            var info = new VM_Request_CompanyRegister
+            {
+                CompanyName = companyInfo.CompanyName,
+                CompanyMail = user.Email,
+                Sonuclar = sonuclar
+            };
+
+            return View(info);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateCvState(string cvId, bool state, int departmentId)
+        {
+            if (string.IsNullOrEmpty(cvId))
+            {
+                return BadRequest("CV ID boş olamaz.");
+            }
+
+            // İlgili CV'yi bulun
+            var cvSaved = await _context.CompanySavedCvs.FirstOrDefaultAsync(c => c.CvId.ToString() == cvId);
+            if (cvSaved == null)
+            {
+                return NotFound("Belirtilen CV bulunamadı.");
+            }
+
+            // Durumu güncelleyin
+            cvSaved.Gorusme = state;
+
+            // Veritabanında değişiklikleri kaydedin
+            await _context.SaveChangesAsync();
+
+            // DepartmanId'yi DepartmanName'e çevirin
+            //var department = await _context.CompanySavedCvs.FirstOrDefaultAsync(d => d.DepartmentId == departmentId);
+            var qq = await _context.CompanyDepartments.FirstOrDefaultAsync(a => a.Id == departmentId);
+            var departmentName = qq.DepartmentName;                         // kullanabilirsiniz
+
+            // İlgili departmana yönlendirin
+            return RedirectToAction("KaydedilenCvs", new { departmentName });
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> SavedDepartments()
+        {
+            var savedCvs = await _context.CompanySavedCvs.ToListAsync();
+            var uniqueDepartments = new HashSet<string>();
+
+            foreach (var savedCv in savedCvs)
+            {
+                var department = await _context.CompanyDepartments.FirstOrDefaultAsync(d => d.Id == savedCv.DepartmentId);
+                if (department != null)
+                {
+                    uniqueDepartments.Add(department.DepartmentName);
+                }
+            }
+
+            var viewModel = new VM_Request_CompanyRegister
+            {
+                UniqueDepartments = uniqueDepartments.ToList()
+            };
+
+            return View(viewModel);
         }
     }
 }

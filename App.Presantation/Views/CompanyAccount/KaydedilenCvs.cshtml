@@ -1,0 +1,294 @@
+﻿@model VM_Request_CompanyRegister
+@{
+    ViewData["Title"] = "KaydedilenCvs";
+    Layout = "~/Views/Shared/_CompanyLayout.cshtml";
+}
+<head>
+    <style>
+        a:hover{
+            color: #b1ff09;
+        }
+        .sonuc-kartlari {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Kartlar arasındaki boşluk */
+        }
+
+        .sonuc-karti {
+            cursor: pointer;
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-width: 150px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+            .sonuc-karti:hover {
+                transform: scale(1.1); /* Kartı büyütme efekti */
+            }
+
+        .cv-detay-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: -21px 24px 71px 10px rgb(6 5 5);
+        }
+
+.business-card {
+    width: 514px;
+    height: 308px;
+            background: #2b2f37;
+    position: relative;
+    border-radius: 50px;
+}
+
+.business-card-profile {
+    float: left;
+            background: #567582;
+    width: 200px;
+    height: 308px;
+}
+
+/* grayscale thanks to http://thenewcode.com/532/Convert-Images-To-Black-And-White-With-CSS */
+
+.business-card-pic {
+    width: 100px;
+    display: block;
+    padding: 3px;
+    background: #303236;
+    border-radius: 100px;
+    border: solid 7px #54575f;
+    margin: 0 auto;
+    margin-top: 50px;
+  /*  -webkit-filter: grayscale(100%);*/
+    /*filter: grayscale(100%);
+    filter: gray;
+    filter: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' height='0'><filter id='greyscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0' /></filter></svg>#greyscale");*/
+}
+
+.business-card-name, .business-card-title {
+    line-height: 0px;
+    text-align: center;
+    font-family: "dosis";
+    color: white;
+    font-size: 20px;
+}
+
+.business-card-name {
+    font-weight: bold;
+}
+
+.business-card-title {
+    color: #999999;
+    line-height: 5px;
+    font-size: 16px;
+}
+
+/* arrow thanks to : https://jsfiddle.net/josedvq/3HG6d/ */
+
+.business-card-arrow {
+    width: 0;
+    height: 0;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 3%;
+    overflow: hidden;
+    position: absolute;
+    top: calc(50% - 20px);
+    left: 200px;
+}
+
+    .business-card-arrow:after {
+        content: "";
+        display: block;
+        width: 0;
+        height: 0;
+        margin-top: -20px;
+        margin-left: -20px;
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-left: 20px solid #3D4045;
+    }
+
+/* -----------------
+  Details(right side)
+ ------------------- */
+.business-card-details {
+    float: right;
+    font-family: "Montserrat";
+    color: #e6e6e6;
+    font-size: 13px;
+    line-height: 20px;
+    width: 280px;
+    height: 283px;
+    display: inline-block;
+    overflow: hidden;
+    margin-top: 25px;
+}
+
+    .business-card-details .fa {
+        color: #d9d9d9;
+        width: 20px;
+        font-size: 20px;
+        text-align: center;
+        margin-right: 10px;
+    }
+
+.business-card-link {
+    color: white;
+    text-decoration: none;
+}
+
+.clearfix {
+    overflow: auto;
+    zoom: 1;
+}
+.kart{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-gap:10px;
+}
+label {
+    color: navajowhite;
+}
+        /* Olumlu düğme */
+        .btn-positive {
+            background-color: #112e0c; /* Koyu yeşil */
+            color: white;
+            transition: background-color 0.3s ease-in-out;
+            width: 150px;
+            height: 50px;
+            border-radius: 12px;
+        }
+
+            .btn-positive:hover {
+                background-color: #1b5e20; /* Daha açık bir yeşil tonu */
+            }
+
+
+        /* Olumsuz düğme */
+        .btn-negative {
+            background-color: #4a1818; /* Koyu kırmızı */
+            color: white;
+            transition: background-color 0.3s ease-in-out;
+            width: 150px;
+            height: 50px;
+            border-radius: 12px;
+        }
+
+            .btn-negative:hover {
+                background-color: #b71c1c; /* Daha açık bir kırmızı tonu */
+            }
+    </style>
+    <link href="~/admincss/cvcard.css" rel="stylesheet" />
+</head>
+
+<div class="sonuc-bolumu">
+    @if (Model.Sonuclar != null && Model.Sonuclar.Any())
+    {
+        <div class="kart">
+            @foreach (var sonuc in Model.Sonuclar)
+            {
+                <div class="business-card clearfix" style=" background: #2b2f37;">
+                    <div class="business-card-profile" style="background: #567582;">
+                        <img class="business-card-pic" src="@sonuc.Image" alt="profile picture" />
+                        <br>
+                        <p class="business-card-name">@sonuc.CvNameSurname</p>
+                        <br>
+                        <p class="business-card-title">@sonuc.Title</p>
+                    </div>
+                    <div class="business-card-arrow"></div>
+                    <div class="business-card-details">
+                        <p><i class="fa fa-desktop"></i><a class="business-card-link" href="@Url.Action("GetCvDetails", "CompanyAccount", new { cvId = sonuc.CvId })">Cv'ye Ulaşmak için tıklayınız</a></p>
+
+                        <p><i class="fa fa-phone"></i>@sonuc.PhoneNum</p>
+                        <p><i class="fa fa-mail"></i>@sonuc.Email</p>
+                        <br>
+                        <!-- Butonları submit inputlarına çevirin -->
+                        <form class="cvStateForm" method="post" action="/CompanyAccount/UpdateCvState">
+                            @Html.Hidden("cvId", sonuc.CvId)
+                            @Html.Hidden("state", true) <!-- Olumlu veya Olumsuz değeri burada değişecek -->
+                    @Html.Hidden("departmentId", sonuc.DepartmentId)
+                            <input type="submit" class="btn-positive" value="Olumlu Görüşme" data-state="true" />
+                        </form>
+                        <br>
+                        <!-- Olumsuz düğme -->
+                        <form class="cvStateForm" method="post" action="/CompanyAccount/UpdateCvState">
+                            @Html.Hidden("cvId", sonuc.CvId)
+                            @Html.Hidden("state", false) <!-- Olumlu veya Olumsuz değeri burada değişecek -->
+                    @Html.Hidden("departmentId", sonuc.DepartmentId)
+                            <input type="submit" class="btn-negative" value="Olumsuz Görüşme" data-state="false" />
+                        </form>
+                    </div>
+                </div>
+
+                <br />
+            }
+        </div>
+    }
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+    $(document).on('click', '.btn-positive', function () {
+        var state = $(this).data('state'); // "true"
+        var departmentId = $(this).closest('form.cvStateForm').find('input[name="departmentId"]').val(); // departmanId'yi al
+        $(this).closest('form.cvStateForm').find('input[name="state"]').val(state); // Sadece bu formun içindeki "state" inputuna "true" ata
+        $(this).closest('form.cvStateForm').find('input[name="departmentId"]').val(departmentId); // Sadece bu formun içindeki "departmentId" inputuna departmanId'yi ata
+    });
+
+    $(document).on('click', '.btn-negative', function () {
+        var state = $(this).data('state'); // "false"
+        var departmentId = $(this).closest('form.cvStateForm').find('input[name="departmentId"]').val(); // departmanId'yi al
+        $(this).closest('form.cvStateForm').find('input[name="state"]').val(state); // Sadece bu formun içindeki "state" inputuna "false" ata
+        $(this).closest('form.cvStateForm').find('input[name="departmentId"]').val(departmentId); // Sadece bu formun içindeki "departmentId" inputuna departmanId'yi ata
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Sayfa yüklendiğinde Local Storage'dan değerleri oku ve buton renklerini ayarla
+        $('.btn-positive, .btn-negative').each(function () {
+            var cvId = $(this).closest('form').find('input[name="cvId"]').val();
+            var storedState = localStorage.getItem('cvState_' + cvId);
+            if (storedState !== null) {
+                updateButtonColor($(this).closest('.business-card'), storedState === 'true');
+            }
+        });
+
+        // Butonlara tıklandığında çalışacak fonksiyon
+        $('.btn-positive, .btn-negative').click(function () {
+            var button = $(this);
+            var isPositive = button.hasClass('btn-positive');
+            var card = button.closest('.business-card');
+            var cvId = button.closest('form').find('input[name="cvId"]').val();
+
+            // Local Storage'a değeri kaydet
+            localStorage.setItem('cvState_' + cvId, isPositive);
+
+            // Diğer butonların renklerini sıfırla ve tıklanan butonun rengini ayarla
+            updateButtonColor(card, isPositive);
+
+            // Formdaki 'state' değerini güncelle
+            button.closest('form').find('input[name="state"]').val(isPositive);
+        });
+
+        // Buton renklerini güncelleme fonksiyonu
+        function updateButtonColor(card, isPositive) {
+            card.find('.btn-positive, .btn-negative').css('background-color', ''); // Tüm butonların rengini sıfırla
+
+            if (isPositive) {
+                card.find('.btn-positive').css('background-color', '#23d92a'); // Olumlu için yeşil
+            } else {
+                card.find('.btn-negative').css('background-color', '#f33415'); // Olumsuz için kırmızı
+            }
+        }
+    });
+</script>
+
+  
+

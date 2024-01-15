@@ -39,7 +39,7 @@ def oneri_sistemi(aranacakTag, title):
     df['similarity'] = cos_sim[0]
     sorted_df = df.sort_values(by='similarity', ascending=False)
     
-    return sorted_df[['CVId', 'similarity']]
+    return sorted_df[['CVId', 'similarity','PhoneNum','Email','CvNameSurname','Image','Title','Tags']]
 
 @app.route('/tavsiye', methods=['GET'])
 def tavsiye():
