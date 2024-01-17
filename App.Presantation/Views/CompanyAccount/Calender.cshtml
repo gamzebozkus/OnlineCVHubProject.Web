@@ -1,49 +1,49 @@
 ﻿@model VM_Request_CompanyRegister
 
 @{
-    ViewData["Title"] = "Calender";
+    ViewData["Title"] = "Calendar";
     Layout = "~/Views/Shared/_CompanyLayout.cshtml";
 }
-<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.css" rel="stylesheet">
 
+<link href="~/lib/fullcalendar-5.11.3/lib/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar-5.11.3/lib/main.min.css" rel="stylesheet" />
 
-<!-- fullCalendar -->
+<div id='calendar'></div>
 
-
-<div id="calendar"></div>
-@*@foreach (var meeting in Model.Meetings)
-{
-    <p>@meeting.MeetingSubject - @meeting.MeetingDate - @meeting.MeetingTime</p>
-}
-*@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.js"></script>
+<script src="~/lib/fullcalendar-5.11.3/lib/main.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#calendar').fullCalendar({
-            header: {
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            events: [
-    @foreach (var meeting in Model.Meetings)
-    {
-        @:{
-        @:title: '@Html.Raw(meeting.MeetingSubject)',
-        @:start: '@(meeting.MeetingDate != null ? meeting.MeetingDate.Value.ToString("yyyy-MM-dd") + "T" + (meeting.MeetingTime != null ? meeting.MeetingTime.Value.ToString(@"hh\:mm\:ss") : "") : "")',
-        @:allDay: false // veya true, toplantının tüm gün sürüp sürmediğine bağlı olarak
-        @: },
-    }
-                ],
-            eventRender: function (event, element) {
-                // Tarih ve saat biçimini düzenlemek için moment.js kullanımı
-                var start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
-                element.find('.fc-title').text(event.title);
-                element.find('.fc-time').html(start);
+            initialDate: new Date(), // Şu anki yılı göster
+            navLinks: true, // Gün/hafta adlarına tıklanabilir
+            selectable: true,
+            editable: true,
+            dayMaxEvents: true, // Çok sayıda etkinlik olduğunda "daha fazla" bağlantısı göster
+            events: function (fetchInfo, successCallback, failureCallback) {
+                $.ajax({
+                    url: '/CompanyAccount/GetMeetings', // Veritabanından toplantıları çekeceğiniz controller ve action
+                    dataType: 'json',
+                    success: function (response) {
+                        var events = response.map(function (meeting) {
+                            return {
+                                id: meeting.id,
+                                title: meeting.title,
+                                start: meeting.start,
+                                allDay: meeting.allDay
+                            };
+                        });
+                        successCallback(events);
+                    }
+                });
             }
-            });
         });
+        calendar.render();
+    });
 </script>
-

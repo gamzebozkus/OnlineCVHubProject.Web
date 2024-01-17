@@ -561,5 +561,23 @@ namespace App.Presantation.Controllers
                 return Json(new { success = false, message = "CV bulunamadı." });
             }
         }
+        [HttpGet]
+        public JsonResult GetMeetings()
+        {
+            var meetings = _context.CompanySavedCvs
+                .Where(cv => cv.MeetingDate != null) // Sadece toplantı tarihi olan kayıtları seç
+                .Select(cv => new
+                {
+                    id = cv.CvId, // Her toplantının benzersiz bir ID'si olmalı
+                    title = cv.MeetingSubject,
+                    start = cv.MeetingDate.Value.ToString("yyyy-MM-dd") + "T" + (cv.MeetingTime != null ? cv.MeetingTime.Value.ToString(@"hh\:mm\:ss") : ""),
+                    allDay = false // Bu örnekte tüm gün süren etkinlikler yok
+                })
+                .ToList();
+
+            return Json(meetings);
+        }
+
+
     }
 }
