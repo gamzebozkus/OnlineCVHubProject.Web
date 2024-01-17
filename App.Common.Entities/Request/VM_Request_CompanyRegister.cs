@@ -41,6 +41,8 @@ namespace App.Common.Entities.Request
         public string? PersonalityTraits { get; set; }
         public virtual List<Skill> Skills { get; set; }
         public double Similarity { get; set; }
+        public List<VM_Meeting> Meetings { get; set; }
+
         public virtual List<Language> Languages { get; set; }
         public string CvId { get; set; }
 

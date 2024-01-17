@@ -18,6 +18,17 @@ namespace App.Common.Entities.DataModels
 
         public bool? Gorusme { get; set; }
 
+        public string? Notes { get; set; }
+
+        // Toplantı tarihi
+        public DateTime? MeetingDate { get; set; }
+
+        // Toplantı saati
+        public TimeSpan? MeetingTime { get; set; }
+
+        // Toplantı konusu
+        public string? MeetingSubject { get; set; }
+
         [ForeignKey("CompanyDepartment")]
         public int? DepartmentId { get; set; }
 

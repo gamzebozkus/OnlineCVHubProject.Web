@@ -4,6 +4,7 @@ using App.Common.DataAccess.Context.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Common.DataAccess.Migrations
 {
     [DbContext(typeof(AppContextDB))]
-    partial class AppContextDBModelSnapshot : ModelSnapshot
+    [Migration("20240115185029_v19")]
+    partial class v19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,18 +118,6 @@ namespace App.Common.DataAccess.Migrations
 
                     b.Property<DateTime?>("GorusmeTarihi")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("MeetingDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MeetingSubject")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeSpan?>("MeetingTime")
-                        .HasColumnType("time");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

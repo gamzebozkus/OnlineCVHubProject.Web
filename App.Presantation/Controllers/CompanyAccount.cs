@@ -81,11 +81,37 @@ namespace App.Presantation.Controllers
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
 
+
             var info = new VM_Request_CompanyRegister
             {
                 CompanyName = companyInfo.CompanyName,
-                CompanyMail = values.Email
+                CompanyMail = values.Email,
+
             };
+            // Veritabanından verileri sorgula (Bu kısım projenize göre değişiklik gösterecektir)
+            var gorusmeVerileri = _context.CompanySavedCvs
+    .Where(c => c.GorusmeTarihi != null) // Görüşme tarihi null olmayan kayıtlar
+    .Select(c => new
+    {
+        Tarih = c.GorusmeTarihi.Value,
+        Durum = c.Gorusme.HasValue && c.Gorusme.Value // Görüşme durumu (true/false)
+    })
+    .ToList();
+
+
+            // Verileri işle
+            var aylikGorusmeler = gorusmeVerileri.GroupBy(g => new { g.Tarih.Year, g.Tarih.Month })
+                                                .Select(group => new
+                                                {
+                                                    Yil = group.Key.Year,
+                                                    Ay = group.Key.Month,
+                                                    Olumlu = group.Count(g => g.Durum == true),
+                                                    Olumsuz = group.Count(g => g.Durum == false)
+                                                })
+                                                .ToList();
+
+            // Verileri view'a aktar
+            ViewBag.AylikGorusmeler = aylikGorusmeler;
 
             return View(info);
         }
@@ -105,16 +131,26 @@ namespace App.Presantation.Controllers
         public async Task<IActionResult> Calender()
         {
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
-            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+            var companyInfo = await _context.CompanyInfos.FirstOrDefaultAsync(i => i.CompanyId == values.Id);
+
+            // Toplantı verilerini çekiyoruz ve MeetingViewModel'ine dolduruyoruz
+            var meetingViewModels = _context.CompanySavedCvs.Select(cv => new VM_Meeting
+            {
+                MeetingSubject = cv.MeetingSubject,
+                MeetingDate = cv.MeetingDate,
+                MeetingTime = cv.MeetingTime
+            }).ToList();
 
             var info = new VM_Request_CompanyRegister
             {
-                CompanyName = companyInfo.CompanyName,
-                CompanyMail = values.Email
+                CompanyName = companyInfo?.CompanyName,
+                CompanyMail = values.Email,
+                Meetings = meetingViewModels // Toplantı verilerini VM_Request_CompanyRegister içinde kullanmak için atıyoruz
             };
 
             return View(info);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> DepartmenAdd()
@@ -173,7 +209,7 @@ namespace App.Presantation.Controllers
             return View(info);
         }
         [HttpPost]
-        public async Task<IActionResult> CvAra(VM_Request_CompanyRegister model, string[] skills, string[] languages, string departmentName, string experienceLevel, string ozellik, string phoneNum)
+        public async Task<IActionResult> CvAra(VM_Request_CompanyRegister model, string[] skills, string[] languages, string departmentName, string experienceLevel, string phoneNum, string[] ozellik)
         {
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
@@ -188,7 +224,11 @@ namespace App.Presantation.Controllers
             // skills ve languages değerlerini birleştir
             string aranacakSkills = string.Join(",", skills);
             string aranacakLanguages = string.Join(",", languages);
-            string aranacakTags = $"{aranacakSkills},{aranacakLanguages},{experienceLevel},{ozellik}";
+
+            // Seçilen özellikleri birleştir
+            string aranacakOzellik = string.Join(",", ozellik);
+
+            string aranacakTags = $"{aranacakSkills},{aranacakLanguages},{experienceLevel},{aranacakOzellik}";
 
             var httpClient = new HttpClient();
             var response = await httpClient.GetAsync($"http://localhost:5000/tavsiye?aranacakTag={aranacakTags}&title={departmentName}");
@@ -197,12 +237,12 @@ namespace App.Presantation.Controllers
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var sonuclar = JsonConvert.DeserializeObject<List<Recommendation>>(content);
-                model.Sonuclar = sonuclar;
-
+                model.Sonuclar = sonuclar.Where(s => s.Similarity > 0).ToList();
             }
             TempData["DepartmanId"] = departmentId;
             return View(model);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetCvDetails(int cvId)
         {
@@ -240,6 +280,44 @@ namespace App.Presantation.Controllers
             //}
 
             return PartialView("_GetCvDetails", info); // CV detaylarını bir kısmi görünüm olarak döndürün
+        }
+        [HttpGet]
+        public async Task<IActionResult> CvDetails(int cvId)
+        {
+            // cvId'ye göre ilgili CV detaylarını veritabanından alın
+            var cv = await _context.UserCVs.FirstOrDefaultAsync(c => c.CVId == cvId);
+            var experiences = await _context.Experiences.Where(e => e.CVId == cvId).ToListAsync();
+            var educations = await _context.EducationInfos.Where(e => e.CVId == cvId).ToListAsync();
+            var skill = await _context.Skills.Where(e => e.CVId == cvId).ToListAsync();
+            var hobi = await _context.Hobbies.Where(e => e.CVId == cvId).ToListAsync();
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+            var info = new VM_CvAdd
+            {
+                CvNameSurname = cv.CvNameSurname,
+                Title = cv.Title,
+                Summary = cv.Summary,
+                CreationDate = cv.CreationDate,
+                Address = cv.Address,
+                Email = cv.Email,
+                PhoneNum = cv.PhoneNum,
+                tblUser = cv.tblUser,
+                Experiences = experiences,
+                EducationInfos = educations,
+                Skills = skill,
+                Hobbies = hobi,
+
+
+            };
+            TempData["CvId"] = cvId;
+            TempData["CompanyId"] = companyInfo.CompanyId;
+
+            //if (cvDetails == null)
+            //{
+            //    return NotFound();
+            //}
+
+            return View(info); // CV detaylarını bir kısmi görünüm olarak döndürün
         }
 
 
@@ -283,6 +361,8 @@ namespace App.Presantation.Controllers
                     CvId = CvId,
                     CompanyId = CompanyId,
                     DepartmentId = DepartmentId,
+                    GorusmeTarihi = DateTime.Now,
+
                 };
 
                 _context.CompanySavedCvs.Add(companySavedCv);
@@ -327,11 +407,11 @@ namespace App.Presantation.Controllers
                         CvId = cv.CVId.ToString(),
                         CvNameSurname = cv.CvNameSurname,
                         Title = cv.Title,
-                        Image=cv.Image,
-                        PhoneNum=cv.PhoneNum,
-                        Email=cv.Email,
-                        DepartmentId=department.Id,
-                        
+                        Image = cv.Image,
+                        PhoneNum = cv.PhoneNum,
+                        Email = cv.Email,
+                        DepartmentId = department.Id,
+
                     });
                 }
             }
@@ -398,6 +478,88 @@ namespace App.Presantation.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> GorusmeGrafik()
+        {
+            var values = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
+
+
+            var info = new VM_Request_CompanyRegister
+            {
+                CompanyName = companyInfo.CompanyName,
+                CompanyMail = values.Email,
+
+            };
+            // Veritabanından verileri sorgula (Bu kısım projenize göre değişiklik gösterecektir)
+            var gorusmeVerileri = _context.CompanySavedCvs
+    .Where(c => c.GorusmeTarihi != null) // Görüşme tarihi null olmayan kayıtlar
+    .Select(c => new
+    {
+        Tarih = c.GorusmeTarihi.Value,
+        Durum = c.Gorusme.HasValue && c.Gorusme.Value // Görüşme durumu (true/false)
+    })
+    .ToList();
+
+
+            // Verileri işle
+            var aylikGorusmeler = gorusmeVerileri.GroupBy(g => new { g.Tarih.Year, g.Tarih.Month })
+                                                .Select(group => new
+                                                {
+                                                    Yil = group.Key.Year,
+                                                    Ay = group.Key.Month,
+                                                    Olumlu = group.Count(g => g.Durum == true),
+                                                    Olumsuz = group.Count(g => g.Durum == false)
+                                                })
+                                                .ToList();
+
+            // Verileri view'a aktar
+            ViewBag.AylikGorusmeler = aylikGorusmeler;
+
+            return View(info);
+        }
+        [HttpPost]
+        public ActionResult AddNote(int cvId, string note)
+        {
+            // Veritabanı bağlantınızı ve context'inizi burada kullanın
+            // Örneğin, DbContext'iniz 'dbContext' adında olsun
+            var cv = _context.CompanySavedCvs.FirstOrDefault(c => c.CvId == cvId);
+            if (cv != null)
+            {
+                cv.Notes = note; // Not alanını güncelle
+                _context.SaveChanges(); // Değişiklikleri kaydet
+                return Json(new { success = true, message = "Not başarıyla eklendi." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "CV bulunamadı." });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AddMeetingDate(int cvId, DateTime meetingDate, TimeSpan meetingTime, string meetingSubject)
+        {
+            var existingMeeting = _context.CompanySavedCvs.FirstOrDefault(c => c.MeetingDate == meetingDate.Date && c.MeetingTime == meetingTime && c.CvId == cvId);
+
+            if (existingMeeting != null)
+            {
+                return Json(new { success = false, message = "Aynı tarih ve saatte zaten bir toplantı var." });
+            }
+
+            var cv = _context.CompanySavedCvs.FirstOrDefault(c=>c.CvId==cvId);
+            if (cv != null)
+            {
+                cv.MeetingDate = meetingDate;
+                cv.MeetingTime = meetingTime;
+                cv.MeetingSubject = meetingSubject;
+                _context.SaveChanges();
+                return Json(new { success = true, message = "Toplantı başarıyla eklendi." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "CV bulunamadı." });
+            }
         }
     }
 }

@@ -1,17 +1,49 @@
 ﻿@model VM_Request_CompanyRegister
+
 @{
     ViewData["Title"] = "Calender";
     Layout = "~/Views/Shared/_CompanyLayout.cshtml";
 }
+<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.css" rel="stylesheet">
 
 
-    <div class="row">
-        <div class="col">
-            <div class="au-card">
-                <div id="calendar"></div>
-            </div>
-        </div><!-- .col -->
-    </div>
-   
+<!-- fullCalendar -->
 
+
+<div id="calendar"></div>
+@*@foreach (var meeting in Model.Meetings)
+{
+    <p>@meeting.MeetingSubject - @meeting.MeetingDate - @meeting.MeetingTime</p>
+}
+*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/main.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            events: [
+    @foreach (var meeting in Model.Meetings)
+    {
+        @:{
+        @:title: '@Html.Raw(meeting.MeetingSubject)',
+        @:start: '@(meeting.MeetingDate != null ? meeting.MeetingDate.Value.ToString("yyyy-MM-dd") + "T" + (meeting.MeetingTime != null ? meeting.MeetingTime.Value.ToString(@"hh\:mm\:ss") : "") : "")',
+        @:allDay: false // veya true, toplantının tüm gün sürüp sürmediğine bağlı olarak
+        @: },
+    }
+                ],
+            eventRender: function (event, element) {
+                // Tarih ve saat biçimini düzenlemek için moment.js kullanımı
+                var start = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
+                element.find('.fc-title').text(event.title);
+                element.find('.fc-time').html(start);
+            }
+            });
+        });
+</script>
 

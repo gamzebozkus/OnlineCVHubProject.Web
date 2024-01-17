@@ -155,6 +155,10 @@
 label {
     color: navajowhite;
 }
+
+        .dropdown-content {
+            display: none;
+        }
         /* Olumlu düğme */
         .btn-positive {
             background-color: #112e0c; /* Koyu yeşil */
@@ -183,6 +187,40 @@ label {
             .btn-negative:hover {
                 background-color: #b71c1c; /* Daha açık bir kırmızı tonu */
             }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
     </style>
     <link href="~/admincss/cvcard.css" rel="stylesheet" />
 </head>
@@ -203,8 +241,18 @@ label {
                     </div>
                     <div class="business-card-arrow"></div>
                     <div class="business-card-details">
-                        <p><i class="fa fa-desktop"></i><a class="business-card-link" href="@Url.Action("GetCvDetails", "CompanyAccount", new { cvId = sonuc.CvId })">Cv'ye Ulaşmak için tıklayınız</a></p>
+                        <p><i class="fa fa-desktop"></i><a class="business-card-link" href="@Url.Action("CvDetails", "CompanyAccount", new { cvId = sonuc.CvId })">Cv'ye Ulaşmak için tıklayınız</a></p>
+ <div class="dropdown" style="padding-bottom: -22px;padding-left: 243px; margin-top: -137px; position: fixed; padding-right: -33px; rotate: 43.5deg;">
+                            <button class="dropbtn" style="padding-top: 4px;padding-left: 34px;color: #a7bbe0;font-size: xx-large;">
+                                ▼
+                            </button>
+                            <div class="dropdown-content" style="display:none;background-color: rgb(18, 50, 61);width: 105px;height: 72px;position: fixed;display: block;font-size: larger;border-radius: 12px;border: 3px solid rgb(164, 173, 220);text-align: center; rotate: -43.5deg;margin-top: 8px;">
+                                <a href="#" class="add-note" style="color: aliceblue;">Not Ekle</a>
+                              
 
+                                <a href="#" class="add-meeting" style="color: aliceblue;">Toplantı Ekle</a>
+                            </div>
+                        </div>
                         <p><i class="fa fa-phone"></i>@sonuc.PhoneNum</p>
                         <p><i class="fa fa-mail"></i>@sonuc.Email</p>
                         <br>
@@ -225,6 +273,30 @@ label {
                         </form>
                     </div>
                 </div>
+                <!-- Not Ekleme Modalı -->
+                <div id="noteModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <form id="noteForm">
+                            <input type="hidden" id="noteCvId" name="cvId" value="" />
+                            <textarea id="noteText" name="note" style="width:100%;height:237%" placeholder="Notunuzu buraya yazınız"></textarea>
+                            <input type="submit" value="Tamamla" />
+                        </form>
+                    </div>
+                </div>
+                <!--toplantı tarihi ekleme-->
+                <div id="meetingModal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <form id="meetingForm">
+                            <input type="hidden" id="meetingCvId" name="cvId" value="" />
+                            <input style="width: 132px;height: 75px;padding-left: 10px;" type="date" id="meetingDate" name="meetingDate" />
+                            <input style="padding-left: 60px;" type="time" id="meetingTime" name="meetingTime" />
+                            <input style="padding-left: 60px;" type="text" id="meetingSubject" name="meetingSubject" placeholder="Toplantı Konusu" />
+                            <input type="submit" value="Takvime Ekle" />
+                        </form>
+                    </div>
+                </div>
 
                 <br />
             }
@@ -233,7 +305,26 @@ label {
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        // Sayfa yüklendiğinde tüm dropdown menüleri gizle
+        $('.dropdown-content').css('display', 'none');
+    });
+</script>
+<script>
+    $(document).on('click', '.dropbtn', function () {
+        // Açılır menüyü bul
+        var dropdownContent = $(this).next('.dropdown-content');
 
+        // Eğer açılır menü gizliyse, görünür yap
+        if (dropdownContent.css('display') === 'none') {
+            dropdownContent.css('display', 'block');
+        } else {
+            // Açılır menü zaten görünürse, gizle
+            dropdownContent.css('display', 'none');
+        }
+    });
+</script>
 <script>
     $(document).on('click', '.btn-positive', function () {
         var state = $(this).data('state'); // "true"
@@ -291,4 +382,85 @@ label {
 </script>
 
   
+<script>
+    // Modal kontrol fonksiyonları
+    function openNoteModal(cvId) {
+        document.getElementById('noteCvId').value = cvId;
+        document.getElementById('noteModal').style.display = 'block';
+    }
 
+    document.getElementsByClassName('close')[0].onclick = function () {
+        document.getElementById('noteModal').style.display = 'none';
+    }
+
+    // AJAX isteği
+    $(document).on('submit', '#noteForm', function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: '/CompanyAccount/AddNote',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                // Başarılı yanıt işleme
+                document.getElementById('noteModal').style.display = 'none';
+            },
+            error: function (error) {
+                // Hata işleme
+            }
+        });
+    });
+
+    // Not Ekleme butonlarına modal açma işlevini ata
+    $(document).on('click', '.add-note', function () {
+        var cvId = $(this).closest('.business-card').find('.cvStateForm input[name="cvId"]').val();
+        openNoteModal(cvId);
+    });
+</script>
+
+<script>
+    function openMeetingModal(cvId) {
+        document.getElementById('meetingCvId').value = cvId;
+        document.getElementById('meetingModal').style.display = 'block';
+    }
+
+    // Sayfa yüklendiğinde tarih inputunu bugünün tarihi ile doldur
+    document.addEventListener('DOMContentLoaded', function () {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("meetingDate").setAttribute('min', today);
+    });
+
+    // Modal kapatma butonu
+    $(document).on('click', '.close', function () {
+        $('#meetingModal').hide();
+    });
+
+    // Form gönderildiğinde veriyi işle ve modalı kapat
+    document.getElementById('meetingForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        fetch('/CompanyAccount/AddMeetingDate', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('meetingModal').style.display = 'none';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                alert("Bir hata oluştu.");
+            });
+    });
+
+    // "Toplantı Ekle" butonlarına modal açma işlevini ata
+    $(document).on('click', '.add-meeting', function () {
+        // cvId değerini, butonun bulunduğu yapıdan al
+        var cvId = $(this).closest('.business-card').find('.cvStateForm input[name="cvId"]').val();
+        openMeetingModal(cvId);
+    });
+</script>

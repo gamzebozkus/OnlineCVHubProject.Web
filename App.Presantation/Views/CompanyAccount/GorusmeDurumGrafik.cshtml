@@ -1,13 +1,12 @@
 ﻿@using Newtonsoft.Json;
 @model VM_Request_CompanyRegister
 @{
-    ViewData["Title"] = "Chart";
+    ViewData["Title"] = "GorusmeDurumGrafik";
     Layout = "~/Views/Shared/_CompanyLayout.cshtml";
 }
 
 <!-- Grafik için bir canvas elementi -->
 <canvas id="myChart" width="400" height="200"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
     // Controller'dan gelen verileri JavaScript içerisinde kullan
@@ -34,7 +33,4 @@
         // Diğer grafik ayarları...
     });
 </script>
-
-
-
 

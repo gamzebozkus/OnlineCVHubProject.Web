@@ -100,20 +100,26 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
 
                 <div class="row form-group">
                     <div class="col col-md-3">
-                        <label for="select" class=" form-control-label">Deneyim</label>
+                        <label for="select" class="form-control-label">Kişilik Özelliği Seç</label>
                     </div>
                     <div class="col-12 col-md-9">
-                        <select name="experienceLevel" id="select" class="form-control">
-                         @*   <option value="0">Birden Fazla Seçebilirsiniz</option>*@
-                            <option name="experienceLevel" value="Yeni Mezun veya Tecrübesiz">Yeni Mezun veya Tecrübesiz</option>
-                            <option name="experienceLevel" value="0-1 yıl Deneyimli">0-1 yıl Deneyimli</option>
-                            <option name="experienceLevel" value="1-2 yıl Deneyimli">1-2 yıl Deneyimli</option>
-                            <option name="experienceLevel" value="2-3 yıl Deneyimli">2-3 yıl Deneyimli</option>
-                            <option name="experienceLevel" value="4+ yıl Deneyimli">4+ yıl Deneyimli</option>
+
+                        <select name="ozellik[]" id="ozellikSelect" class="form-control" multiple>
+                            <option value="Özgüvenli">Özgüvenli</option>
+                            <option value="Yaratıcı">Yaratıcı</option>
+                            <option value="Esnekliğe Uyumlu">Esnekliğe Uyumlu</option>
+                            <option value="Meraklı">Meraklı</option>
+                            <option value="Sorumluluk Sahibi">Sorumluluk Sahibi</option>
                         </select>
+
+                        <div id="selectedOzellikler">
+                            <input type="hidden" id="selectedOzelliklerInput" name="ozellik" />
+                            <strong>Seçilen Özellikler:</strong>
+                            <ul id="selectedList"></ul>
+                        </div>
                     </div>
                 </div>
-                <div class="row form-group">
+             @*   <div class="row form-group">
                     <div class="col col-md-3">
                         <label for="select" class=" form-control-label">Kişilik Özelliği Seç</label>
                     </div>
@@ -127,7 +133,7 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
                             <option name="ozellik" value="Sorumluluk Sahibi">Sorumluluk Sahibi</option>
                         </select>
                     </div>
-                </div>
+                </div>*@
                 <br />
                 <div class="card-footer">
 
@@ -181,6 +187,62 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Seçilen öğeleri saklamak için bir dizi oluştur
+    var selectedItems = [];
+
+    document.getElementById('ozellikSelect').addEventListener('change', function () {
+        var selectedList = document.getElementById('selectedList');
+
+        // Tüm seçili öğeleri al
+        var selectedOptions = Array.from(this.selectedOptions);
+        selectedOptions.forEach(option => {
+            if (!selectedItems.includes(option.value)) {
+                selectedItems.push(option.value);
+                addToList(option.text, option.value);
+            }
+        });
+
+        // Seçilen özellikleri güncellemek için hidden input alanını kullan
+        var selectedOzelliklerInput = document.getElementById('selectedOzelliklerInput');
+        selectedOzelliklerInput.value = selectedItems.join(',');
+    });
+
+    function addToList(text, value) {
+        var listItem = document.createElement('li');
+        listItem.textContent = text;
+        listItem.setAttribute('data-value', value);
+
+        // İptal etme işlevi için buton ekle
+        var removeButton = document.createElement('button');
+        removeButton.textContent = 'İptal';
+        removeButton.onclick = function () {
+            removeSelectedOption(value, listItem);
+        };
+
+        listItem.appendChild(removeButton);
+        document.getElementById('selectedList').appendChild(listItem);
+    }
+
+    function removeSelectedOption(value, listItem) {
+        var select = document.getElementById('ozellikSelect');
+        select.value = ''; // Tüm seçenekleri temizle
+        var index = selectedItems.indexOf(value);
+        if (index !== -1) {
+            selectedItems.splice(index, 1); // Seçilen öğeyi diziden kaldır
+        }
+        listItem.remove();
+
+        // Seçilen özellikleri güncellemek için hidden input alanını kullan
+        var selectedOzelliklerInput = document.getElementById('selectedOzelliklerInput');
+        selectedOzelliklerInput.value = selectedItems.join(',');
+    }
+</script>
+
+
+
+
 <script>
     document.getElementById('add-skill').addEventListener('click', function () {
         var skillsContainer = document.getElementById('skills-container');
