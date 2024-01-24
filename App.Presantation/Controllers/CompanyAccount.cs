@@ -72,6 +72,30 @@ namespace App.Presantation.Controllers
                 CompanyMail = values.Email,
                 DepartmentName = departmentNames,
             };
+            // Veritabanından verileri sorgula (Bu kısım projenize göre değişiklik gösterecektir)
+            var gorusmeVerileri = _context.CompanySavedCvs
+    .Where(c => c.GorusmeTarihi != null) // Görüşme tarihi null olmayan kayıtlar
+    .Select(c => new
+    {
+        Tarih = c.GorusmeTarihi.Value,
+        Durum = c.Gorusme.HasValue && c.Gorusme.Value // Görüşme durumu (true/false)
+    })
+    .ToList();
+
+
+            // Verileri işle
+            var aylikGorusmeler = gorusmeVerileri.GroupBy(g => new { g.Tarih.Year, g.Tarih.Month })
+                                                .Select(group => new
+                                                {
+                                                    Yil = group.Key.Year,
+                                                    Ay = group.Key.Month,
+                                                    Olumlu = group.Count(g => g.Durum == true),
+                                                    Olumsuz = group.Count(g => g.Durum == false)
+                                                })
+                                                .ToList();
+
+            // Verileri view'a aktar
+            ViewBag.AylikGorusmeler = aylikGorusmeler;
 
             return View(info);
         }
@@ -120,10 +144,25 @@ namespace App.Presantation.Controllers
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
 
+            var savedCVs = _context.CompanySavedCvs
+                                .Where(cv => cv.CompanyId == values.Id && cv.Notes != null)
+                                .Select(cv => new CompanySavedCvViewModel
+                                {
+                                    Id = cv.Id,
+                                    CvName = cv.UserCv.CvNameSurname, // UserCv modelinizdeki ilgili alanlar
+                                    CvMail = cv.UserCv.Email,
+                                    CvTitle = cv.UserCv.Title,
+                                    Notes = cv.Notes,
+                                   Status = cv.Gorusme,
+                                   CvId=cv.CvId,
+                                })
+                                .ToList();
+
             var info = new VM_Request_CompanyRegister
             {
                 CompanyName = companyInfo.CompanyName,
-                CompanyMail = values.Email
+                CompanyMail = values.Email,
+                CompanySavedCVs = savedCVs // CompanySavedCVs listesini ekleyin
             };
 
             return View(info);
@@ -138,7 +177,8 @@ namespace App.Presantation.Controllers
             {
                 MeetingSubject = cv.MeetingSubject,
                 MeetingDate = cv.MeetingDate,
-                MeetingTime = cv.MeetingTime
+                MeetingTime = cv.MeetingTime,
+                CvNameSurname=cv.UserCv.CvNameSurname,
             }).ToList();
 
             var info = new VM_Request_CompanyRegister
@@ -209,7 +249,7 @@ namespace App.Presantation.Controllers
             return View(info);
         }
         [HttpPost]
-        public async Task<IActionResult> CvAra(VM_Request_CompanyRegister model, string[] skills, string[] languages, string departmentName, string experienceLevel, string phoneNum, string[] ozellik)
+        public async Task<IActionResult> CvAra(VM_Request_CompanyRegister model, string[] skills, string[] languages, string[] experienceLevel, string departmentName, string phoneNum, string[] ozellik)
         {
             var values = await _userManager.FindByEmailAsync(User.Identity.Name);
             var companyInfo = _context.CompanyInfos.FirstOrDefault(i => i.CompanyId == values.Id);
@@ -224,11 +264,11 @@ namespace App.Presantation.Controllers
             // skills ve languages değerlerini birleştir
             string aranacakSkills = string.Join(",", skills);
             string aranacakLanguages = string.Join(",", languages);
-
+            string aranacakExperienceLevel = string.Join(",", experienceLevel);
             // Seçilen özellikleri birleştir
             string aranacakOzellik = string.Join(",", ozellik);
 
-            string aranacakTags = $"{aranacakSkills},{aranacakLanguages},{experienceLevel},{aranacakOzellik}";
+            string aranacakTags = $"{aranacakSkills},{aranacakLanguages},{aranacakExperienceLevel},{aranacakOzellik}";
 
             var httpClient = new HttpClient();
             var response = await httpClient.GetAsync($"http://localhost:5000/tavsiye?aranacakTag={aranacakTags}&title={departmentName}");
@@ -564,14 +604,16 @@ namespace App.Presantation.Controllers
         [HttpGet]
         public JsonResult GetMeetings()
         {
+           
             var meetings = _context.CompanySavedCvs
-                .Where(cv => cv.MeetingDate != null) // Sadece toplantı tarihi olan kayıtları seç
+                .Where(cv => cv.MeetingDate != null && cv.UserCv != null) // UserCv ile ilişkili ve MeetingDate'i olan kayıtları seç
                 .Select(cv => new
                 {
-                    id = cv.CvId, // Her toplantının benzersiz bir ID'si olmalı
+                    id = cv.Id, // Her toplantının benzersiz bir ID'si olmalı
                     title = cv.MeetingSubject,
                     start = cv.MeetingDate.Value.ToString("yyyy-MM-dd") + "T" + (cv.MeetingTime != null ? cv.MeetingTime.Value.ToString(@"hh\:mm\:ss") : ""),
-                    allDay = false // Bu örnekte tüm gün süren etkinlikler yok
+                    allDay = false, // Bu örnekte tüm gün süren etkinlikler yok
+                    cvNameSurname = cv.UserCv.CvNameSurname // UserCv'den CvNameSurname alın
                 })
                 .ToList();
 

@@ -31,7 +31,7 @@ def oneri_sistemi(aranacakTag, title):
     Tags = df["Tags"]
     metinler = df['Tags'].tolist() + [aranacakTag]
 
-    vectorizer = TfidfVectorizer()
+    vectorizer = TfidfVectorizer(token_pattern=r'(?u)\b[\w#+@]+\b')
     tfidf_matrix = vectorizer.fit_transform(metinler)
 
     cos_sim = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1])

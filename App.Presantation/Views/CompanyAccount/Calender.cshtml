@@ -31,10 +31,12 @@
                     url: '/CompanyAccount/GetMeetings', // Veritabanından toplantıları çekeceğiniz controller ve action
                     dataType: 'json',
                     success: function (response) {
+                        console.log(response);
                         var events = response.map(function (meeting) {
                             return {
                                 id: meeting.id,
-                                title: meeting.title,
+                                title: meeting.title + " (" + meeting.cvNameSurname + ")", 
+                                cvNameSurname: meeting.cvNameSurname,
                                 start: meeting.start,
                                 allDay: meeting.allDay
                             };

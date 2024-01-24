@@ -21,13 +21,12 @@ namespace App.Presantation.Controllers
             SignInManager<tblUser> signInManager,
               IUserStore<tblUser> userStore,
               AppContextDB context
-            //IEmailSender emailSender
+           
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userStore = userStore;
-            //_emailSender = emailSender;
             _emailStore = GetEmailStore();
             _context = context;
         }
@@ -114,6 +113,12 @@ namespace App.Presantation.Controllers
            
             
 
+        }
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync(); // Kullanıcının oturumunu kapat
+            return RedirectToAction("Index", "CompanyRegister"); // Login sayfasına yönlendir
         }
     }
 }

@@ -139,5 +139,11 @@ namespace App.Presantation.Controllers
 			}
 
 		}
-	}
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync(); // Kullanıcının oturumunu kapat
+            return RedirectToAction("Index", "Register"); // Login sayfasına yönlendir
+        }
+    }
 }

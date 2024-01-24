@@ -5,6 +5,7 @@
 }
 <head>
     <style>
+     
         .sonuc-kartlari {
             display: flex;
             flex-wrap: wrap;
@@ -34,19 +35,40 @@
             padding: 20px;
             box-shadow: -21px 24px 71px 10px rgb(6 5 5);
         }
+
+        .selected-item {
+            color: #ffa570; /* Seçilen özellikler için turuncu renk */
+        }
+
+        .remove-button {
+            margin-left:8px;
+            color: red; /* İptal butonu için kırmızı renk */
+        }
+
+        .selected-experience-level {
+            color: #ffa570; /* Seçilen deneyim seviyeleri için turuncu renk */
+        }
+
+        .remove-experience-level-button {
+            margin-left: 8px;
+            color: red; /* İptal butonu için kırmızı renk */
+        }
+
     </style>
     <link href="~/admincss/cvcard.css" rel="stylesheet" />
 </head>
 
 
 <div class="col-lg-6">
-    <div class="card" style="width: 125vh;
-        background: linear-gradient(to right, #1a1a1a, #665f61);
-         border-width: 7px;
-         border-radius: 30px;
-box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
+    <div class="card" style="
+        width: 125vh;
+        background: #075252;
+       
+        border-radius: 30px;
+      
+        ">
         <div class="card-header" style="border-radius:33px;">
-            <strong>CV ARAMA FORMU</strong>
+            <strong style="color:white;">CV ARAMA FORMU</strong>
         </div>
         <div class="card-body card-block">
             <form action="@Url.Action("CvAra", "CompanyAccount")" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -74,10 +96,10 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
                     </div>
                     <div class="col-12 col-md-9">
                         <div id="skills-container">
-                            <input type="text" id="skills" name="skills[]" placeholder="MS Excel vs. gibi" class="form-control">
+                            <input style="border-radius: 35px; background-color: #F8FAE5;" type="text" id="skills" name="skills[]" placeholder="MS Excel vs. gibi" class="form-control">
                         </div>
                         <br />
-                        <button type="button" style="background-color:#440bb2" id="add-skill" class="btn btn-primary">Yetenek Ekle</button>
+                        <button type="button" style="background-color:#ff7a00" id="add-skill" class="btn btn-primary">Yetenek Ekle</button>
 
                     </div>
                 </div>
@@ -89,11 +111,11 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
                     </div>
                     <div class="col-12 col-md-9">
                         <div id="languages-container">
-                            <input type="text" id="languages" name="languages[]" placeholder="İngilizce vs. gibi" class="form-control"> 
+                            <input type="text" style="border-radius: 35px; background-color: #F8FAE5;" id="languages" name="languages[]" placeholder="İngilizce vs. gibi" class="form-control">
 
                         </div>
                         <br/>
-                        <button type="button" style="background-color:#440bb2" id="add-language" class="btn btn-primary">Dil Ekle</button>
+                        <button type="button" style="background-color:#ff7a00" id="add-language" class="btn btn-primary">Dil Ekle</button>
 
                     </div>
                 </div>
@@ -104,7 +126,7 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
                     </div>
                     <div class="col-12 col-md-9">
 
-                        <select name="ozellik[]" id="ozellikSelect" class="form-control" multiple>
+                        <select name="ozellik[]" style="border-radius: 35px; background-color: #F8FAE5; height: 15vh;  overflow-y: hidden;    padding: 16px;" id="ozellikSelect" class="form-control" multiple>
                             <option value="Özgüvenli">Özgüvenli</option>
                             <option value="Yaratıcı">Yaratıcı</option>
                             <option value="Esnekliğe Uyumlu">Esnekliğe Uyumlu</option>
@@ -114,8 +136,26 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
 
                         <div id="selectedOzellikler">
                             <input type="hidden" id="selectedOzelliklerInput" name="ozellik" />
-                            <strong>Seçilen Özellikler:</strong>
+                            <strong style="color:white">Seçilen Özellikler:</strong>
                             <ul id="selectedList"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3">
+                        <label for="experienceLevelSelect" class=" form-control-label">Deneyim Seviyesi Seçin</label>
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <select name="experienceLevel[]" id="experienceLevelSelect" style="border-radius: 35px; background-color: #F8FAE5; height: 15vh;  overflow-y: hidden;    padding: 16px;" class="form-control" multiple>
+                            <option value="0-1">0-1 yıl deneyimli </option>
+                            <option value="1-2">1-2 yıl deneyimli</option>
+                            <option value="2-3">2-3 yıl deneyimli</option>
+                            <option value="4+">4+ yıl deneyimli</option>
+                        </select>
+                        <input type="hidden" id="experienceLevelInput" name="experienceLevel">
+                        <div id="selectedExperienceLevels">
+                            <strong style="color:white;">Seçilen Deneyim Seviyeleri:</strong>
+                            <ul id="experienceLevelList"></ul>
                         </div>
                     </div>
                 </div>
@@ -137,7 +177,7 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
                 <br />
                 <div class="card-footer">
 
-                    <button type="submit" class="btn btn-primary btn-sm" style="background-color:#440bb2">
+                    <button type="submit" class="btn btn-primary btn-sm" style="background-color:#ff7a00">
                         <i class="fa fa-dot-circle-o"></i> Ara
                     </button>
                 </div>
@@ -187,7 +227,58 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    var selectedExperienceLevels = [];
 
+    document.getElementById('experienceLevelSelect').addEventListener('change', function () {
+        var selectedList = document.getElementById('experienceLevelList');
+        selectedList.innerHTML = ''; // Mevcut listeyi temizle
+
+        var selectedOptions = Array.from(this.selectedOptions);
+        selectedExperienceLevels = selectedOptions.map(option => option.value);
+
+        selectedOptions.forEach(option => {
+            addExperienceLevelToList(option.text, option.value);
+        });
+
+        // Seçilen deneyim seviyelerini saklamak için hidden input kullan
+        var experienceLevelInput = document.getElementById('experienceLevelInput');
+        experienceLevelInput.value = selectedExperienceLevels.join(',');
+    });
+
+    function addExperienceLevelToList(text, value) {
+        var listItem = document.createElement('li');
+        listItem.textContent = text;
+        listItem.classList.add('selected-experience-level'); // Seçilen deneyim seviyeleri için stil sınıfı ekle
+
+        var removeButton = document.createElement('button');
+        removeButton.textContent = 'İptal';
+        removeButton.classList.add('remove-experience-level-button'); // İptal butonu için stil sınıfı ekle
+        removeButton.onclick = function () {
+            removeExperienceLevel(value, listItem);
+        };
+
+        listItem.appendChild(removeButton);
+        document.getElementById('experienceLevelList').appendChild(listItem);
+    }
+
+    function removeExperienceLevel(value, listItem) {
+        var select = document.getElementById('experienceLevelSelect');
+        var optionToDeselect = Array.from(select.options).find(option => option.value === value);
+        optionToDeselect.selected = false;
+        listItem.remove();
+
+        var index = selectedExperienceLevels.indexOf(value);
+        if (index !== -1) {
+            selectedExperienceLevels.splice(index, 1);
+        }
+
+        // Seçilen deneyim seviyelerini güncelle
+        var experienceLevelInput = document.getElementById('experienceLevelInput');
+        experienceLevelInput.value = selectedExperienceLevels.join(',');
+    }
+
+</script>
 <script>
     // Seçilen öğeleri saklamak için bir dizi oluştur
     var selectedItems = [];
@@ -213,10 +304,12 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
         var listItem = document.createElement('li');
         listItem.textContent = text;
         listItem.setAttribute('data-value', value);
+        listItem.classList.add('selected-item'); // Seçilen öğeler için stil sınıfı ekle
 
         // İptal etme işlevi için buton ekle
         var removeButton = document.createElement('button');
         removeButton.textContent = 'İptal';
+        removeButton.classList.add('remove-button'); // İptal butonu için stil sınıfı ekle
         removeButton.onclick = function () {
             removeSelectedOption(value, listItem);
         };
@@ -224,6 +317,7 @@ box-shadow: 12px 13px 15px 2px rgb(0 0 0);">
         listItem.appendChild(removeButton);
         document.getElementById('selectedList').appendChild(listItem);
     }
+
 
     function removeSelectedOption(value, listItem) {
         var select = document.getElementById('ozellikSelect');

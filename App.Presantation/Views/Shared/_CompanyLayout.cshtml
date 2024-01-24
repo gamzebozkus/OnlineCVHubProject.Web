@@ -36,7 +36,7 @@
 
 </head>
 <body class="animsition">
-    <div class="page-wrapper">
+    <div class="page-wrapper" style="background-color:#F8FAE5">
         <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
             <div class="header-mobile__bar">
@@ -57,18 +57,24 @@
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="has-sub">
-                            <a class="js-arrow" href="#">
+                            <a class="js-arrow" style="color: white;" href="/CompanyAccount/Index">
                                 <i class="fas fa-tachometer-alt"></i>CV Ara
                             </a>
 
                         </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" style="color: white;" href="/CompanyAccount/savedDepartments">
+                                <i class="fa-solid fa-folder"></i>Kaydedilen Cv'ler
+                            </a>
+
+                        </li>
                         <li>
-                            <a href="/CompanyAccount/Chart">
+                            <a href="/CompanyAccount/Chart" style="color: white;">
                                 <i class="fas fa-chart-bar"></i>Görüşme Grafikleri
                             </a>
                         </li>
                         <li>
-                            <a href="/CompanyAccount/GeneralNotes">
+                            <a href="/CompanyAccount/GeneralNotes" style="color: white;">
                                 <i class="fas fa-table"></i>Genel Notlar 
                             </a>
                         </li>
@@ -78,7 +84,7 @@
                             </a>
                         </li>*@
                         <li>
-                            <a href="/CompanyAccount/Calender">
+                            <a href="/CompanyAccount/Calender" style="color: white;">
                                 <i class="fas fa-calendar-alt"></i>Görüşme Takvimi
                             </a>
                         </li>
@@ -149,27 +155,29 @@
         </header>
         <!-- END HEADER MOBILE-->
         <!-- MENU SIDEBAR-->
-        <aside class="menu-sidebar d-none d-lg-block">
-            <div class="logo">
-                <a href="#">
-                    <img src="~/images/icon/logo.png" alt="Cool Admin" />
-                </a>
-            </div>
-            <div class="menu-sidebar__content js-scrollbar1">
+        <aside class="menu-sidebar d-none d-lg-block" style="    background-color: #50717b;">
+           
+            <div class="menu-sidebar__content js-scrollbar1" style="background-color: #50717b;">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="/CompanyAccount/Index">
+                            <a class="js-arrow" href="/CompanyAccount/Index" style="color: white;">
                                 <i class="fas fa-tachometer-alt"></i>CV Ara
                             </a>
                         </li>
+                        <li class="has-sub">
+                            <a class="js-arrow" href="/CompanyAccount/savedDepartments" style="color: white;">
+                                <i class="fas fa-folder-open"></i>Kaydedilen Cv'ler
+                            </a>
+
+                        </li>
                         <li>
-                            <a href="/CompanyAccount/Chart">
+                            <a href="/CompanyAccount/Chart" style="color: white;">
                                 <i class="fas fa-chart-bar"></i>Görüşme Grafikleri
                             </a>
                         </li>
                         <li>
-                            <a href="/CompanyAccount/GeneralNotes">
+                            <a href="/CompanyAccount/GeneralNotes" style="color: white;">
                                 <i class="fas fa-table"></i>Genel Notlar
                             </a>
                         </li>
@@ -179,7 +187,7 @@
                             </a>
                         </li>*@
                         <li>
-                            <a href="/CompanyAccount/Calender">
+                            <a href="/CompanyAccount/Calender" style="color: white;">
                                 <i class="fas fa-calendar-alt"></i>Görüşme Takvimi
                             </a>
                         </li>
@@ -252,167 +260,35 @@
         <!-- PAGE CONTAINER-->
         <div class="page-container">
             <!-- HEADER DESKTOP-->
-            <header class="header-desktop">
+            <header class="header-desktop" style=" background-color: #50717b;">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="header-wrap">
                            
                             <div class="header-button">
-                                <div class="noti-wrap">
-                                    <div class="noti__item js-item-menu">
-                                        <i class="zmdi zmdi-comment-more"></i>
-                                        <span class="quantity">1</span>
-                                        <div class="mess-dropdown js-dropdown">
-                                            <div class="mess__title">
-                                                <p>You have 2 news message</p>
-                                            </div>
-                                            <div class="mess__item">
-                                                <div class="image img-cir img-40">
-                                                    <img src="~/images/icon/avatar-06.jpg" alt="Michelle Moreno" />
-                                                </div>
-                                                <div class="content">
-                                                    <h6>Michelle Moreno</h6>
-                                                    <p>Have sent a photo</p>
-                                                    <span class="time">3 min ago</span>
-                                                </div>
-                                            </div>
-                                            <div class="mess__item">
-                                                <div class="image img-cir img-40">
-                                                    <img src="~/images/icon/avatar-04.jpg" alt="Diane Myers" />
-                                                </div>
-                                                <div class="content">
-                                                    <h6>Diane Myers</h6>
-                                                    <p>You are now connected on message</p>
-                                                    <span class="time">Yesterday</span>
-                                                </div>
-                                            </div>
-                                            <div class="mess__footer">
-                                                <a href="#">View all messages</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="noti__item js-item-menu">
-                                        <i class="zmdi zmdi-email"></i>
-                                        <span class="quantity">1</span>
-                                        <div class="email-dropdown js-dropdown">
-                                            <div class="email__title">
-                                                <p>You have 3 New Emails</p>
-                                            </div>
-                                            <div class="email__item">
-                                                <div class="image img-cir img-40">
-                                                    <img src="~/images/icon/avatar-06.jpg" alt="Cynthia Harvey" />
-                                                </div>
-                                                <div class="content">
-                                                    <p>Meeting about new dashboard...</p>
-                                                    <span>Cynthia Harvey, 3 min ago</span>
-                                                </div>
-                                            </div>
-                                            <div class="email__item">
-                                                <div class="image img-cir img-40">
-                                                    <img src="~/images/icon/avatar-05.jpg" alt="Cynthia Harvey" />
-                                                </div>
-                                                <div class="content">
-                                                    <p>Meeting about new dashboard...</p>
-                                                    <span>Cynthia Harvey, Yesterday</span>
-                                                </div>
-                                            </div>
-                                            <div class="email__item">
-                                                <div class="image img-cir img-40">
-                                                    <img src="~/images/icon/avatar-04.jpg" alt="Cynthia Harvey" />
-                                                </div>
-                                                <div class="content">
-                                                    <p>Meeting about new dashboard...</p>
-                                                    <span>Cynthia Harvey, April 12,,2018</span>
-                                                </div>
-                                            </div>
-                                            <div class="email__footer">
-                                                <a href="#">See all emails</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="noti__item js-item-menu">
-                                        <i class="zmdi zmdi-notifications"></i>
-                                        <span class="quantity">3</span>
-                                        <div class="notifi-dropdown js-dropdown">
-                                            <div class="notifi__title">
-                                                <p>You have 3 Notifications</p>
-                                            </div>
-                                            <div class="notifi__item">
-                                                <div class="bg-c1 img-cir img-40">
-                                                    <i class="zmdi zmdi-email-open"></i>
-                                                </div>
-                                                <div class="content">
-                                                    <p>You got a email notification</p>
-                                                    <span class="date">April 12, 2018 06:50</span>
-                                                </div>
-                                            </div>
-                                            <div class="notifi__item">
-                                                <div class="bg-c2 img-cir img-40">
-                                                    <i class="zmdi zmdi-account-box"></i>
-                                                </div>
-                                                <div class="content">
-                                                    <p>Your account has been blocked</p>
-                                                    <span class="date">April 12, 2018 06:50</span>
-                                                </div>
-                                            </div>
-                                            <div class="notifi__item">
-                                                <div class="bg-c3 img-cir img-40">
-                                                    <i class="zmdi zmdi-file-text"></i>
-                                                </div>
-                                                <div class="content">
-                                                    <p>You got a new file</p>
-                                                    <span class="date">April 12, 2018 06:50</span>
-                                                </div>
-                                            </div>
-                                            <div class="notifi__footer">
-                                                <a href="#">All notifications</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                              
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
                                             <img src="~/images/icon/avatar-01.jpg" alt="" />
                                         </div>
-                                        <div class="content">
-                                            <a class="js-acc-btn" href="#">@Model.CompanyName</a>
+                                        <div class="content" style="margin-left:30vh">
+                                            <a class="js-acc-btn" style="color:white" href="#">@Model.CompanyName</a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
-                                                <div class="image">
-                                                    <a href="#">
-                                                        <img src="~/images/icon/avatar-01.jpg" alt="@Model.CompanyName" />
-                                                    </a>
-                                                </div>
-                                                <div class="content">
-                                                    <h5 class="name">
-                                                        <a href="#"></a>
-                                                    </h5>
+                                            
                                                     <span class="email">@Model.CompanyMail</span>
-                                                </div>
+                                               
+                                              
                                             </div>
-                                            <div class="account-dropdown__body">
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-account"></i>Hesap
-                                                    </a>
-                                                </div>
-                                               @* <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-settings"></i>Setting
-                                                    </a>
-                                                </div>
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <i class="zmdi zmdi-money-box"></i>Billing
-                                                    </a>
-                                                </div>*@
-                                            </div>
+                                          
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-power"></i>Çıkış
-                                                </a>
+                                                <form asp-controller="CompanyRegister" asp-action="Logout" method="post">
+                                                    <button type="submit" class="btn btn-link" style="border: 1px solid transparent; background: #e73301; color: white;    margin: 8px;">
+                                                        <i class="zmdi zmdi-power"></i>Çıkış
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -422,8 +298,9 @@
                     </div>
                 </div>
             </header>
-            <div class="main-content">
-                <div class="section__content section__content--p30">
+            <div class="main-content" style="background-color:#F8FAE5;">
+                <div class="section__content section__content--p30" style="background-color:#F8FAE5;">
+                    
                     <div class="container-fluid">
             @RenderBody()
             </div>

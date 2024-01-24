@@ -74,24 +74,24 @@
                 <form class="cv-form" method="post" id="cv-form" enctype="multipart/form-data">
                     <div class="cv-form-blk">
                         <div class="cv-form-row-title">
-                            <h3>about section</h3>
+                            <h3>Kişisel Bilgiler</h3>
                         </div>
                         <div class="cv-form-row cv-form-row-about">
                             <div class="cols-3">
                                 <div class="form-elem">
-                                    <label for="" class="form-label">First Name</label>
+                                    <label for="" class="form-label">Ad-Soyad</label>
                                     <input name="CvNameSurname" type="text" class="form-control CvNameSurnam" id="" onkeyup="generateCV()" placeholder="e.g. John" asp-for="CvNameSurname">
                                     <span class="form-text"></span>
                                 </div>
 
                                 <div class="form-elem">
-                                    <label for="" class="form-label">Your Image</label>
+                                    <label for="" class="form-label">Fotoğrafınız</label>
                                     <input type="file" name="formFile" class="form-control-file" onkeyup="generateCV()" asp-for="Image" id="exampleFormControlFile1">
                                 </div>
 
                                 <div class="form-elem">
-                                    <label for="" class="form-label">Address</label>
-                                    <input name="address" type="text" class="form-control address" id="" onkeyup="generateCV()" placeholder="e.g. Lake Street-23" asp-for="Address">
+                                    <label for="" class="form-label">Adresiniz</label>
+                                    <input name="address" type="text" class="form-control address" id="" onkeyup="generateCV()" placeholder="Orn.İstanbul" asp-for="Address">
                                     <span class="form-text"></span>
                                 </div>
                             </div>
@@ -103,20 +103,20 @@
                                     <span class="form-text"></span>
                                 </div>
                                 <div class="form-elem">
-                                    <label for="" class="form-label">Phone No:</label>
-                                    <input name="PhoneNum" type="text" class="form-control PhoneNumber" id="" onkeyup="generateCV()" placeholder="e.g. 456-768-798, 567.654.002" asp-for="PhoneNum">
+                                    <label for="" class="form-label">Telefon Numarası:</label>
+                                    <input name="PhoneNum" type="text" class="form-control PhoneNumber" id="" onkeyup="generateCV()" placeholder="Orn.05555555555" asp-for="PhoneNum">
                                     <span class="form-text"></span>
                                 </div>
                                 <div>
-                                    <label for="" class="form-label">Title</label>
-                                    <input name="Title" type="text" class="form-control Title" id="" onkeyup="generateCV()" placeholder="e.g. Web Developer" asp-for="Title">
+                                    <label for="" class="form-label">Unvan</label>
+                                    <input name="Title" type="text" class="form-control Title" id="" onkeyup="generateCV()" placeholder="Orn. Web Developer" asp-for="Title">
                                     <span class="form-text"></span>
                                 </div>
                             </div>
                             <div class="cols-3">
                                 <div class="form-elem">
-                                    <label for="" class="form-label">Summary</label>
-                                    <textarea name="Summary" type="text" class="form-control Summary" id="" onkeyup="generateCV()" placeholder="e.g. Doe" asp-for="Summary"></textarea>
+                                    <label for="" class="form-label">Hakkınızda:</label>
+                                    <textarea name="Summary" type="text" class="form-control Summary" id="" onkeyup="generateCV()" placeholder="" asp-for="Summary" style="width: 100vh; height: 15vh;"></textarea>
                                     <span class="form-text"></span>
                                 </div>
                             </div>
@@ -154,7 +154,7 @@
 
                     <div class="cv-form-blk">
                         <div class="cv-form-row-title">
-                            <h3>experience</h3>
+                            <h3>Deneyim</h3>
                         </div>
 
                         <div class="row-separator repeater" id="expInputs">
@@ -206,7 +206,7 @@
 
                     <div class="cv-form-blk">
                         <div class="cv-form-row-title">
-                            <h3>education</h3>
+                            <h3>Okul Bilgisi</h3>
                         </div>
 
                         <div class="row-separator repeater">
@@ -433,12 +433,12 @@
                                                 <div class="cv-form-row cv-form-row-experience">
                                                     <div class="cols-3">
                                                         <div class="form-elem">
-                                                            <label for="" class="form-label">School</label>
+                                                            <label for="" class="form-label">Okul</label>
                                                                     <input name="EducationInfos[${counter}].School" type="text" class="form-control edu_school" id="" onkeyup="generateCV()">
                                                             <span class="form-text"></span>
                                                         </div>
                                                         <div class="form-elem">
-                                                            <label for="" class="form-label">Degree</label>
+                                                            <label for="" class="form-label">Derece</label>
                                                                     <input name="EducationInfos[${counter}].Degree" type="text" class="form-control edu_degree" id=""  onkeyup="generateCV()">
                                                             <span class="form-text"></span>
                                                         </div>
@@ -451,12 +451,12 @@
 
                                                     <div class="cols-3">
                                                         <div class="form-elem">
-                                                            <label for="" class="form-label">Start Date</label>
+                                                            <label for="" class="form-label">Başlangıç Zamanı</label>
                                                                     <input name="EducationInfos[${counter}].StartDate" type="date" class="form-control edu_start_date" id="" onkeyup="generateCV()">
                                                             <span class="form-text"></span>
                                                         </div>
                                                         <div class="form-elem">
-                                                            <label for="" class="form-label">End Date</label>
+                                                            <label for="" class="form-label">Bitiş Zamanı</label>
                                                                     <input name="EducationInfos[${counter}].EndDate" type="date" class="form-control edu_graduation_date" id="" onkeyup="generateCV()">
                                                             <span class="form-text"></span>
                                                         </div>
@@ -556,7 +556,7 @@
                                                                     <span class="form-text"></span>
                                                                 </div>
                                                                 <div class="form-elem">
-                                                                    <label for="" class="form-label">Company / Organization</label>
+                                                                    <label for="" class="form-label">Şirket/Kurum</label>
                                                                                     <input name="Experiences[${counter1}].Company" type="text" class="form-control exp_organization" id=""  onkeyup="generateCV()">
                                                                     <span class="form-text"></span>
                                                                 </div>
@@ -564,17 +564,17 @@
 
                                                             <div class="cols-3">
                                                                 <div class="form-elem">
-                                                                    <label for="" class="form-label">Start Date</label>
+                                                                    <label for="" class="form-label">Başlangıç Zamanı</label>
                                                                                     <input name="Experiences[${counter1}].StartDate" type="date" class="form-control exp_start_date" id="" onkeyup="generateCV()">
                                                                     <span class="form-text"></span>
                                                                 </div>
                                                                 <div class="form-elem">
-                                                                    <label for="" class="form-label">End Date</label>
+                                                                    <label for="" class="form-label">Bitiş Zamanı</label>
                                                                                     <input name="Experiences[${counter1}].EndDate" type="date" class="form-control exp_end_date" id=""  onkeyup="generateCV()">
                                                                     <span class="form-text"></span>
                                                                 </div>
                                                                 <div class="form-elem">
-                                                                    <label for="" class="form-label">Description</label>
+                                                                    <label for="" class="form-label">Yaptığınız işler/Görev Tanımı</label>
                                                                                     <input name="Experiences[${counter1}].Responsibilities" type="text" class="form-control exp_description" id=""  onkeyup="generateCV()">
                                                                     <span class="form-text"></span>
                                                                 </div>
@@ -668,7 +668,7 @@
                         </div>
                         <div class="form-elem">
                             <label for="" class="form-label">Seviye Seçiniz</label>
-                            <select name="Skills[${counter2}].Level" class="form-control skill-level">
+                                    <select name="Skills[${counter2}].Level" class="form-control skill-level" style="height: 40px;">
                                         <option value="TEMEL SEVİYE">TEMEL SEVİYE</option>
                                         <option value="ORTA SEVİYE">ORTA SEVİYE</option>
                                         <option value="İLERİ SEVİYE">İLERİ SEVİYE</option>

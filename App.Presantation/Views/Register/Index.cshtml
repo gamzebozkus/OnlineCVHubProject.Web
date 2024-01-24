@@ -25,12 +25,8 @@
            
 			<form asp-controller="Register" asp-action="Index" method="post">
 			<h1>Hesap Oluşturun</h1>
-			<div class="social-container">
-				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-			</div>
-			<span>veya kayıt için e-postanızı kullanın</span>
+			
+			
 			<input type="text" placeholder="Ad" asp-for="FirstName"/>
 				<input type="text" placeholder="Soyad" asp-for="LastName" />
 				<input type="email" placeholder="Email" asp-for="Email" />
@@ -42,21 +38,14 @@
 			<form asp-controller="Register" asp-action="Login" id="formAuthentication" method="post">
 				<div asp-validation-summary="All"></div>
 				<h1>Giriş Yap</h1>
-				<div class="social-container">
-					<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-					<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-					<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-				</div>
+				
 				<span>veya hesabınızı kullanın</span>
 				<input asp-for="Email" type="email" id="email" name="email" placeholder="Email" />
 				<span asp-validation-for="Email"></span>
 				<input asp-for="Password" type="password" id="password" name="password" placeholder="Şifre" />
 				<span asp-validation-for="Password"></span>
-				<div class="form-check">
-					<input class="form-check-input" asp-for="RememberMe" type="checkbox" id="remember-me" />
-					<label class="form-check-label" for="remember-me">Remember Me</label>
-				</div>
-				<a href="#">Şifrenizi mi unuttunuz?</a>
+				
+				
 				<button type="submit">Giriş</button>
 			</form>
 		</div>

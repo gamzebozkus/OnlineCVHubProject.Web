@@ -35,6 +35,7 @@ namespace App.Common.Entities.Request
         public string CompanyId { get; set; }
         public int CvPoolId { get; set; }
         public List<string> UniqueDepartments { get; set; }
+        public List<CompanySavedCvViewModel> CompanySavedCVs { get; set; }
         public int DepartmentId { get; set; }
         public List<string> DepartmentName { get; set; }
 		//public List<string> Sonuclar { get; set; } = new List<string>();

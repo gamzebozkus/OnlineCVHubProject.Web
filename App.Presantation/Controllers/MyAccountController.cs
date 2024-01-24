@@ -134,10 +134,10 @@ namespace App.Presantation.Controllers
             // Toplam süreye göre etiket oluştur
             string experienceLevel = totalExperienceMonths switch
             {
-                < 12 => "0-1 yıl deneyimli",
-                < 24 => "1-2 yıl deneyimli",
-                < 36 => "2-3 yıl deneyimli",
-                _ => "4+ yıl deneyimli"
+                < 12 => "0-1",
+                < 24 => "1-2",
+                < 36 => "2-3",
+                _ => "4+"
             };
             var userCv = new UserCv
             {
